@@ -54,7 +54,7 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 RaisedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/signup');
+                    Navigator.pushNamed(context, '/package');
                   },
                   textColor: Colors.black87,
                   color: Colors.white,
