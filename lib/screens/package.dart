@@ -45,7 +45,7 @@ class PackageScreen extends StatelessWidget {
               ),
               SizedBox(height: 5.0),
               Text(
-                'You have make a choice between the both packages. The premium package give you all features of the app and with basic package you will have a few part of features.',
+                'You have to make a choice between the both packages. The premium package give you all features of the app and with basic package you will have a few part of features.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 13.0,
