@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
+import 'package:kronosme/screens/lists/screen.dart';
 import 'package:kronosme/widgets/menu_button.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> screens = [
     DashboardHome(),
-    DashboardHome(),
+    ListScreen(),
   ];
 
   Widget currentScreen;
@@ -51,7 +52,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   children: [
                     MenuButton(
-                      label: 'Dashbord',
+                      label: 'Dashboard',
                       icon: Icons.dashboard,
                       callback: () {
                         setState(() {
