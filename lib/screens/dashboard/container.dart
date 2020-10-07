@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
+import 'package:kronosme/widgets/menu_button.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> screens = [
+    DashboardHome(),
     DashboardHome(),
   ];
 
@@ -30,10 +32,116 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Column(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        drawer: Drawer(
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                color: Color(0xFFFAF6F5),
+                height: 110.0,
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  scale: 15.0,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    MenuButton(
+                      label: 'Dashbord',
+                      icon: Icons.dashboard,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[0];
+                        });
+
+                        Navigator.pop(context);
+                      },
+                    ),
+                    MenuButton(
+                      label: 'New List',
+                      icon: Icons.add,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[1];
+                        });
+
+                        Navigator.pop(context);
+                      },
+                    ),
+                    MenuButton(
+                      label: 'My Account',
+                      icon: Icons.person,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[1];
+                        });
+                      },
+                    ),
+                    MenuButton(
+                      label: 'Upgrade to Premium',
+                      icon: Icons.star,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[1];
+                        });
+                      },
+                    ),
+                    MenuButton(
+                      label: 'Donate',
+                      icon: Icons.bookmark,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[1];
+                        });
+                      },
+                    ),
+                    MenuButton(
+                      label: 'Help',
+                      icon: Icons.info_outline,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[1];
+                        });
+                      },
+                    ),
+                    MenuButton(
+                      label: 'Settings',
+                      icon: Icons.settings,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[1];
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                color: Colors.grey.withOpacity(0.2),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.compare_arrows,
+                      color: Color(0xFFFE0000),
+                    ),
+                    SizedBox(width: 10.0),
+                    Text(
+                      'Logout',
+                      style: TextStyle(
+                          fontFamily: 'Montserrat Medium', fontSize: 16.0),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: Column(
           children: [
             Expanded(
               child: Container(
