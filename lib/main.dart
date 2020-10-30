@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kronosme/screens/login.dart';
+import 'package:kronosme/screens/sign_up.dart';
 
 void main() {
   runApp(MyApp());
@@ -112,6 +114,13 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/basic_signup': (context) => SignUpPage(),
+        '/dashboard': (context) => DashboardPage(),
+      },
     );
   }
 }
