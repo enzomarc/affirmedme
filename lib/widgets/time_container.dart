@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-// ignore: camel_case_types
-class Time_Container extends StatelessWidget {
-  const Time_Container({
+class TimeSlot extends StatelessWidget {
+  const TimeSlot({
     Key key,
     @required this.hour,
   }) : super(key: key);
@@ -17,6 +16,7 @@ class Time_Container extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.all(6.0),
+            margin: EdgeInsets.only(right: 10.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(5.0),
@@ -31,10 +31,9 @@ class Time_Container extends StatelessWidget {
             child: Text(
               hour,
               style: TextStyle(
-                fontFamily: 'MontRegular',
-                color: Color(0xFFFE0000),
-                fontSize: 10.0
-              ),
+                  fontFamily: 'Montserrat',
+                  color: Color(0xFFFE0000),
+                  fontSize: 10.0),
             ),
           )
         ],

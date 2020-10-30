@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   alignment: Alignment.bottomCenter,
                   child: Image.asset(
-                    'assets/images/me.png',
+                    'assets/images/me_light.png',
                     height: 80.0,
                     width: 80.0,
                   ),
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                               'Welcome',
                               style: TextStyle(
                                 fontSize: 30.0,
-                                fontFamily: 'MontBold',
+                                fontFamily: 'Montserrat Bold',
                               ),
                             ),
                             SizedBox(
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                             Text(
                               'Fill your name and your password',
                               style: TextStyle(
-                                fontFamily: 'MontRegular',
+                                fontFamily: 'Montserrat',
                                 fontSize: 15.0,
                                 letterSpacing: 1.0,
                               ),
@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text(
                                 'Sign In',
                                 style: TextStyle(
-                                  fontFamily: 'MontBold',
+                                  fontFamily: 'Montserrat Bold',
                                   fontSize: 20.0,
                                 ),
                               ),
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: InputDecoration(
                                   labelText: 'Username, Email or Phone',
                                   labelStyle: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     color: Colors.grey.withOpacity(0.8),
                                   ),
                                   border: OutlineInputBorder(),
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                                   labelText: '********',
                                   labelStyle: TextStyle(
                                     color: Colors.grey.withOpacity(0.8),
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                   ),
                                   border: OutlineInputBorder(),
                                 ),
@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Text(
                                   'Forgot password?',
                                   style: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     fontSize: 13.0,
                                     color: Colors.grey.withOpacity(0.8),
                                   ),
@@ -177,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                                 child: Text(
                                   'Sign In Now',
                                   style: TextStyle(
-                                      fontFamily: 'MontRegular',
+                                      fontFamily: 'Montserrat',
                                       color: Color(0xFFFFFFFF),
                                       fontSize: 15.0),
                                 ),
@@ -201,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                       Text(
                         'Don\'t have account?',
                         style: TextStyle(
-                          fontFamily: 'MontRegular',
+                          fontFamily: 'Montserrat',
                           fontSize: 13.0,
                         ),
                       ),
@@ -214,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           'Sign Up',
                           style: TextStyle(
-                            fontFamily: 'MontBold',
+                            fontFamily: 'Montserrat Bold',
                           ),
                         ),
                       )

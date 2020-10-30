@@ -64,14 +64,14 @@ class _ContactsPageState extends State<ContactsPage>
                                 Text(
                                   'Hi John Doe',
                                   style: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     fontSize: 16.0,
                                   ),
                                 ),
                                 Text(
                                   'Premium package',
                                   style: TextStyle(
-                                    fontFamily: 'MontBold',
+                                    fontFamily: 'Montserrat Bold',
                                     fontSize: 10.0,
                                     color: Color(0xFF59B306),
                                   ),
@@ -119,7 +119,7 @@ class _ContactsPageState extends State<ContactsPage>
                 indicatorColor: Color(0xFFFE0000),
                 indicatorSize: TabBarIndicatorSize.label,
                 labelStyle: TextStyle(
-                  fontFamily: 'MontBold',
+                  fontFamily: 'Montserrat Bold',
                   fontSize: 14.0,
                 ),
                 unselectedLabelColor: Colors.grey,

@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         '/basic_signup': (context) => SignUpPage(),
         '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardScreen(),
+        '/dashboard/premium': (context) => DashboardPage(),
         '/learning': (context) => LearningScreen(),
         '/contactInformation': (context) => ContactInformationPage(),
         '/addContact': (context) => AddContactPage(),

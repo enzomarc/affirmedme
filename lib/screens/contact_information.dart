@@ -54,14 +54,14 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                                 Text(
                                   'Hi John Doe',
                                   style: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     fontSize: 16.0,
                                   ),
                                 ),
                                 Text(
                                   'Premium package',
                                   style: TextStyle(
-                                    fontFamily: 'MontBold',
+                                    fontFamily: 'Montserrat Bold',
                                     fontSize: 10.0,
                                     color: Color(0xFF59B306),
                                   ),
@@ -126,7 +126,7 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                         Text(
                           'Aladin Smith',
                           style: TextStyle(
-                            fontFamily: 'MontBold',
+                            fontFamily: 'Montserrat Bold',
                           ),
                         ),
                       ],
@@ -176,7 +176,7 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                     child: Text(
                       'Activity',
                       style: TextStyle(
-                        fontFamily: 'MontBold',
+                        fontFamily: 'Montserrat Bold',
                         fontSize: 20.0,
                       ),
                     ),
@@ -213,7 +213,7 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                   child: Text(
                     'November 2020',
                     style: TextStyle(
-                      fontFamily: 'MontRegular',
+                      fontFamily: 'Montserrat',
                       fontSize: 20.0,
                     ),
                   ),
@@ -279,13 +279,13 @@ class Note_Task extends StatelessWidget {
           Text(
             title ?? 'Note',
             style: TextStyle(
-              fontFamily: 'MontBold',
+              fontFamily: 'Montserrat Bold',
             ),
           ),
           Text(
             date ?? 'Nov 22, 2020 at 14:47',
             style: TextStyle(
-              fontFamily: 'MontRegular',
+              fontFamily: 'Montserrat',
               fontSize: 11.0,
             ),
           ),
@@ -295,7 +295,7 @@ class Note_Task extends StatelessWidget {
           Text(
             information ?? 'Contact and save our rendez-vous',
             style: TextStyle(
-              fontFamily: 'MontSemi',
+              fontFamily: 'Montserrat SemiBold',
               fontSize: 13.0,
             ),
           ),
@@ -360,7 +360,7 @@ class ActionBtn extends StatelessWidget {
           Text(
             title ?? 'Call',
             style: TextStyle(
-              fontFamily: 'MontBold',
+              fontFamily: 'Montserrat Bold',
               fontSize: 12.0,
             ),
           )

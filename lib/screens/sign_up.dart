@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           Text(
                             'Basic\'s features',
                             style: TextStyle(
-                              fontFamily: 'MontBold',
+                              fontFamily: 'Montserrat Bold',
                               fontSize: 15.0,
                               color: Color(0xFFFFFFFF),
                             ),
@@ -116,7 +116,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             Text(
                               'Sign Up',
                               style: TextStyle(
-                                fontFamily: 'MontBold',
+                                fontFamily: 'Montserrat Bold',
                                 fontSize: 20.0,
                               ),
                             ),
@@ -127,7 +127,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 decoration: InputDecoration(
                                   labelText: 'Email',
                                   labelStyle: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     color: Colors.grey.withOpacity(0.8),
                                   ),
                                   border: OutlineInputBorder(),
@@ -141,7 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 decoration: InputDecoration(
                                   labelText: 'Phone number',
                                   labelStyle: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     color: Colors.grey.withOpacity(0.8),
                                   ),
                                   border: OutlineInputBorder(),
@@ -156,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 decoration: InputDecoration(
                                   labelText: '********',
                                   labelStyle: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     color: Colors.grey.withOpacity(0.8),
                                   ),
                                   border: OutlineInputBorder(),
@@ -171,7 +171,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 decoration: InputDecoration(
                                   labelText: '********',
                                   labelStyle: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     color: Colors.grey.withOpacity(0.8),
                                   ),
                                   border: OutlineInputBorder(),
@@ -189,21 +189,19 @@ class _SignUpPageState extends State<SignUpPage> {
                                   top: 20.0,
                                   bottom: 20.0),
                               onPressed: () {
-                                setState(() {
-                                  Navigator.pushNamed(context, '/dashboard');
-                                });
+                                Navigator.pushNamed(context, '/dashboard');
                               },
                               child: Text(
                                 'Sign Up',
                                 style: TextStyle(
-                                  fontFamily: 'MontBold',
+                                  fontFamily: 'Montserrat Bold',
                                   color: Color(0xFFFFFFFF),
                                 ),
                               ),
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 )

@@ -58,7 +58,7 @@ class Objectif_Container extends StatelessWidget {
         Text(
           title ?? 'Goal',
           style: TextStyle(
-            fontFamily: 'MontBold',
+            fontFamily: 'Montserrat Bold',
             fontSize: 16.0,
           ),
         ),

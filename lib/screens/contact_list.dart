@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class ContactsList extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _ContactsListState extends State<ContactsList> {
     List<String> contacts = [
       'Alexander Bell',
       'Annah Baker',
-      'Alphone ELric',
+      'Alphonse Elric',
       'Booba',
       'Kaaris',
       'Cyllian Murphy',
@@ -50,7 +51,7 @@ class _ContactsListState extends State<ContactsList> {
                   DropdownButton(
                     underline: Container(),
                     style: TextStyle(
-                        fontFamily: 'MontBold',
+                        fontFamily: 'Montserrat Bold',
                         fontSize: 10.0,
                         color: Colors.black),
                     value: selectedItem,
@@ -76,7 +77,7 @@ class _ContactsListState extends State<ContactsList> {
                       decoration: InputDecoration(
                         labelText: 'Enter your search here',
                         labelStyle: TextStyle(
-                          fontFamily: 'MontSemi',
+                          fontFamily: 'Montserrat SemiBold',
                           fontSize: 11.0,
                           color: Colors.grey.withOpacity(0.8),
                         ),
@@ -100,9 +101,10 @@ class _ContactsListState extends State<ContactsList> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: contacts.length,
-                itemBuilder: (context, index) => Container(
+              child: GroupedListView(
+                elements: contacts,
+                groupBy: (String contact) => contact[0],
+                itemBuilder: (context, element) => Container(
                   padding:
                       EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
                   margin: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
@@ -110,10 +112,20 @@ class _ContactsListState extends State<ContactsList> {
                     color: Colors.grey.withOpacity(0.1),
                   ),
                   child: Text(
-                    contacts[index],
+                    element,
                     style: TextStyle(
-                      fontFamily: 'MontSemi',
+                      fontFamily: 'Montserrat SemiBold',
                       fontSize: 13.0,
+                    ),
+                  ),
+                ),
+                groupSeparatorBuilder: (value) => Container(
+                  margin: EdgeInsets.only(top: 10.0, left: 2.0, right: 2.0),
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontFamily: 'Montserrat Bold',
+                      fontSize: 14.0,
                     ),
                   ),
                 ),

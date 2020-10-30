@@ -8,7 +8,7 @@ class LearningScreen extends StatefulWidget {
 class _LearningScreenState extends State<LearningScreen> {
   List<Map<String, dynamic>> items = [
     {
-      'title': "Systemize your decision",
+      'title': "Discovery Learning",
       'subitems': [],
     },
     {
@@ -104,14 +104,14 @@ class _LearningScreenState extends State<LearningScreen> {
                                 Text(
                                   'Hi John Doe',
                                   style: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     fontSize: 16.0,
                                   ),
                                 ),
                                 Text(
                                   'Premium package',
                                   style: TextStyle(
-                                    fontFamily: 'MontBold',
+                                    fontFamily: 'Montserrat Bold',
                                     fontSize: 10.0,
                                     color: Color(0xFF59B306),
                                   ),
@@ -195,7 +195,7 @@ class ParentItem extends StatelessWidget {
               title ?? 'Discover learning.',
               style: TextStyle(
                 fontSize: 16.0,
-                fontFamily: 'MontBold',
+                fontFamily: 'Montserrat Bold',
               ),
             ),
             SizedBox(height: 10.0),
@@ -246,7 +246,7 @@ class SubItem extends StatelessWidget {
                 child: Text(
                   title ?? 'Be a hypperrealist.',
                   style: TextStyle(
-                    fontFamily: 'MontSemi',
+                    fontFamily: 'Montserrat SemiBold',
                   ),
                 ),
               ),

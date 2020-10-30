@@ -1,54 +1,58 @@
 import 'package:flutter/material.dart';
 
-// ignore: camel_case_types
-class Slot_Container extends StatelessWidget {
-  const Slot_Container({
+class DateSlot extends StatelessWidget {
+  const DateSlot({
     Key key,
     this.day,
-    this.containerContent,
+    this.label,
+    this.active = false,
   }) : super(key: key);
 
-  final String day;
-  final String containerContent;
+  final String label;
+  final int day;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Mon',
-          style: TextStyle(
-            fontFamily: 'MontBold',
-            fontSize: 10.0,
-            color: Color(0xFFFE0000),
-          ),
-        ),
-        SizedBox(
-          height: 5.0,
-        ),
-        Container(
-          padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(5.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                offset: Offset(0.0, 2.0),
-                blurRadius: 5.0,
-              )
-            ],
-          ),
-          child: Text(
-            'data',
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            label ?? 'Mon',
             style: TextStyle(
-              fontFamily: 'MontRegular',
-              color: Color(0xFFFE0000),
+              fontFamily: 'Montserrat Bold',
+              fontSize: 10.0,
+              color: active ? Colors.white : Color(0xFFFE0000),
             ),
           ),
-        )
-      ],
+          SizedBox(
+            height: 10.0,
+          ),
+          Container(
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: active ? Color(0xFFFE0000) : Colors.white,
+              borderRadius: BorderRadius.circular(5.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  offset: Offset(0.0, 2.0),
+                  blurRadius: 5.0,
+                )
+              ],
+            ),
+            child: Text(
+              day.toString() ?? '12',
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: Color(0xFFFE0000),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

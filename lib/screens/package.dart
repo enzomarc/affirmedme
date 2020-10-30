@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class PackageScreen extends StatelessWidget {
+class PackageScreen extends StatefulWidget {
+  @override
+  _PackageScreenState createState() => _PackageScreenState();
+}
+
+class _PackageScreenState extends State<PackageScreen> {
+  String selected = 'basic';
+
   @override
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
@@ -56,14 +63,35 @@ class PackageScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  PackageItem(icon: Icons.receipt, title: 'Basic'),
-                  PackageItem(icon: Icons.monetization_on, title: 'Premium'),
+                  PackageItem(
+                    icon: Icons.receipt,
+                    title: 'Basic',
+                    selected: selected == 'basic',
+                    callback: () {
+                      setState(() {
+                        selected = 'basic';
+                      });
+                    },
+                  ),
+                  PackageItem(
+                    icon: Icons.monetization_on,
+                    title: 'Premium',
+                    selected: selected == 'premium',
+                    callback: () {
+                      setState(() {
+                        selected = 'premium';
+                      });
+                    },
+                  ),
                 ],
               ),
               SizedBox(height: 80.0),
               RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/signup');
+                  if (selected == 'basic')
+                    Navigator.pushNamed(context, '/basic_signup');
+                  else
+                    Navigator.pushNamed(context, '/signup');
                 },
                 padding: const EdgeInsets.symmetric(
                   horizontal: 50.0,
@@ -97,32 +125,30 @@ class PackageItem extends StatefulWidget {
     Key key,
     this.icon,
     this.title,
+    this.callback,
+    this.selected = false,
   }) : super(key: key);
 
   final IconData icon;
   final String title;
+  final Function callback;
+  final bool selected;
 
   @override
   _PackageItemState createState() => _PackageItemState();
 }
 
 class _PackageItemState extends State<PackageItem> {
-  bool selected = false;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          selected = !selected;
-        });
-      },
+      onTap: widget.callback,
       child: Container(
         height: 130.0,
         width: 150.0,
         margin: EdgeInsets.only(right: 20.0),
         decoration: BoxDecoration(
-          color: selected ? Color(0xFFFE0000) : Colors.white,
+          color: widget.selected ? Color(0xFFFE0000) : Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -138,14 +164,14 @@ class _PackageItemState extends State<PackageItem> {
           children: [
             Icon(
               widget.icon,
-              color: selected ? Colors.white : Color(0xFFFE0000),
+              color: widget.selected ? Colors.white : Color(0xFFFE0000),
               size: 60.0,
             ),
             SizedBox(height: 5.0),
             Text(
               widget.title ?? '',
               style: TextStyle(
-                color: selected ? Colors.white : Color(0xFFFE0000),
+                color: widget.selected ? Colors.white : Color(0xFFFE0000),
                 fontFamily: 'Montserrat Medium',
                 fontSize: 18.0,
               ),
