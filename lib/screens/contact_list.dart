@@ -1,0 +1,127 @@
+import 'package:flutter/material.dart';
+
+class ContactsList extends StatefulWidget {
+  @override
+  _ContactsListState createState() => _ContactsListState();
+}
+
+class _ContactsListState extends State<ContactsList> {
+  String selectedItem = 'Sorted by';
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> filter = ['Sorted by', 'Name', 'Address', 'Mail'];
+    List<String> contacts = [
+      'Alexander Bell',
+      'Annah Baker',
+      'Alphone ELric',
+      'Booba',
+      'Kaaris',
+      'Cyllian Murphy',
+      'Carl Gallagher',
+      'Freeze Corleone',
+      'Mister You',
+      'Rey Mysterio',
+      'Professeur Xavier',
+      'Zedicus Zous Zoulander'
+    ];
+
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/addContact');
+        },
+        backgroundColor: Color(0xFFFE0000),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DropdownButton(
+                    underline: Container(),
+                    style: TextStyle(
+                        fontFamily: 'MontBold',
+                        fontSize: 10.0,
+                        color: Colors.black),
+                    value: selectedItem,
+                    items: filter
+                        .map(
+                          (String item) => DropdownMenuItem(
+                            child: Text(item),
+                            value: item,
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (String item) {
+                      setState(() {
+                        selectedItem = item;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                    width: MediaQuery.of(context).size.width - 200.0,
+                    child: TextField(
+                      controller: searchController,
+                      decoration: InputDecoration(
+                        labelText: 'Enter your search here',
+                        labelStyle: TextStyle(
+                          fontFamily: 'MontSemi',
+                          fontSize: 11.0,
+                          color: Colors.grey.withOpacity(0.8),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            Icons.search,
+                            size: 16.0,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {
+                            print('Search clicked');
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: contacts.length,
+                itemBuilder: (context, index) => Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+                  margin: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.1),
+                  ),
+                  child: Text(
+                    contacts[index],
+                    style: TextStyle(
+                      fontFamily: 'MontSemi',
+                      fontSize: 13.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
