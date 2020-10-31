@@ -56,14 +56,14 @@ class _AddContactPageState extends State<AddContactPage> {
                                 Text(
                                   'Hi John Doe',
                                   style: TextStyle(
-                                    fontFamily: 'MontRegular',
+                                    fontFamily: 'Montserrat',
                                     fontSize: 16.0,
                                   ),
                                 ),
                                 Text(
                                   'Premium package',
                                   style: TextStyle(
-                                    fontFamily: 'MontBold',
+                                    fontFamily: 'Montserrat Bold',
                                     fontSize: 10.0,
                                     color: Color(0xFF59B306),
                                   ),
@@ -128,7 +128,7 @@ class _AddContactPageState extends State<AddContactPage> {
                           Text(
                             'Add new contact',
                             style: TextStyle(
-                              fontFamily: 'MontBold',
+                              fontFamily: 'Montserrat Bold',
                             ),
                           ),
                         ],
@@ -138,7 +138,7 @@ class _AddContactPageState extends State<AddContactPage> {
                         child: Text(
                           'Save',
                           style: TextStyle(
-                            fontFamily: 'MontSemi',
+                            fontFamily: 'Montserrat SemiBold',
                             color: Color(0xFFFE0000),
                             fontSize: 15.0,
                           ),
@@ -152,7 +152,7 @@ class _AddContactPageState extends State<AddContactPage> {
                   Text(
                     'Start by entering an email address, name or both',
                     style: TextStyle(
-                      fontFamily: 'MontSemi',
+                      fontFamily: 'Montserrat SemiBold',
                       fontSize: 11.0,
                       color: Colors.grey,
                     ),
@@ -220,7 +220,7 @@ class InputField extends StatelessWidget {
         decoration: InputDecoration(
           labelText: label ?? 'Username, Email or Phone',
           labelStyle: TextStyle(
-            fontFamily: 'MontRegular',
+            fontFamily: 'Montserrat',
             color: Colors.grey.withOpacity(0.8),
           ),
           border: OutlineInputBorder(

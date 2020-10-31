@@ -1,27 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:kronosme/screens/add_contact.dart';
-import 'package:kronosme/screens/contact.dart';
-import 'package:kronosme/screens/contact_information.dart';
-import 'package:kronosme/screens/dashboard.dart';
-import 'package:kronosme/screens/login.dart';
-import 'package:kronosme/screens/sign_up.dart';
-import 'package:kronosme/screens/learning.dart';
+import 'screens/dashboard/container.dart';
+import 'screens/signup/screen.dart';
+import 'screens/welcome.dart';
+import 'screens/package.dart';
+import 'screens/add_contact.dart';
+import 'screens/contact.dart';
+import 'screens/contact_information.dart';
+import 'screens/dashboard.dart';
+import 'screens/login.dart';
+import 'screens/sign_up.dart';
+import 'screens/learning.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+      theme: ThemeData(
+        primaryColor: Colors.white,
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      initialRoute: '/welcome',
       routes: {
-        '/login': (context) => LoginPage(),
+        '/welcome': (context) => WelcomeScreen(),
+        '/package': (context) => PackageScreen(),
+        '/signup': (context) => SignupScreen(),
         '/basic_signup': (context) => SignUpPage(),
-        '/dashboard': (context) => DashboardPage(),
+        '/login': (context) => LoginPage(),
+        '/dashboard': (context) => DashboardScreen(),
+        '/dashboard/premium': (context) => DashboardPage(),
         '/learning': (context) => LearningScreen(),
         '/contactInformation': (context) => ContactInformationPage(),
         '/addContact': (context) => AddContactPage(),

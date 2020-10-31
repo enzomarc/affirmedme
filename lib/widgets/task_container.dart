@@ -42,7 +42,7 @@ class _Tasks_ContainerState extends State<Tasks_Container> {
       child: Text(
         widget.taskname,
         style: TextStyle(
-          fontFamily: 'MontRegular',
+          fontFamily: 'Montserrat',
           fontSize: 25.0,
           color: Color(0xFFFFFFFF),
         ),

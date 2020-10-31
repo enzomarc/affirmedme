@@ -42,7 +42,7 @@ class _CompaniesListState extends State<CompaniesList> {
                   DropdownButton(
                     underline: Container(),
                     style: TextStyle(
-                        fontFamily: 'MontBold',
+                        fontFamily: 'Montserrat Bold',
                         fontSize: 10.0,
                         color: Colors.black),
                     value: selectedItem,
@@ -68,7 +68,7 @@ class _CompaniesListState extends State<CompaniesList> {
                       decoration: InputDecoration(
                         labelText: 'Enter your search here',
                         labelStyle: TextStyle(
-                          fontFamily: 'MontSemi',
+                          fontFamily: 'Montserrat SemiBold',
                           fontSize: 11.0,
                           color: Colors.grey.withOpacity(0.8),
                         ),
@@ -104,7 +104,7 @@ class _CompaniesListState extends State<CompaniesList> {
                   child: Text(
                     companies[index],
                     style: TextStyle(
-                      fontFamily: 'MontSemi',
+                      fontFamily: 'Montserrat SemiBold',
                       fontSize: 13.0,
                     ),
                   ),

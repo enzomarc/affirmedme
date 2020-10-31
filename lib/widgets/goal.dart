@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-// ignore: camel_case_types
-class Objectif_Container extends StatelessWidget {
-  const Objectif_Container({
+class Goal extends StatelessWidget {
+  const Goal({
     Key key,
+    this.icon,
     this.title,
     this.count,
     this.countColor = const Color(0xFFFE0000),
   }) : super(key: key);
 
+  final IconData icon;
   final String title;
   final int count;
   final Color countColor;
@@ -33,9 +34,20 @@ class Objectif_Container extends StatelessWidget {
                   ),
                 ],
               ),
-              margin: EdgeInsets.only(right: 5.0, left: 5.0, bottom: 10.0),
+              margin: EdgeInsets.only(right: 10.0, left: 10.0, bottom: 10.0),
               padding: EdgeInsets.all(10.0),
               width: 100.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    icon ?? Icons.accessible,
+                    color: Color(0xFFFE0000),
+                    size: 48.0,
+                  ),
+                ],
+              ),
             ),
             Container(
               width: 30.0,
