@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:kronosme/screens/dashboard/container.dart';
+import 'screens/dashboard/container.dart';
 import 'screens/signup/screen.dart';
 import 'screens/welcome.dart';
 import 'screens/package.dart';
+import 'screens/add_contact.dart';
+import 'screens/contact.dart';
+import 'screens/contact_information.dart';
+import 'screens/dashboard.dart';
+import 'screens/login.dart';
+import 'screens/sign_up.dart';
+import 'screens/learning.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,7 +31,14 @@ class MyApp extends StatelessWidget {
         '/welcome': (context) => WelcomeScreen(),
         '/package': (context) => PackageScreen(),
         '/signup': (context) => SignupScreen(),
+        '/basic_signup': (context) => SignUpPage(),
+        '/login': (context) => LoginPage(),
         '/dashboard': (context) => DashboardScreen(),
+        '/dashboard/premium': (context) => DashboardPage(),
+        '/learning': (context) => LearningScreen(),
+        '/contactInformation': (context) => ContactInformationPage(),
+        '/addContact': (context) => AddContactPage(),
+        '/contactList': (context) => ContactsPage(),
       },
     );
   }

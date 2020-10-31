@@ -465,7 +465,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: RaisedButton(
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, '/dashboard');
+                    Navigator.popAndPushNamed(context, '/dashboard/premium');
                   },
                   padding: const EdgeInsets.symmetric(
                     horizontal: 50.0,
