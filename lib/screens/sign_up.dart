@@ -18,7 +18,7 @@ class _SignUpPageState extends State<SignUpPage> {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Color(0xFFFFFFFFF)));
 
-    Widget listElement() {
+    Widget PackageItem() {
       return Row(
         children: [
           Container(
@@ -38,11 +38,12 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return Scaffold(
       body: SafeArea(
-        child: Expanded(
+        child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.only(
               top: 50.0,
             ),
+            height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
                 Container(
@@ -55,156 +56,144 @@ class _SignUpPageState extends State<SignUpPage> {
                       topRight: Radius.circular(35.0),
                     ),
                   ),
-                  child: Expanded(
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.all(20.0),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Basic\'s features',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat Bold',
+                            fontSize: 15.0,
+                            color: Color(0xFFFFFFFF),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Container(
+                          height: 120.0,
+                          child: ListView.builder(
+                            itemCount: 5,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) => PackageItem(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        width: 135.0,
+                        height: 135.0,
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                        left: 20.0,
+                        right: 20.0,
+                      ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Basic\'s features',
+                            'Sign Up',
                             style: TextStyle(
                               fontFamily: 'Montserrat Bold',
-                              fontSize: 15.0,
-                              color: Color(0xFFFFFFFF),
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                            child: TextField(
+                              controller: mailController,
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                                labelStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.grey.withOpacity(0.8),
+                                ),
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                            child: TextField(
+                              controller: phoneController,
+                              decoration: InputDecoration(
+                                labelText: 'Phone number',
+                                labelStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.grey.withOpacity(0.8),
+                                ),
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                            child: TextField(
+                              controller: passController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                labelText: '********',
+                                labelStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.grey.withOpacity(0.8),
+                                ),
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                            child: TextField(
+                              obscureText: true,
+                              controller: confirmPassController,
+                              decoration: InputDecoration(
+                                labelText: '********',
+                                labelStyle: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: Colors.grey.withOpacity(0.8),
+                                ),
+                                border: OutlineInputBorder(),
+                              ),
                             ),
                           ),
                           SizedBox(
-                            height: 20.0,
+                            height: 25.0,
                           ),
-                          Container(
-                            height: 120.0,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                listElement(),
-                                listElement(),
-                                listElement(),
-                                listElement(),
-                                listElement(),
-                                listElement(),
-                                listElement(),
-                                listElement(),
-                              ],
+                          RaisedButton(
+                            color: Color(0xFFFE0000),
+                            padding: EdgeInsets.only(
+                                left: 105.0,
+                                right: 105.0,
+                                top: 20.0,
+                                bottom: 20.0),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/dashboard');
+                            },
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat Bold',
+                                color: Color(0xFFFFFFFF),
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 135.0,
-                          height: 135.0,
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                          left: 20.0,
-                          right: 20.0,
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat Bold',
-                                fontSize: 20.0,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                              child: TextField(
-                                controller: mailController,
-                                decoration: InputDecoration(
-                                  labelText: 'Email',
-                                  labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.grey.withOpacity(0.8),
-                                  ),
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                              child: TextField(
-                                controller: phoneController,
-                                decoration: InputDecoration(
-                                  labelText: 'Phone number',
-                                  labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.grey.withOpacity(0.8),
-                                  ),
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                              child: TextField(
-                                controller: passController,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                  labelText: '********',
-                                  labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.grey.withOpacity(0.8),
-                                  ),
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                              child: TextField(
-                                obscureText: true,
-                                controller: confirmPassController,
-                                decoration: InputDecoration(
-                                  labelText: '********',
-                                  labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.grey.withOpacity(0.8),
-                                  ),
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 25.0,
-                            ),
-                            RaisedButton(
-                              color: Color(0xFFFE0000),
-                              padding: EdgeInsets.only(
-                                  left: 105.0,
-                                  right: 105.0,
-                                  top: 20.0,
-                                  bottom: 20.0),
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/dashboard');
-                              },
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat Bold',
-                                  color: Color(0xFFFFFFFF),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             ),
           ),
