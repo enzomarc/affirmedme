@@ -18,24 +18,6 @@ class _SignUpPageState extends State<SignUpPage> {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Color(0xFFFFFFFFF)));
 
-    Widget PackageItem() {
-      return Row(
-        children: [
-          Container(
-            margin: EdgeInsets.only(
-              right: 5.0,
-              left: 5.0,
-            ),
-            width: 100.0,
-            decoration: BoxDecoration(
-              color: Color(0xFFFFFFFF),
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-          ),
-        ],
-      );
-    }
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -110,61 +92,123 @@ class _SignUpPageState extends State<SignUpPage> {
                               fontSize: 20.0,
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                            child: TextField(
-                              controller: mailController,
-                              decoration: InputDecoration(
-                                labelText: 'Email',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.grey.withOpacity(0.8),
+                          SizedBox(height: 40.0),
+                          TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              hintStyle: TextStyle(
+                                color: Colors.grey.withOpacity(0.8),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 15.0),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
                                 ),
-                                border: OutlineInputBorder(),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000),
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                            child: TextField(
-                              controller: phoneController,
-                              decoration: InputDecoration(
-                                labelText: 'Phone number',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.grey.withOpacity(0.8),
+                          SizedBox(height: 10.0),
+                          TextFormField(
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              hintText: 'Phone Number',
+                              hintStyle: TextStyle(
+                                color: Colors.grey.withOpacity(0.8),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 15.0),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
                                 ),
-                                border: OutlineInputBorder(),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000),
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                            child: TextField(
-                              controller: passController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                labelText: '********',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.grey.withOpacity(0.8),
+                          SizedBox(height: 10.0),
+                          TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Password',
+                              hintStyle: TextStyle(
+                                color: Colors.grey.withOpacity(0.8),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 15.0),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
                                 ),
-                                border: OutlineInputBorder(),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000),
+                                ),
                               ),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                            child: TextField(
-                              obscureText: true,
-                              controller: confirmPassController,
-                              decoration: InputDecoration(
-                                labelText: '********',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  color: Colors.grey.withOpacity(0.8),
+                          SizedBox(height: 10.0),
+                          TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              hintText: 'Confirm Password',
+                              hintStyle: TextStyle(
+                                color: Colors.grey.withOpacity(0.8),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 15.0),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
                                 ),
-                                border: OutlineInputBorder(),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000),
+                                ),
                               ),
                             ),
                           ),
@@ -199,6 +243,31 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PackageItem extends StatelessWidget {
+  const PackageItem({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          margin: EdgeInsets.only(
+            right: 5.0,
+            left: 5.0,
+          ),
+          width: 100.0,
+          decoration: BoxDecoration(
+            color: Color(0xFFFFFFFF),
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+        ),
+      ],
     );
   }
 }

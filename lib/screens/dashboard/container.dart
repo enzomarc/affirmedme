@@ -165,7 +165,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Icons.menu,
                         color: Color(0xFFFE0000),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        print(Scaffold.of(context).hasDrawer);
+                      },
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
