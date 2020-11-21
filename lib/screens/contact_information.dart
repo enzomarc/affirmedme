@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class ContactInformationPage extends StatefulWidget {
@@ -218,22 +216,22 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                     ),
                   ),
                 ),
-                Note_Task(
+                NoteTask(
                   title: 'Note',
                 ),
-                Note_Task(
+                NoteTask(
                   title: 'Task',
                 ),
-                Note_Task(
+                NoteTask(
                   title: 'Note',
                 ),
-                Note_Task(
+                NoteTask(
                   title: 'Task',
                 ),
-                Note_Task(
+                NoteTask(
                   title: 'Note',
                 ),
-                Note_Task(
+                NoteTask(
                   title: 'Task',
                 ),
               ],
@@ -245,8 +243,8 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
   }
 }
 
-class Note_Task extends StatelessWidget {
-  const Note_Task({
+class NoteTask extends StatelessWidget {
+  const NoteTask({
     Key key,
     this.title,
     this.date,
