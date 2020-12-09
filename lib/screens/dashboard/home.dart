@@ -20,7 +20,7 @@ class _DashboardHomeState extends State<DashboardHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Tableau de bord',
+                  'Dashboard',
                   style: TextStyle(
                     fontFamily: 'Montserrat Bold',
                     fontSize: 15.0,
@@ -47,7 +47,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                 ),
                 SizedBox(height: 30.0),
                 Text(
-                  'Objectifs',
+                  'Objectives',
                   style: TextStyle(fontFamily: 'Montserrat Medium'),
                 ),
                 SizedBox(height: 20.0),
@@ -68,7 +68,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                 Column(
                   children: <Widget>[
                     Text(
-                      'Nothing is yet added to your dashboard. Click + button to add more tasks.',
+                      'Nothing is yet added to your dashboard. Click + button to add more goals.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Montserrat Bold',
@@ -77,7 +77,9 @@ class _DashboardHomeState extends State<DashboardHome> {
                     ),
                     SizedBox(height: 10.0),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/goals/add');
+                      },
                       child: Icon(
                         Icons.add,
                         color: Colors.white,
@@ -88,6 +90,45 @@ class _DashboardHomeState extends State<DashboardHome> {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(height: 50.0),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(0XFF1789FC),
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  margin: EdgeInsets.only(bottom: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Icon(Icons.info_outline, color: Colors.white),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Daily Tip',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Montserrat Bold',
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi scelerisque eu ultrices vitae auctor eu. Vitae congue eu consequat ac felis donec. Vel orci porta non pulvinar neque.',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Montserrat Semibold',
+                          fontSize: 11.0,
+                          height: 2.0,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

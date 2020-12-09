@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kronosme/screens/add_goal.dart';
 import 'screens/dashboard/container.dart';
 import 'screens/signup/screen.dart';
 import 'screens/welcome.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/welcome',
+      initialRoute: '/package',
       routes: {
         '/welcome': (context) => WelcomeScreen(),
         '/package': (context) => PackageScreen(),
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/contactInformation': (context) => ContactInformationPage(),
         '/addContact': (context) => AddContactPage(),
         '/contactList': (context) => ContactsPage(),
+        '/goals/add': (context) => AddGoalScreen(),
       },
     );
   }

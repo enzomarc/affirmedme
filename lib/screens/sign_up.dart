@@ -223,7 +223,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 top: 20.0,
                                 bottom: 20.0),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/dashboard');
+                              Navigator.pushNamed(context, '/dashboard', arguments: 'basic');
                             },
                             child: Text(
                               'Sign Up',

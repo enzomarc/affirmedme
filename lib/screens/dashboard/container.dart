@@ -17,6 +17,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget currentScreen;
   final PageStorageBucket bucket = PageStorageBucket();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -33,9 +34,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
 
+    final String type = ModalRoute.of(context).settings.arguments;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
+        key: _scaffoldKey,
         drawer: Drawer(
           child: Column(
             children: [
@@ -166,7 +170,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         color: Color(0xFFFE0000),
                       ),
                       onPressed: () {
-                        print(Scaffold.of(context).hasDrawer);
+                        _scaffoldKey.currentState.openDrawer();
                       },
                     ),
                     Row(
@@ -181,6 +185,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               'Hi! John',
@@ -190,7 +195,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ),
                             ),
                             Text(
-                              'Basic Pack',
+                              type == 'basic' ? 'Basic Pack' : 'Premium Pack',
                               style: TextStyle(
                                 fontFamily: 'Montserrat Medium',
                                 fontSize: 13.0,
