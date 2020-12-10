@@ -7,6 +7,27 @@ class DashboardHome extends StatefulWidget {
   _DashboardHomeState createState() => _DashboardHomeState();
 }
 
+final List<String> modules = [
+  'DISCOVERY LEARNING',
+  'THINK THROUGH ACTIONS',
+  'ROUTINE OF THE GREATS',
+  'LEARN REFFLECT AND KEEP GOOD NOTES',
+  'PRACTICE SELF DISCIPLINE',
+  'MANAGE YOUR NETWORK',
+  'REMEMBER THE IMPORTANT DATES',
+  'EAT WELL TO FEEL GREAT',
+];
+
+final List<String> goals = [
+  'Mindset',
+  'Character',
+  'Health',
+  'Fitness',
+  'Relationships',
+  'Finances',
+  'Profession',
+];
+
 class _DashboardHomeState extends State<DashboardHome> {
   @override
   Widget build(BuildContext context) {
@@ -37,10 +58,10 @@ class _DashboardHomeState extends State<DashboardHome> {
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 5,
+                    itemCount: modules.length,
                     itemBuilder: (context, index) {
                       return Module(
-                        title: 'Mindset ou Module ou Goal',
+                        title: modules[index],
                       );
                     },
                   ),
@@ -56,40 +77,43 @@ class _DashboardHomeState extends State<DashboardHome> {
                   width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 5,
+                    itemCount: goals.length,
                     itemBuilder: (context, index) {
                       return Goal(
-                        title: 'Goal',
+                        title: goals[index],
                       );
                     },
                   ),
                 ),
                 SizedBox(height: 50.0),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      'Nothing is yet added to your dashboard. Click + button to add more goals.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Montserrat Bold',
-                        fontSize: 17.0,
+                Container(
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Click + button to add more goals.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat Bold',
+                          fontSize: 17.0,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10.0),
-                    FlatButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/goals/add');
-                      },
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
+                      SizedBox(height: 10.0),
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/goals/add');
+                        },
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                        color: Color(0xFFFE0000),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(500.0),
+                        ),
                       ),
-                      color: Color(0xFFFE0000),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(500.0),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 SizedBox(height: 50.0),
                 Container(

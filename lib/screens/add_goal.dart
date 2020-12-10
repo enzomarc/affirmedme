@@ -6,6 +6,15 @@ class AddGoalScreen extends StatefulWidget {
 }
 
 int goals = 3;
+List<String> objectives = [
+  'MINDSET',
+  'CHARACTER',
+  'HEALTH',
+  'FITNESS',
+  'RELATIONSHIPS',
+  'FINANCES',
+  'PROFESSION',
+];
 
 class _AddGoalScreenState extends State<AddGoalScreen> {
   @override
@@ -22,7 +31,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
               child: ListView.builder(
                 physics: PageScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                itemCount: 7,
+                itemCount: objectives.length,
                 itemBuilder: (context, index) => Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
@@ -47,7 +56,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                         child: Column(
                           children: <Widget>[
                             Text(
-                              'MINDSET',
+                              objectives[index],
                               style: TextStyle(
                                 fontFamily: 'Montserrat Bold',
                                 fontSize: 15.0,
@@ -155,7 +164,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        '1/7',
+                        "${index + 1}/${objectives.length}",
                         style: TextStyle(
                           fontFamily: 'Montserrat Bold',
                           fontWeight: FontWeight.w900,

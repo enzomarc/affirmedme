@@ -41,11 +41,11 @@ class Goal extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
-                    icon ?? Icons.accessible,
+                  Text(title[0] ?? 'G', style: TextStyle(
                     color: Color(0xFFFE0000),
-                    size: 48.0,
-                  ),
+                    fontFamily: "Montserrat Bold",
+                    fontSize: 24.0,
+                  ),),
                 ],
               ),
             ),
@@ -58,7 +58,7 @@ class Goal extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  count ?? '0',
+                  count ?? '1',
                   style: TextStyle(
                     color: Colors.white,
                   ),
