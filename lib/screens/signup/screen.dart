@@ -51,123 +51,129 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               SizedBox(height: 30.0),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                  hintStyle: TextStyle(
-                    color: Colors.grey.withOpacity(0.8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
+              Form(
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(
+                        hintText: 'Email',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.withOpacity(0.8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 15.0),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        hintText: 'Phone number',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.withOpacity(0.8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 15.0),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: 'Password',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.withOpacity(0.8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 15.0),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              TextFormField(
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  hintText: 'Phone number',
-                  hintStyle: TextStyle(
-                    color: Colors.grey.withOpacity(0.8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: 'Confirm password',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.withOpacity(0.8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 15.0),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  hintStyle: TextStyle(
-                    color: Colors.grey.withOpacity(0.8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Confirm password',
-                  hintStyle: TextStyle(
-                    color: Colors.grey.withOpacity(0.8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000),
-                    ),
-                  ),
+                  ],
                 ),
               ),
               SizedBox(height: 30.0),

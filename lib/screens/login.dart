@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kronosme/core/utils/helpers.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,7 +17,11 @@ class _LoginPageState extends State<LoginPage> {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Color(0xFFFE0000)));
 
+    GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: scaffoldKey,
+      resizeToAvoidBottomPadding: false,
       body: SafeArea(
         child: Expanded(
           child: Container(
@@ -170,9 +175,8 @@ class _LoginPageState extends State<LoginPage> {
                                     top: 20.0,
                                     bottom: 20.0),
                                 onPressed: () {
-                                  setState(() {
-                                    print('Submit Button');
-                                  });
+                                  helpers.alert(scaffoldKey,
+                                      "Email or password are invalid.");
                                 },
                                 child: Text(
                                   'Sign In Now',
@@ -208,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                       FlatButton(
                         onPressed: () {
                           setState(() {
-                            Navigator.pushNamed(context, '/signup');
+                            Navigator.pushNamed(context, '/package');
                           });
                         },
                         child: Text(

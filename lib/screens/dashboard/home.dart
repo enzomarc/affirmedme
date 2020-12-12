@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kronosme/core/networker.dart';
 import 'package:kronosme/widgets/goal.dart';
 import 'package:kronosme/widgets/module.dart';
 
@@ -60,8 +61,14 @@ class _DashboardHomeState extends State<DashboardHome> {
                     scrollDirection: Axis.horizontal,
                     itemCount: modules.length,
                     itemBuilder: (context, index) {
-                      return Module(
-                        title: modules[index],
+                      return GestureDetector(
+                        onTap: () {
+                          worker.navigatorKey.currentState
+                              .pushNamed('/learning');
+                        },
+                        child: Module(
+                          title: modules[index],
+                        ),
                       );
                     },
                   ),

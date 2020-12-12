@@ -36,7 +36,9 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.popAndPushNamed(context, '/dashboard');
+                  },
                   textColor: Colors.black87,
                   color: Colors.white,
                   padding: const EdgeInsets.symmetric(
@@ -48,13 +50,13 @@ class WelcomeScreen extends StatelessWidget {
                     'Do it later',
                     style: TextStyle(
                       fontSize: 13.0,
-                      fontFamily: 'fontFamily',
+                      fontFamily: 'Motserrat Medium',
                     ),
                   ),
                 ),
                 RaisedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/package');
+                    Navigator.pushNamed(context, '/goals/add');
                   },
                   textColor: Colors.black87,
                   color: Colors.white,
@@ -69,7 +71,7 @@ class WelcomeScreen extends StatelessWidget {
                         'Start Now',
                         style: TextStyle(
                           fontSize: 13.0,
-                          fontFamily: 'fontFamily',
+                          fontFamily: 'Montserrat SemiBold',
                         ),
                       ),
                       Icon(
