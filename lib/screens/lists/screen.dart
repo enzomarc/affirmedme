@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:kronosme/models/todo.dart';
+import 'package:kronosme/core/models/todo.dart';
 
 class ListScreen extends StatefulWidget {
   @override
