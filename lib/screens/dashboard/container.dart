@@ -67,7 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       },
                     ),
                     MenuButton(
-                      label: 'New List',
+                      label: 'To do List',
                       icon: Icons.add,
                       callback: () {
                         setState(() {

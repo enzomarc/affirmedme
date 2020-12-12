@@ -8,53 +8,227 @@ class LearningScreen extends StatefulWidget {
 class _LearningScreenState extends State<LearningScreen> {
   List<Map<String, dynamic>> items = [
     {
-      'title': "Discovery Learning",
-      'subitems': [],
+      "_id": {"oid": "5fcfc18073d0be17f473081c"},
+      "title": "ACTIVITIES/EVENTS",
+      "goals": [
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473081d"},
+          "title":
+              "Write upcoming meetings, appointments, events in sequential order for tomorrow"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473081e"},
+          "title":
+              "Write upcoming meetings, appointments, events in sequential order through the next two weeks"
+        }
+      ]
     },
     {
-      'title': "Embrace Reality and Deal with it",
-      'subitems': [
+      "_id": {"oid": "5fcfc18073d0be17f473081f"},
+      "title": "REQUIREMENTS/PLANNING",
+      "goals": [
         {
-          'title': 'Be a hypperrealist',
-          'children': [
-            'Dreams + Reality + Determination = A Successful Life.',
-          ],
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730820"},
+          "title": "Determine situational priming/conditioning requirements "
         },
         {
-          'title':
-              'Truth-or, more precisely on accurate understanding cf reality-is the essential foundation for any good outcome.',
-          'children': [],
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730821"},
+          "title": "Venue/Location considerations for all activities/events"
         },
         {
-          'title': 'Be radically open-minded and radically transparent',
-          'children': [
-            'Radical open-mindedness and radical transparency are invaluable for rapid learning and effective change.',
-            "Don't let fears of what others think of you stand in your way.",
-            'Radical open-mindedness and radical transparency are invaluable for rapid learning and effective change.',
-          ],
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730822"},
+          "title":
+              "Address failures and mitigate risks and potential issues for all activities/events"
         },
-      ],
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730823"},
+          "title":
+              "Address top 3 goals for the day – Think through start to finish in detail"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730824"},
+          "title": "Documents/Binders"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730825"},
+          "title": "Equipment"
+        },
+        {
+          "tips": [null, null, null, null],
+          "_id": {"oid": "5fcfc18073d0be17f4730826"},
+          "title": "Everyday item check"
+        }
+      ]
     },
     {
-      'title': "Look to nature to learn how reality works",
-      'subitems': [
+      "_id": {"oid": "5fcfc18073d0be17f4730827"},
+      "title": "ENVIRONMENT (NEWS, WEATHER, THREATS)",
+      "goals": [
         {
-          'title': 'Be a hypperrealist',
-          'children': [
-            'Dreams + Reality + Determination = A Successful Life.',
-          ],
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730828"},
+          "title":
+              "Review local and national news; use multiple news sources for a broad understanding"
         },
         {
-          'title':
-              'Truth-or, more precisely on accurate understanding cf reality-is the essential foundation for any good outcome.',
-          'children': [],
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730829"},
+          "title": "Review the weather"
         },
         {
-          'title':
-              'Truth-or, more precisely on accurate understanding cf reality-is the essential foundation for any good outcome.',
-          'children': [],
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473082a"},
+          "title":
+              "Review potential threats and crime maps for areas you plan to visit"
         },
-      ],
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473082b"},
+          "title":
+              "Look up each venue you plan to visit to familiarize yourself with the environment"
+        }
+      ]
+    },
+    {
+      "_id": {"oid": "5fcfc18073d0be17f473082c"},
+      "title": "TRANSPORTATION (METHODS, ROUTES, TOLLS, PARKING):",
+      "goals": [
+        {
+          "tips": [null],
+          "_id": {"oid": "5fcfc18073d0be17f473082d"},
+          "title": "Methods of transportation to arrive at each event"
+        },
+        {
+          "tips": [null, null, null],
+          "_id": {"oid": "5fcfc18073d0be17f473082e"},
+          "title": "Route "
+        }
+      ]
+    },
+    {
+      "_id": {"oid": "5fcfc18073d0be17f473082f"},
+      "title": "CLOTHING (COLORS, ANCHORS, VENUES)",
+      "goals": [
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730830"},
+          "title":
+              "Determine what attire/style of clothing you need for each activity and prepare accordingly"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730831"},
+          "title":
+              "Determine what colors to wear to engender feelings – example: trust (blue), attraction (red), approachable (yellow/pink), authority (black, navy blue)"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730832"},
+          "title":
+              "Determine if you should wear a conversational anchor to drive topics and discussions – example: lapel pins, cufflinks, watches"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730833"},
+          "title":
+              "Ensure your attire is appropriate for the venue; look up dress codes, if necessary"
+        }
+      ]
+    },
+    {
+      "_id": {"oid": "5fcfc18073d0be17f4730834"},
+      "title": "ACTIVITIES (DAILY TASKS)",
+      "goals": [
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730835"},
+          "title": "Daily Morning Routine Actions"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730836"},
+          "title": "Leaving for the Day Actions"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730837"},
+          "title": "Workday Actions"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730838"},
+          "title": "Evening Routine Actions"
+        }
+      ]
+    },
+    {
+      "_id": {"oid": "5fcfc18073d0be17f4730839"},
+      "title": "REQUIREMENTS (DAILY)",
+      "goals": [
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473083a"},
+          "title": "See Above"
+        }
+      ]
+    },
+    {
+      "_id": {"oid": "5fcfc18073d0be17f473083b"},
+      "title": "COMMUNICATION (FAMILY, FRIENDS, COLLEAGUES, COORDINATION)",
+      "goals": [
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473083c"},
+          "title":
+              "Confirm Appointments/Meetings – make reservations for the next two weeks"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473083d"},
+          "title": "Coordination for Activities/Events – up, down, and lateral"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473083e"},
+          "title": "Call/Text family and friends – Relationship Management"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f473083f"},
+          "title": "Colleagues/Professional Associates – Network Management"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730840"},
+          "title": "Follow up with new contacts "
+        }
+      ]
+    },
+    {
+      "_id": {"oid": "5fcfc18073d0be17f4730841"},
+      "title": "DECISIONS",
+      "goals": [
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730842"},
+          "title":
+              "Think through the top 3 decisions you need to make today or throughout the week; determine what additional information you need to finalize decisions"
+        },
+        {
+          "tips": [],
+          "_id": {"oid": "5fcfc18073d0be17f4730843"},
+          "title":
+              "Think through upcoming decisions you need to make in the next two weeks  "
+        }
+      ]
     }
   ];
 
@@ -162,8 +336,7 @@ class _LearningScreenState extends State<LearningScreen> {
               itemBuilder: (context, index) {
                 var item = items[index];
 
-                return ParentItem(
-                    title: item['title'], subitems: item['subitems']);
+                return ParentItem(title: item['title'], goals: item['goals']);
               },
             ),
           ),
@@ -176,12 +349,12 @@ class _LearningScreenState extends State<LearningScreen> {
 class ParentItem extends StatelessWidget {
   const ParentItem({
     this.title,
-    this.subitems,
+    this.goals,
     Key key,
   }) : super(key: key);
 
   final String title;
-  final List<dynamic> subitems;
+  final List<dynamic> goals;
 
   @override
   Widget build(BuildContext context) {
@@ -199,14 +372,18 @@ class ParentItem extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10.0),
-            Column(
-              children: subitems
-                  .map((e) => SubItem(
-                        title: e['title'],
-                        children: e['children'],
-                      ))
-                  .toList(),
-            ),
+            goals.length > 0
+                ? Column(
+                    children: goals
+                        .map(
+                          (e) => SubItem(
+                            title: e['title'],
+                            children: e['tips'],
+                          ),
+                        )
+                        .toList(),
+                  )
+                : Container(),
           ],
         ),
       ),
@@ -254,7 +431,7 @@ class SubItem extends StatelessWidget {
           ),
           SizedBox(height: 10.0),
           Column(
-            children: children.map((e) => ItemChildren(content: e)).toList(),
+            children: children.map((e) => e != null ? ItemChildren(content: e) : Container()).toList(),
           ),
         ],
       ),
