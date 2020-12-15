@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
 import 'package:kronosme/screens/lists/screen.dart';
+import 'package:kronosme/services/auth_service.dart';
+import 'package:kronosme/services/goal_service.dart';
 import 'package:kronosme/widgets/menu_button.dart';
+import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -16,13 +20,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   Widget currentScreen;
+  String username = "";
+  String type;
   final PageStorageBucket bucket = PageStorageBucket();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  void loadInfo() async {
+    final user = await auth.user();
+    final goalProvider = Provider.of<GoalProvider>(context, listen: false);
+
+    await goalService.getGoals();
+    goalProvider.getGoals();
+
+    if (user != false) {
+      username = user.name[0].toUpperCase() + user.name.substring(1);
+      type = user.premium ? 'premium' : 'basic';
+    }
+  }
+
   @override
   void initState() {
-    super.initState();
+    loadInfo();
     currentScreen = screens[0];
+    super.initState();
   }
 
   @override
@@ -33,8 +53,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         statusBarColor: Colors.white,
       ),
     );
-
-    final String type = ModalRoute.of(context).settings.arguments;
 
     return SafeArea(
       child: Scaffold(
@@ -135,10 +153,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       color: Color(0xFFFE0000),
                     ),
                     SizedBox(width: 10.0),
-                    Text(
-                      'Logout',
-                      style: TextStyle(
-                          fontFamily: 'Montserrat Medium', fontSize: 16.0),
+                    GestureDetector(
+                      onTap: () async {
+                        await auth.logout();
+                      },
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(
+                            fontFamily: 'Montserrat Medium', fontSize: 16.0),
+                      ),
                     ),
                   ],
                 ),
@@ -183,26 +206,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                           onPressed: () {},
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              'Hi! John',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat Medium',
-                                fontSize: 16.0,
+                        SizedBox(
+                          width: 100.0,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Hi! $username',
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat Medium',
+                                  fontSize: 16.0,
+                                ),
                               ),
-                            ),
-                            Text(
-                              type == 'basic' ? 'Basic Pack' : 'Premium Pack',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat Medium',
-                                fontSize: 13.0,
-                                color: Colors.orange,
+                              Text(
+                                type == 'basic' ? 'Basic Pack' : 'Premium Pack',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat Medium',
+                                  fontSize: 13.0,
+                                  color: Colors.orange,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         SizedBox(width: 10.0),
                         IconButton(

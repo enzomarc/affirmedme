@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kronosme/core/networker.dart';
+import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/widgets/goal.dart';
 import 'package:kronosme/widgets/module.dart';
+import 'package:provider/provider.dart';
 
 class DashboardHome extends StatefulWidget {
   @override
@@ -82,12 +84,21 @@ class _DashboardHomeState extends State<DashboardHome> {
                 Container(
                   height: 130.0,
                   width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: goals.length,
-                    itemBuilder: (context, index) {
-                      return Goal(
-                        title: goals[index],
+                  child: Consumer<GoalProvider>(
+                    builder: (context, value, child) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: goals.length,
+                        itemBuilder: (context, index) {
+                          return Goal(
+                            title: goals[index],
+                            count: value.goals
+                                .where((e) =>
+                                    e.objective.toLowerCase() ==
+                                    goals[index].toLowerCase())
+                                .length,
+                          );
+                        },
                       );
                     },
                   ),
