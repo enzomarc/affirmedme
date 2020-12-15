@@ -279,7 +279,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                       top: 20.0,
                                       bottom: 20.0),
                                   onPressed: () async {
-                                    var msg = "";
+                                    String msg = "";
 
                                     if (nameController.text.isEmpty ||
                                         mailController.text.isEmpty ||

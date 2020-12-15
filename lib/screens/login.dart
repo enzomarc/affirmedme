@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/core/utils/helpers.dart';
+import 'package:kronosme/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
   @override
@@ -21,17 +22,16 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       key: scaffoldKey,
-      resizeToAvoidBottomPadding: false,
       body: SafeArea(
-        child: Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                alignment: Alignment.topCenter,
-                image: AssetImage('assets/images/login_bg.png'),
-              ),
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              alignment: Alignment.topCenter,
+              image: AssetImage('assets/images/login_bg.png'),
             ),
-            width: MediaQuery.of(context).size.width,
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
@@ -119,9 +119,10 @@ class _LoginPageState extends State<LoginPage> {
                             Container(
                               padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
                               child: TextField(
-                                controller: nameController,
+                                keyboardType: TextInputType.emailAddress,
+                                controller: mailController,
                                 decoration: InputDecoration(
-                                  labelText: 'Username, Email or Phone',
+                                  labelText: 'E-mail address',
                                   labelStyle: TextStyle(
                                     fontFamily: 'Montserrat',
                                     color: Colors.grey.withOpacity(0.8),
@@ -139,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                                 obscureText: true,
                                 controller: passController,
                                 decoration: InputDecoration(
-                                  labelText: '********',
+                                  labelText: 'Enter your password',
                                   labelStyle: TextStyle(
                                     color: Colors.grey.withOpacity(0.8),
                                     fontFamily: 'Montserrat',
@@ -152,9 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                               alignment: Alignment.topLeft,
                               child: FlatButton(
                                 onPressed: () {
-                                  setState(() {
-                                    print('Forgot password');
-                                  });
+                                  print('Forgot password');
                                 },
                                 child: Text(
                                   'Forgot password?',
@@ -174,9 +173,28 @@ class _LoginPageState extends State<LoginPage> {
                                     right: 105.0,
                                     top: 20.0,
                                     bottom: 20.0),
-                                onPressed: () {
-                                  helpers.alert(scaffoldKey,
-                                      "Email or password are invalid.");
+                                onPressed: () async {
+                                  String msg = "";
+
+                                  if (mailController.text.isEmpty ||
+                                      passController.text.isEmpty)
+                                    msg = "All fields are required.";
+                                  else {
+                                    await auth
+                                        .login(mailController.text,
+                                            passController.text)
+                                        .then((res) {
+                                      msg = res == false
+                                          ? "Email or password are invalid."
+                                          : "";
+                                    }).catchError((error) {
+                                      print(error);
+                                      msg = "Error, unable to login.";
+                                    });
+                                  }
+
+                                  if (msg != "")
+                                    helpers.alert(scaffoldKey, msg);
                                 },
                                 child: Text(
                                   'Sign In Now',
