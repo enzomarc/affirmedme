@@ -5,6 +5,8 @@ import 'package:kronosme/core/networker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
+  /// Authentify an `user` with his `token`
+  /// for next requests to API.
   Future<void> _auth(String token, User user) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
@@ -13,6 +15,7 @@ class AuthService {
     sharedPreferences.setString('user', jsonEncode(user.toJson()));
   }
 
+  /// Disconnect the logged user.
   Future<void> logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
@@ -23,37 +26,78 @@ class AuthService {
   /// Check if user is connected by retrieving token then
   /// send request to backend to check if logged in token is correct.
   Future<bool> check() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String token = sharedPreferences.getString('token');
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String token = sharedPreferences.getString('token');
+      bool connected = false;
+      if (token == null) return false;
 
-    Response response = await worker.get("/check/$token");
+      await worker
+          .get("/check/$token")
+          .then((response) => connected = response.statusCode == 200)
+          .catchError((e) {
+            print(e);
+            return false;
+          });
 
-    if (response.statusCode != 200) {
-      print(response.data);
+      return connected;
+    } on DioError catch (e) {
+      print(e);
       return false;
-    } else {
-      return true;
     }
   }
 
-  /// Login user using given `email` and `password`
+  /// Return the logged user or `false`
+  /// if there's no logged in user.
+  Future<dynamic> user() async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String json = sharedPreferences.getString('user');
+
+      if (json.isNotEmpty)
+        return User.fromJson(jsonDecode(json));
+      else
+        return false;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  /// Return the `token` of the logged `user`
+  Future<String> token() async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      String token = sharedPreferences.getString('token');
+
+      return token;
+    } catch (e) {
+      print(e);
+      return '';
+    }
+  }
+
+  /// Log in user using given `email` and `password`.
   Future<dynamic> login(String email, String password) async {
     try {
-      Response response = await worker.post("/auth");
+      Map<String, dynamic> credentials = {'email': email, 'password': password};
+      Response response = await worker.post("/login", params: credentials);
 
       if (response.statusCode != 200) {
         print(response.data);
         return false;
       } else {
-        var data = jsonDecode(response.data);
-        String token = data.token;
-        User user = User.fromJson(data.user);
+        String token = response.data['token'];
+        User user = User.fromJson(response.data['user']);
         await _auth(token, user);
 
-        worker.navigatorKey.currentState.pushNamed("/dashboard");
+        worker.navigatorKey.currentState.pushReplacementNamed("/dashboard");
       }
     } on DioError catch (e) {
-      print(e);
+      print("Error: $e");
       return false;
     }
   }
@@ -61,8 +105,7 @@ class AuthService {
   /// Register basic user with given `data`.
   Future<dynamic> register(Map<String, dynamic> data) async {
     try {
-      Response response =
-          await worker.post("/register", params: jsonEncode(data));
+      Response response = await worker.post("/register", params: data);
 
       if (response.statusCode != 201) {
         print(response.data);
@@ -72,7 +115,7 @@ class AuthService {
         User user = User.fromJson(response.data['user']);
         await _auth(token, user);
 
-        worker.navigatorKey.currentState.pushNamed("/welcome");
+        worker.navigatorKey.currentState.pushReplacementNamed("/welcome");
       }
     } on DioError catch (e) {
       print(e);

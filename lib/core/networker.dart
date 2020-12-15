@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:kronosme/core/utils/constants.dart';
+import 'package:kronosme/services/auth_service.dart';
 
 class Networker {
   Dio _dio;
@@ -12,6 +13,13 @@ class Networker {
   /// the login page after a 401 redirection from the API.
   ///
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  bool connected = false;
+  String token = "";
+
+  void check() async {
+    connected = await auth.check();
+    if (connected) token = await auth.token();
+  }
 
   Networker() {
     _dio = Dio(
@@ -24,13 +32,16 @@ class Networker {
         },
       ),
     );
+
+    check();
     _dio.interceptors.add(
       InterceptorsWrapper(
         onError: (DioError error) {
           /// Handle API errors here
         },
-        onRequest: (RequestOptions options) async {
+        onRequest: (RequestOptions options) {
           /// Inject headers or dynamic params to your query here
+          if (token != "") options.headers['authorization'] = token;
         },
       ),
     );
@@ -44,7 +55,7 @@ class Networker {
     return _dio.put(route, data: params);
   }
 
-  Future get(route) {
+  Future<Response> get(route) {
     return _dio.get(route);
   }
 
