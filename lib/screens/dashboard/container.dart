@@ -26,22 +26,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void loadInfo() async {
-    final user = await auth.user();
     final goalProvider = Provider.of<GoalProvider>(context, listen: false);
 
     await goalService.getGoals();
     goalProvider.getGoals();
-
-    if (user != false) {
-      username = user.name[0].toUpperCase() + user.name.substring(1);
-      type = user.premium ? 'premium' : 'basic';
-    }
   }
 
   @override
   void initState() {
     loadInfo();
+    username = auth.username;
+    type = auth.accountType;
     currentScreen = screens[0];
+
     super.initState();
   }
 

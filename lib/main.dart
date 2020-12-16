@@ -11,6 +11,10 @@ void main() async {
 
   try {
     connected = await auth.check();
+
+    if (connected) {
+      
+    }
   } catch (e) {
     print(e);
   }

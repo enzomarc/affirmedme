@@ -5,10 +5,16 @@ import 'package:kronosme/core/networker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
+  String username;
+  String accountType;
+
   /// Authentify an `user` with his `token`
   /// for next requests to API.
   Future<void> _auth(String token, User user) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    username = user.name;
+    accountType = user.premium ? 'premium' : 'basic';
 
     sharedPreferences.clear();
     sharedPreferences.setString('token', token);
@@ -33,13 +39,20 @@ class AuthService {
       bool connected = false;
       if (token == null) return false;
 
-      await worker
-          .get("/check/$token")
-          .then((response) => connected = response.statusCode == 200)
-          .catchError((e) {
-            print(e);
-            return false;
-          });
+      await worker.get("/check/$token").then((response) {
+        connected = response.statusCode == 200;
+
+        if (connected) {
+          String json = sharedPreferences.getString('user');
+          User user = User.fromJson(jsonDecode(json));
+
+          username = user.name;
+          accountType = user.premium ? 'premium' : 'basic';
+        }
+      }).catchError((e) {
+        print(e);
+        return false;
+      });
 
       return connected;
     } on DioError catch (e) {
@@ -56,9 +69,13 @@ class AuthService {
           await SharedPreferences.getInstance();
       String json = sharedPreferences.getString('user');
 
-      if (json.isNotEmpty)
+      if (json.isNotEmpty) {
+        User user = User.fromJson(jsonDecode(json));
+        username = user.name;
+        accountType = user.premium ? 'premium' : 'basic';
+
         return User.fromJson(jsonDecode(json));
-      else
+      } else
         return false;
     } catch (e) {
       print(e);
