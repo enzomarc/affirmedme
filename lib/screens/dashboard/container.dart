@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/providers/goal_provider.dart';
+import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
 import 'package:kronosme/screens/lists/screen.dart';
 import 'package:kronosme/services/auth_service.dart';
@@ -27,9 +28,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void loadInfo() async {
     final goalProvider = Provider.of<GoalProvider>(context, listen: false);
+    final reminderProvider =
+        Provider.of<ReminderProvider>(context, listen: false);
 
-    await goalService.getGoals();
     goalProvider.getGoals();
+    reminderProvider.getReminders();
   }
 
   @override
@@ -82,7 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       },
                     ),
                     MenuButton(
-                      label: 'To do List',
+                      label: 'Reminder',
                       icon: Icons.add,
                       callback: () {
                         setState(() {

@@ -1,7 +1,7 @@
 import 'goal.dart';
 
 class Step {
-  int id;
+  String id;
   String title;
   List<Goal> goals;
 

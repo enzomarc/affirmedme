@@ -1,5 +1,5 @@
 class Goal {
-  int id;
+  String id;
   String title;
   List<String> tips;
 

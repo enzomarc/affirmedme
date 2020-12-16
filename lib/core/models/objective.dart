@@ -1,5 +1,5 @@
 class Objective {
-  int id;
+  String id;
   String user;
   String objective;
   String content;

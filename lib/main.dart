@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kronosme/core/affirmed.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
+import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
@@ -11,10 +12,6 @@ void main() async {
 
   try {
     connected = await auth.check();
-
-    if (connected) {
-      
-    }
   } catch (e) {
     print(e);
   }
@@ -28,6 +25,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => GoalProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ReminderProvider(),
+        )
       ],
       child: Affirmed(connected ? '/dashboard' : '/login'),
     ),

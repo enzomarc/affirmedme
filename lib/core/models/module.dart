@@ -1,7 +1,7 @@
 import 'step.dart';
 
 class Module {
-  int id;
+  String id;
   String title;
   List<Step> steps;
   String type;
