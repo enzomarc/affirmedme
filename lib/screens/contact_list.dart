@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:kronosme/core/models/contact.dart';
+import 'package:kronosme/providers/contact_provider.dart';
+import 'package:provider/provider.dart';
 
 class ContactsList extends StatefulWidget {
   @override
@@ -13,20 +16,6 @@ class _ContactsListState extends State<ContactsList> {
   @override
   Widget build(BuildContext context) {
     List<String> filter = ['Sorted by', 'Name', 'Address', 'Mail'];
-    List<String> contacts = [
-      'Alexander Bell',
-      'Annah Baker',
-      'Alphonse Elric',
-      'Booba',
-      'Kaaris',
-      'Cyllian Murphy',
-      'Carl Gallagher',
-      'Freeze Corleone',
-      'Mister You',
-      'Rey Mysterio',
-      'Professeur Xavier',
-      'Zedicus Zous Zoulander'
-    ];
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -101,34 +90,43 @@ class _ContactsListState extends State<ContactsList> {
               ),
             ),
             Expanded(
-              child: GroupedListView(
-                elements: contacts,
-                groupBy: (String contact) => contact[0],
-                itemBuilder: (context, element) => Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                  margin: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.1),
-                  ),
-                  child: Text(
-                    element,
-                    style: TextStyle(
-                      fontFamily: 'Montserrat SemiBold',
-                      fontSize: 13.0,
+              child: Consumer<ContactProvider>(
+                builder: (context, value, child) {
+                  List<Contact> contacts = value.contacts
+                      .where((contact) => contact.type == 'contact')
+                      .toList();
+
+                  return GroupedListView(
+                    elements: contacts,
+                    groupBy: (Contact contact) => contact.firstName[0],
+                    itemBuilder: (context, Contact contact) => Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 10.0),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.1),
+                      ),
+                      child: Text(
+                        "${contact.firstName} ${contact.lastName}",
+                        style: TextStyle(
+                          fontFamily: 'Montserrat SemiBold',
+                          fontSize: 13.0,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                groupSeparatorBuilder: (value) => Container(
-                  margin: EdgeInsets.only(top: 10.0, left: 2.0, right: 2.0),
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                      fontFamily: 'Montserrat Bold',
-                      fontSize: 14.0,
+                    groupSeparatorBuilder: (value) => Container(
+                      margin: EdgeInsets.only(top: 10.0, left: 2.0, right: 2.0),
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat Bold',
+                          fontSize: 14.0,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
           ],

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
+import 'package:kronosme/screens/contact.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
 import 'package:kronosme/screens/lists/screen.dart';
 import 'package:kronosme/services/auth_service.dart';
-import 'package:kronosme/services/goal_service.dart';
 import 'package:kronosme/widgets/menu_button.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +18,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final List<Widget> screens = [
     DashboardHome(),
     ListScreen(),
+    ContactsPage(),
   ];
 
   Widget currentScreen;
@@ -100,8 +101,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       icon: Icons.person,
                       callback: () {
                         setState(() {
-                          currentScreen = screens[1];
+                          currentScreen = screens[2];
                         });
+
+                        Navigator.pop(context);
                       },
                     ),
                     MenuButton(

@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:kronosme/core/utils/helpers.dart';
+import 'package:kronosme/providers/contact_provider.dart';
+import 'package:kronosme/services/contact_service.dart';
+import 'package:provider/provider.dart';
 
 class AddContactPage extends StatefulWidget {
   @override
   _AddContactPageState createState() => _AddContactPageState();
 }
+
+GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+String selectedType = 'Account Type';
+List<String> types = ['Account Type', 'Contact', 'Company'];
 
 class _AddContactPageState extends State<AddContactPage> {
   @override
@@ -11,186 +19,164 @@ class _AddContactPageState extends State<AddContactPage> {
     TextEditingController firstName = TextEditingController();
     TextEditingController lastName = TextEditingController();
     TextEditingController mail = TextEditingController();
+    final contactProvider =
+        Provider.of<ContactProvider>(context, listen: false);
 
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xFFFFFFFF),
-          leading: IconButton(
-            icon: Icon(
-              Icons.menu,
-              color: Color(0xFFFE0000),
-            ),
-            onPressed: () {
-              setState(() {
-                print('The menu btn');
-              });
-            },
-          ),
-          title: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+    return Scaffold(
+      key: scaffoldKey,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+                top: 10.0, left: 20.0, right: 20.0, bottom: 10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+                Column(
                   children: [
-                    FlatButton(
-                      onPressed: () {
-                        setState(() {
-                          print(' The account Btn');
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.account_circle,
-                            size: 30.0,
-                            color: Color(0xFFFE0000),
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Hi John Doe',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                                Text(
-                                  'Premium package',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat Bold',
-                                    fontSize: 10.0,
-                                    color: Color(0xFF59B306),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Stack(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.notifications,
-                            size: 30.0,
-                            color: Color(0xFF7C7373),
-                          ),
-                          onPressed: () {
-                            print('Notification');
-                          },
+                        Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                color: Color(0xFFFE0000),
+                                size: 20.0,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            Text(
+                              'Add new contact',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat Bold',
+                              ),
+                            ),
+                          ],
                         ),
-                        Positioned(
-                          top: 0.0,
-                          right: 0.0,
-                          child: Icon(
-                            Icons.brightness_1,
-                            color: Color(0xFFFE0000),
+                        FlatButton(
+                          onPressed: () async {
+                            if (mail.text.isNotEmpty &&
+                                firstName.text.isNotEmpty &&
+                                selectedType != 'Account Type') {
+                              Map<String, dynamic> data = {
+                                'first_name': firstName.text,
+                                'last_name': lastName.text,
+                                'email': mail.text,
+                                'type': selectedType.toLowerCase(),
+                              };
+                              await contactService
+                                  .storeContact(data)
+                                  .then((saved) {
+                                if (saved) {
+                                  firstName.text = "";
+                                  lastName.text = "";
+                                  mail.text = "";
+
+                                  contactProvider.getContacts();
+                                  helpers.alert(scaffoldKey,
+                                      "Contact added successfully.");
+                                } else {
+                                  helpers.alert(
+                                      scaffoldKey, "Unable to add contact.");
+                                }
+                              });
+                            } else {
+                              helpers.alert(scaffoldKey,
+                                  "First name, email and account type are required.");
+                            }
+                          },
+                          child: Text(
+                            'Save',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat SemiBold',
+                              color: Color(0xFFFE0000),
+                              fontSize: 15.0,
+                            ),
                           ),
                         ),
                       ],
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-        body: Container(
-          padding:
-              EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: Color(0xFFFE0000),
-                              size: 20.0,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          Text(
-                            'Add new contact',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat Bold',
-                            ),
-                          ),
-                        ],
-                      ),
-                      FlatButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Save',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat SemiBold',
-                            color: Color(0xFFFE0000),
-                            fontSize: 15.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 25.0,
-                  ),
-                  Text(
-                    'Start by entering an email address, name or both',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat SemiBold',
-                      fontSize: 11.0,
-                      color: Colors.grey,
                     ),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  InputField(controller: firstName, label: 'First Name'),
-                  InputField(controller: lastName, label: 'Last Name'),
-                  InputField(controller: mail, label: 'Email'),
-                ],
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RaisedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/contactList');
+                    SizedBox(
+                      height: 25.0,
+                    ),
+                    Text(
+                      'Start by entering an email address, name or both',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat SemiBold',
+                        fontSize: 11.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    InputField(
+                        controller: firstName,
+                        label: 'First Name/Company Name'),
+                    InputField(controller: lastName, label: 'Last Name'),
+                    InputField(controller: mail, label: 'Email'),
+                    DropdownButton(
+                      underline: Container(),
+                      isExpanded: true,
+                      style: TextStyle(
+                          fontFamily: 'Montserrat Bold',
+                          fontSize: 10.0,
+                          color: Colors.black),
+                      value: selectedType,
+                      items: types
+                          .map(
+                            (String item) => DropdownMenuItem(
+                              child: Text(
+                                item,
+                                style: TextStyle(
+                                  fontSize: 13.0,
+                                  fontFamily: 'Montserrat Medium',
+                                ),
+                              ),
+                              value: item,
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (String item) {
+                        setState(() {
+                          selectedType = item;
+                        });
                       },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      child: Text('Import contact'),
-                      color: Color(0xFFFFFFFF),
-                    ),
-                    RaisedButton(
-                      onPressed: () {},
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100.0),
-                      ),
-                      child: Text('Scan a business card'),
-                      color: Color(0xFFFFFFFF),
                     ),
                   ],
                 ),
-              )
-            ],
+                SizedBox(height: 20.0),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RaisedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/contactList');
+                        },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                        ),
+                        child: Text('Import contact'),
+                        color: Color(0xFFFFFFFF),
+                      ),
+                      RaisedButton(
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100.0),
+                        ),
+                        child: Text('Scan a business card'),
+                        color: Color(0xFFFFFFFF),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

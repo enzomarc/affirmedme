@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kronosme/core/affirmed.dart';
+import 'package:kronosme/providers/contact_provider.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
@@ -27,7 +28,10 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => ReminderProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ContactProvider(),
+        ),
       ],
       child: Affirmed(connected ? '/dashboard' : '/login'),
     ),

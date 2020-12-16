@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:grouped_list/grouped_list.dart';
+import 'package:kronosme/core/models/contact.dart';
+import 'package:kronosme/providers/contact_provider.dart';
+import 'package:provider/provider.dart';
 
 class CompaniesList extends StatefulWidget {
   @override
@@ -12,12 +16,6 @@ class _CompaniesListState extends State<CompaniesList> {
   @override
   Widget build(BuildContext context) {
     List<String> filter = ['Sorted by', 'Name', 'Address', 'Mail'];
-    List<String> companies = [
-      'Acme Corp',
-      'Licon Corp',
-      'Infinity Design',
-      'JeffZer Creative',
-    ];
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -92,23 +90,43 @@ class _CompaniesListState extends State<CompaniesList> {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: companies.length,
-                itemBuilder: (context, index) => Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
-                  margin: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.1),
-                  ),
-                  child: Text(
-                    companies[index],
-                    style: TextStyle(
-                      fontFamily: 'Montserrat SemiBold',
-                      fontSize: 13.0,
+              child: Consumer<ContactProvider>(
+                builder: (context, value, child) {
+                  List<Contact> contacts = value.contacts
+                      .where((contact) => contact.type == 'company')
+                      .toList();
+
+                  return GroupedListView(
+                    elements: contacts,
+                    groupBy: (Contact contact) => contact.firstName[0],
+                    itemBuilder: (context, Contact contact) => Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 10.0),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.1),
+                      ),
+                      child: Text(
+                        "${contact.firstName} ${contact.lastName}",
+                        style: TextStyle(
+                          fontFamily: 'Montserrat SemiBold',
+                          fontSize: 13.0,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                    groupSeparatorBuilder: (value) => Container(
+                      margin: EdgeInsets.only(top: 10.0, left: 2.0, right: 2.0),
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat Bold',
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],
