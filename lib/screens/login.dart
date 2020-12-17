@@ -1,247 +1,211 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kronosme/core/utils/helpers.dart';
 import 'package:kronosme/services/auth_service.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
+final TextEditingController mailController = TextEditingController();
+final TextEditingController passController = TextEditingController();
+GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-class _LoginPageState extends State<LoginPage> {
-  TextEditingController mailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
-
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    WidgetsFlutterBinding.ensureInitialized();
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Color(0xFFFE0000)));
-
-    GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
       key: scaffoldKey,
       body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              alignment: Alignment.topCenter,
-              image: AssetImage('assets/images/login_bg.png'),
+        child: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            padding: EdgeInsets.symmetric(horizontal: 13.0),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/login_bg.png"),
+                alignment: Alignment.topCenter,
+              ),
             ),
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
             child: Column(
-              children: [
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Container(
                   alignment: Alignment.bottomCenter,
                   child: Image.asset(
-                    'assets/images/me_light.png',
-                    height: 80.0,
-                    width: 80.0,
+                    "assets/images/me_light.png",
+                    scale: 12.0,
                   ),
-                  height: 150.0,
                 ),
+                SizedBox(height: 40.0),
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFFFFFFFF),
-                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10.0),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.2),
-                        spreadRadius: 5,
-                        blurRadius: 10,
-                        offset: Offset(3, 3),
+                        spreadRadius: 5.0,
+                        blurRadius: 10.0,
+                        offset: Offset(3.0, 3.0),
                       ),
                     ],
                   ),
-                  height: 525.0,
-                  width: 500.0,
-                  margin: EdgeInsets.only(
-                    top: 20.0,
-                    left: 25.0,
-                    right: 25.0,
-                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
                   child: Column(
-                    children: [
-                      SizedBox(
-                        height: 60.0,
-                      ),
-                      Container(
-                        child: Column(
-                          children: [
-                            Text(
-                              'Welcome',
-                              style: TextStyle(
-                                fontSize: 30.0,
-                                fontFamily: 'Montserrat Bold',
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                            Text(
-                              'Fill your name and your password',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 15.0,
-                                letterSpacing: 1.0,
-                              ),
-                            ),
-                          ],
+                    children: <Widget>[
+                      Text(
+                        'Welcome',
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontFamily: 'Montserrat Bold',
                         ),
                       ),
-                      SizedBox(
-                        height: 60.0,
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                          left: 30.0,
-                          right: 30.0,
+                      SizedBox(height: 10.0),
+                      Text(
+                        'Fill your name and your password',
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 15.0,
+                          letterSpacing: 1.0,
                         ),
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                bottom: 12.0,
-                              ),
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                'Sign In',
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat Bold',
-                                  fontSize: 20.0,
-                                ),
-                              ),
+                      ),
+                      SizedBox(height: 40.0),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Sign In',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat Bold',
+                              fontSize: 20.0,
                             ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                              child: TextField(
-                                keyboardType: TextInputType.emailAddress,
-                                controller: mailController,
-                                decoration: InputDecoration(
-                                  labelText: 'E-mail address',
-                                  labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: Colors.grey.withOpacity(0.8),
-                                  ),
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        controller: mailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          hintStyle: TextStyle(
+                            color: Colors.grey.withOpacity(0.8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 5.0, horizontal: 15.0),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.0,
+                              color: Color(0xFFFE0000).withOpacity(0.4),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                top: 10.0,
-                              ),
-                              padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-                              child: TextField(
-                                obscureText: true,
-                                controller: passController,
-                                decoration: InputDecoration(
-                                  labelText: 'Enter your password',
-                                  labelStyle: TextStyle(
-                                    color: Colors.grey.withOpacity(0.8),
-                                    fontFamily: 'Montserrat',
-                                  ),
-                                  border: OutlineInputBorder(),
-                                ),
-                              ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.0,
+                              color: Color(0xFFFE0000).withOpacity(0.4),
                             ),
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: FlatButton(
-                                onPressed: () {
-                                  print('Forgot password');
-                                },
-                                child: Text(
-                                  'Forgot password?',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 13.0,
-                                    color: Colors.grey.withOpacity(0.8),
-                                  ),
-                                ),
-                              ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.0,
+                              color: Color(0xFFFE0000),
                             ),
-                            Container(
-                              child: RaisedButton(
-                                color: Color(0xFFFE0000),
-                                padding: EdgeInsets.only(
-                                    left: 105.0,
-                                    right: 105.0,
-                                    top: 20.0,
-                                    bottom: 20.0),
-                                onPressed: () async {
-                                  String msg = "";
-
-                                  if (mailController.text.isEmpty ||
-                                      passController.text.isEmpty)
-                                    msg = "All fields are required.";
-                                  else {
-                                    await auth
-                                        .login(mailController.text,
-                                            passController.text)
-                                        .then((res) {
-                                      msg = res == false
-                                          ? "Email or password are invalid."
-                                          : "";
-                                    }).catchError((error) {
-                                      print(error);
-                                      msg = "Error, unable to login.";
-                                    });
-                                  }
-
-                                  if (msg != "")
-                                    helpers.alert(scaffoldKey, msg);
-                                },
-                                child: Text(
-                                  'Sign In Now',
-                                  style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      color: Color(0xFFFFFFFF),
-                                      fontSize: 15.0),
-                                ),
-                              ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      TextFormField(
+                        controller: passController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          hintStyle: TextStyle(
+                            color: Colors.grey.withOpacity(0.8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 5.0, horizontal: 15.0),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.0,
+                              color: Color(0xFFFE0000).withOpacity(0.4),
                             ),
-                          ],
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.0,
+                              color: Color(0xFFFE0000).withOpacity(0.4),
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1.0,
+                              color: Color(0xFFFE0000),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30.0),
+                      GestureDetector(
+                        child: Text(
+                          'Forgot password?',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      RaisedButton(
+                        onPressed: () async {
+                          if (mailController.text.isEmpty ||
+                              passController.text.isEmpty) {
+                            helpers.alert(scaffoldKey,
+                                "Email and password are required.");
+                          } else {
+                            await auth
+                                .login(mailController.text, passController.text)
+                                .then((value) {
+                              if (value == false) {
+                                helpers.alert(scaffoldKey,
+                                    "Email or password are invalid.");
+                              }
+                            }).catchError((err) {
+                              print(err);
+                              helpers.alert(scaffoldKey,
+                                  "Email or password are invalid.");
+                            });
+                          }
+                        },
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 50.0, vertical: 15.0),
+                        color: Color(0xFFFE0000),
+                        child: Text(
+                          'Sign in now',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Montserrat Medium',
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: 20.0,
-                    left: 25.0,
-                    right: 25.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Don\'t have account?',
+                SizedBox(height: 30.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Don't have an account?",
+                      style: TextStyle(fontFamily: 'Montserrat Medium'),
+                    ),
+                    SizedBox(width: 5.0),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/package');
+                      },
+                      child: Text(
+                        'Sign up',
                         style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 13.0,
+                          fontFamily: 'Montserrat Semibold',
                         ),
                       ),
-                      FlatButton(
-                        onPressed: () {
-                          setState(() {
-                            Navigator.pushNamed(context, '/package');
-                          });
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat Bold',
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               ],
             ),

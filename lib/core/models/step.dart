@@ -14,7 +14,10 @@ class Step {
   Step.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    goals = List<Goal>.from(((json['goals']) as List).map((e) => Step.fromJson(e)));
+    goals = json['goals'] != null
+        ? List<Goal>.from(
+            ((json['goals']) as List).map((e) => Goal.fromJson(e)))
+        : [];
   }
 
   Map<String, dynamic> toJson() {

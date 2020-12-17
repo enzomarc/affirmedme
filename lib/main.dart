@@ -3,8 +3,10 @@ import 'package:kronosme/core/affirmed.dart';
 import 'package:kronosme/providers/contact_provider.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
+import 'package:kronosme/providers/podcast_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/services/auth_service.dart';
+import 'package:kronosme/services/module_service.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -13,6 +15,10 @@ void main() async {
 
   try {
     connected = await auth.check();
+
+    if (connected) {
+      await moduleService.getModules();
+    }
   } catch (e) {
     print(e);
   }
@@ -31,6 +37,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => ContactProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PodcastProvider(),
         ),
       ],
       child: Affirmed(connected ? '/dashboard' : '/login'),

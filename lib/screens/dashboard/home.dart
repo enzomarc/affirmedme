@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kronosme/core/networker.dart';
 import 'package:kronosme/providers/goal_provider.dart';
+import 'package:kronosme/services/module_service.dart';
 import 'package:kronosme/widgets/goal.dart';
-import 'package:kronosme/widgets/module.dart';
+import 'package:kronosme/core/models/module.dart';
+import 'package:kronosme/widgets/module.dart' as Mod;
 import 'package:provider/provider.dart';
 
 class DashboardHome extends StatefulWidget {
@@ -10,17 +12,7 @@ class DashboardHome extends StatefulWidget {
   _DashboardHomeState createState() => _DashboardHomeState();
 }
 
-final List<String> modules = [
-  'DISCOVERY LEARNING',
-  'THINK THROUGH ACTIONS',
-  'ROUTINE OF THE GREATS',
-  'LEARN REFFLECT AND KEEP GOOD NOTES',
-  'PRACTICE SELF DISCIPLINE',
-  'MANAGE YOUR NETWORK',
-  'REMEMBER THE IMPORTANT DATES',
-  'EAT WELL TO FEEL GREAT',
-];
-
+List<Module> modules = [];
 final List<String> goals = [
   'Mindset',
   'Character',
@@ -34,6 +26,8 @@ final List<String> goals = [
 class _DashboardHomeState extends State<DashboardHome> {
   @override
   Widget build(BuildContext context) {
+    modules = moduleService.modules;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -63,14 +57,15 @@ class _DashboardHomeState extends State<DashboardHome> {
                     scrollDirection: Axis.horizontal,
                     itemCount: modules.length,
                     itemBuilder: (context, index) {
-                      return GestureDetector(
+                      return Mod.Module(
+                        title: modules[index].title,
                         onTap: () {
-                          worker.navigatorKey.currentState
-                              .pushNamed('/learning');
+                          Navigator.pushNamed(
+                            context,
+                            '/learning',
+                            arguments: modules[index].title,
+                          );
                         },
-                        child: Module(
-                          title: modules[index],
-                        ),
                       );
                     },
                   ),

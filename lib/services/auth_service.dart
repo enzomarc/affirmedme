@@ -109,7 +109,7 @@ class AuthService {
       } else {
         String token = response.data['token'];
         User user = User.fromJson(response.data['user']);
-        await _auth(token, user);
+        await _auth(token, user).then((value) => worker.check());
 
         worker.navigatorKey.currentState.pushReplacementNamed("/dashboard");
       }
@@ -130,7 +130,7 @@ class AuthService {
       } else {
         String token = response.data['token'];
         User user = User.fromJson(response.data['user']);
-        await _auth(token, user);
+        await _auth(token, user).then((value) => worker.check());
 
         worker.navigatorKey.currentState.pushReplacementNamed("/welcome");
       }

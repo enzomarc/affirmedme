@@ -4,12 +4,12 @@ import 'package:kronosme/screens/companies_list.dart';
 import 'package:kronosme/screens/contact_list.dart';
 import 'package:provider/provider.dart';
 
-class ContactsPage extends StatefulWidget {
+class ContactScreen extends StatefulWidget {
   @override
   _ContactsPageState createState() => _ContactsPageState();
 }
 
-class _ContactsPageState extends State<ContactsPage>
+class _ContactsPageState extends State<ContactScreen>
     with TickerProviderStateMixin {
   final PageStorageBucket bucket = PageStorageBucket();
   int selectedIndex = 0;

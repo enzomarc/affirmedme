@@ -7,12 +7,12 @@ import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/services/reminder_service.dart';
 import 'package:provider/provider.dart';
 
-class ListScreen extends StatefulWidget {
+class ReminderScreen extends StatefulWidget {
   @override
   _ListScreenState createState() => _ListScreenState();
 }
 
-class _ListScreenState extends State<ListScreen> {
+class _ListScreenState extends State<ReminderScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override

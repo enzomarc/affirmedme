@@ -20,7 +20,7 @@ class _ContactsListState extends State<ContactsList> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/addContact');
+          Navigator.pushNamed(context, '/contacts/add');
         },
         backgroundColor: Color(0xFFFE0000),
         child: Icon(

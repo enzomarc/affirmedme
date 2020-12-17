@@ -12,7 +12,7 @@ class Goal {
   Goal.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    tips = json['tips'];
+    tips = List<String>.from(json['tips']);
   }
 
   Map<String, dynamic> toJson() {

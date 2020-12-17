@@ -18,7 +18,11 @@ class Networker {
 
   void check() async {
     connected = await auth.check();
-    if (connected) token = await auth.token();
+
+    if (connected) {
+      token = await auth.token();
+      _dio.options.headers['authorization'] = token;
+    }
   }
 
   Networker() {
