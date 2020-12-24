@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:kronosme/core/models/goal.dart';
 import 'package:kronosme/core/models/objective.dart';
 import 'package:kronosme/core/models/user.dart';
 import 'package:kronosme/core/networker.dart';

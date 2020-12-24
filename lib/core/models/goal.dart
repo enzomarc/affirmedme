@@ -2,15 +2,17 @@ class Goal {
   String id;
   String title;
   List<String> tips;
+  bool checked;
 
   Goal({
     this.id,
     this.title,
     this.tips,
+    this.checked,
   });
 
   Goal.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'];
     title = json['title'];
     tips = List<String>.from(json['tips']);
   }

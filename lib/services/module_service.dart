@@ -32,6 +32,23 @@ class ModuleService {
       return modules;
     }
   }
+
+  Future<bool> check(String title) async {
+    try {
+      var user = await auth.user();
+
+      if (user != false) {
+        Response response = await worker.post("/modules/${user.id}/check",
+            params: {'title': title.toLowerCase()});
+
+        return response.statusCode == 200;
+      } else
+        return false;
+    } on DioError catch (e) {
+      print(e);
+      return false;
+    }
+  }
 }
 
 ModuleService moduleService = ModuleService();

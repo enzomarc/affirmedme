@@ -12,7 +12,7 @@ class Objective {
   });
 
   Objective.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'];
     user = json['user'];
     objective = json['objective'];
     content = json['content'];

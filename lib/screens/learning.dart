@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:kronosme/core/models/goal.dart';
 import 'package:kronosme/core/models/module.dart';
 import 'package:kronosme/core/models/step.dart' as Model;
+import 'package:kronosme/core/utils/helpers.dart';
 import 'package:kronosme/services/module_service.dart';
+import 'package:kronosme/services/reminder_service.dart';
 
 class LearningScreen extends StatefulWidget {
   @override
   _LearningScreenState createState() => _LearningScreenState();
 }
+
+GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 class _LearningScreenState extends State<LearningScreen> {
   List<Model.Step> items = [];
@@ -15,6 +20,7 @@ class _LearningScreenState extends State<LearningScreen> {
   Widget build(BuildContext context) {
     moduleService.getModules();
 
+    String title = (ModalRoute.of(context).settings.arguments as String);
     String moduleTitle =
         (ModalRoute.of(context).settings.arguments as String).toLowerCase();
     Module module = moduleService.modules
@@ -23,18 +29,79 @@ class _LearningScreenState extends State<LearningScreen> {
 
     return SafeArea(
       child: Scaffold(
+        key: scaffoldKey,
         body: Container(
           padding: const EdgeInsets.all(15.0),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          child: ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              var item = items[index];
-              print(item.goals);
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.fromLTRB(0.0, 20.0, 10.0, 10.0),
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        color: Color(0xFFFE0000),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    SizedBox(width: 1.0),
+                    Expanded(
+                      child: Text(
+                        title,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat Bold',
+                          fontSize: 16.0,
+                          color: Color(0xFFFE0000),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 1.0),
+                    IconButton(
+                      icon: Icon(Icons.info, color: Colors.blueAccent.shade200),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          child: SimpleDialog(
+                            contentPadding: EdgeInsets.all(20.0),
+                            title: Text(
+                              'Instruction',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat Semibold',
+                                fontSize: 16.0,
+                              ),
+                            ),
+                            children: <Widget>[
+                              Text(module.instruction),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    var item = items[index];
 
-              return ParentItem(title: item.title, goals: item.goals);
-            },
+                    return ParentItem(
+                      moduleTitle: moduleTitle,
+                      title: item.title,
+                      goals: item.goals,
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -42,15 +109,24 @@ class _LearningScreenState extends State<LearningScreen> {
   }
 }
 
-class ParentItem extends StatelessWidget {
+class ParentItem extends StatefulWidget {
   const ParentItem({
+    this.moduleTitle,
     this.title,
     this.goals,
     Key key,
   }) : super(key: key);
 
+  final String moduleTitle;
   final String title;
   final List<dynamic> goals;
+
+  @override
+  _ParentItemState createState() => _ParentItemState();
+}
+
+class _ParentItemState extends State<ParentItem> {
+  bool expanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,42 +135,68 @@ class ParentItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title ?? 'Discover learning.',
-            style: TextStyle(
-              fontSize: 16.0,
-              fontFamily: 'Montserrat Bold',
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                expanded = !expanded;
+              });
+            },
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  expanded ? Icons.arrow_drop_down : Icons.arrow_right,
+                  color: Colors.grey,
+                ),
+                Expanded(
+                  child: Text(
+                    widget.title ?? 'Discover learning.',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Montserrat Bold',
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(height: 10.0),
-          goals.length > 0
-              ? Column(
-                  children: goals
-                      .map(
-                        (e) => SubItem(
-                          title: e.title,
-                          children: e.tips,
-                        ),
-                      )
-                      .toList(),
-                )
-              : Container(),
+          if (widget.goals.length > 0)
+            if (expanded)
+              Column(
+                children: widget.goals
+                    .map(
+                      (e) => SubItem(
+                        moduleTitle: widget.moduleTitle,
+                        goal: e,
+                      ),
+                    )
+                    .toList(),
+              )
+            else
+              Container()
+          else
+            Container(),
         ],
       ),
     );
   }
 }
 
-class SubItem extends StatelessWidget {
+class SubItem extends StatefulWidget {
   const SubItem({
-    this.title,
-    this.children,
+    this.moduleTitle,
+    @required this.goal,
     Key key,
   }) : super(key: key);
 
-  final String title;
-  final List<dynamic> children;
+  final Goal goal;
+  final String moduleTitle;
 
+  @override
+  _SubItemState createState() => _SubItemState();
+}
+
+class _SubItemState extends State<SubItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,10 +216,96 @@ class SubItem extends StatelessWidget {
               ),
               SizedBox(width: 10.0),
               Expanded(
-                child: Text(
-                  title ?? 'Be a hypperrealist.',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat SemiBold',
+                child: GestureDetector(
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      child: SimpleDialog(
+                        title: Text('Reminder'),
+                        contentPadding: EdgeInsets.all(20.0),
+                        children: <Widget>[
+                          Text(
+                            'Add this item to reminder?',
+                            style: TextStyle(
+                              fontFamily: 'Montserrat Medium',
+                              fontSize: 14.0,
+                            ),
+                          ),
+                          SizedBox(height: 10.0),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Cancel'),
+                                ),
+                              ),
+                              Expanded(
+                                child: RaisedButton(
+                                  onPressed: () async {
+                                    Map<String, dynamic> data = {
+                                      'content': widget.goal.title,
+                                      'group': widget.moduleTitle,
+                                      'at': DateTime.now()
+                                          .add(Duration(days: 1))
+                                          .toString(),
+                                    };
+
+                                    await reminderService
+                                        .storeReminder(data)
+                                        .then(
+                                      (value) {
+                                        if (value) {
+                                          helpers.alert(scaffoldKey,
+                                              "Item added to the reminder successfully.");
+                                        } else {
+                                          helpers.alert(scaffoldKey,
+                                              "Unable to add this item to reminder.");
+                                        }
+
+                                        Navigator.pop(context);
+                                      },
+                                    );
+                                  },
+                                  child: Text('Add to reminder'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Checkbox(
+                        activeColor: Colors.greenAccent.shade700,
+                        value: widget.goal.checked ?? false,
+                        onChanged: (value) async {
+                          await moduleService
+                              .check(widget.goal.title)
+                              .then((updated) {
+                            if (updated) {
+                              setState(() {
+                                widget.goal.checked = value;
+                              });
+                            }
+                          }).catchError((err) {
+                            print(err);
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          widget.goal.title ?? 'Be a hypperrealist.',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat SemiBold',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -125,7 +313,7 @@ class SubItem extends StatelessWidget {
           ),
           SizedBox(height: 10.0),
           Column(
-            children: children
+            children: widget.goal.tips
                 .map((e) => e != null ? ItemChildren(content: e) : Container())
                 .toList(),
           ),

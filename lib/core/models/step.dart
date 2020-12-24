@@ -12,7 +12,7 @@ class Step {
   });
 
   Step.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['_id'];
     title = json['title'];
     goals = json['goals'] != null
         ? List<Goal>.from(
