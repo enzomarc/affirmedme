@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:kronosme/core/models/contact.dart';
+import 'package:kronosme/core/utils/helpers.dart';
+import 'package:kronosme/providers/contact_provider.dart';
+import 'package:kronosme/services/contact_service.dart';
+import 'package:provider/provider.dart';
 
 class ContactInformationPage extends StatefulWidget {
   @override
   _ContactInformationPageState createState() => _ContactInformationPageState();
 }
 
+final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
 class _ContactInformationPageState extends State<ContactInformationPage> {
   @override
   Widget build(BuildContext context) {
+    Contact contact = ModalRoute.of(context).settings.arguments;
+    final contactProvider = Provider.of<ContactProvider>(context, listen: false);
+
     return SafeArea(
       child: Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(
           backgroundColor: Color(0xFFFFFFFF),
           leading: IconButton(
@@ -122,7 +133,8 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                           },
                         ),
                         Text(
-                          'Aladin Smith',
+                          "${contact.firstName} ${contact.lastName}" ??
+                              'Aladin Smith',
                           style: TextStyle(
                             fontFamily: 'Montserrat Bold',
                           ),
@@ -134,14 +146,23 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                       children: [
                         ActionBtn(
                           title: 'Call',
+                          onpressed: () {
+                            helpers.makeCall(contact.phone);
+                          },
                         ),
                         ActionBtn(
                           title: 'Email',
                           icon: Icons.mail,
+                          onpressed: () {
+                            helpers.sendMail(contact.email);
+                          },
                         ),
                         ActionBtn(
                           title: 'Message',
                           icon: Icons.message,
+                          onpressed: () {
+                            helpers.sendSMS(contact.phone);
+                          },
                         ),
                       ],
                     ),
@@ -189,14 +210,102 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                         title: 'Add note',
                         icon: Icons.note_add,
                         onpressed: () {
-                          Navigator.pushNamed(context, '/addContact');
+                          TextEditingController noteController =
+                              TextEditingController();
+
+                          showDialog(
+                            context: context,
+                            child: SimpleDialog(
+                              title: Text('New Note'),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 20.0),
+                              children: <Widget>[
+                                TextFormField(
+                                  controller: noteController,
+                                  keyboardType: TextInputType.text,
+                                  minLines: 2,
+                                  maxLines: 20,
+                                  decoration: InputDecoration(
+                                    hintText: 'Note Content',
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey.withOpacity(0.8),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 5.0, horizontal: 15.0),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 1.0,
+                                        color:
+                                            Color(0xFFFE0000).withOpacity(0.4),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 1.0,
+                                        color:
+                                            Color(0xFFFE0000).withOpacity(0.4),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 1.0,
+                                        color: Color(0xFFFE0000),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 20.0),
+                                RaisedButton(
+                                  onPressed: () async {
+                                    if (noteController.text.isNotEmpty) {
+                                      String data = noteController.text;
+
+                                      await contactService
+                                          .storeNote(contact, data)
+                                          .then((saved) {
+                                        if (saved) {
+                                          Navigator.of(context).pop();
+                                          helpers.alert(scaffoldKey,
+                                              "Note added successfully.");
+                                          contactProvider.getContacts();
+                                        } else {
+                                          helpers.alert(scaffoldKey,
+                                              "Unable to save this note.");
+                                        }
+                                      });
+                                    } else
+                                      helpers.alert(
+                                          scaffoldKey, "Note content is missing.");
+                                  },
+                                  color: Color(0xFFFE0000),
+                                  child: Text(
+                                    'Save',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         },
                       ),
                       ActionBtn(
-                        title: 'Add task',
-                        icon: Icons.add_box,
-                        onpressed: () {
-                          Navigator.pop(context);
+                        title: 'Delete',
+                        icon: Icons.close,
+                        onpressed: () async {
+                          await contactService
+                              .deleteContact(contact.id)
+                              .then((deleted) {
+                            if (deleted) {
+                              Navigator.pop(context);
+                            } else {
+                              helpers.alert(
+                                  scaffoldKey, "Unable to delete contact.");
+                            }
+                          }).catchError((err) {
+                            print(err);
+                            helpers.alert(
+                                scaffoldKey, "Unable to delete contact.");
+                          });
                         },
                       ),
                     ],
@@ -209,30 +318,24 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 10.0),
                   child: Text(
-                    'November 2020',
+                    'Notes',
                     style: TextStyle(
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Montserrat Semibold',
                       fontSize: 20.0,
                     ),
                   ),
                 ),
-                NoteTask(
-                  title: 'Note',
-                ),
-                NoteTask(
-                  title: 'Task',
-                ),
-                NoteTask(
-                  title: 'Note',
-                ),
-                NoteTask(
-                  title: 'Task',
-                ),
-                NoteTask(
-                  title: 'Note',
-                ),
-                NoteTask(
-                  title: 'Task',
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 300.0,
+                  child: ListView.builder(
+                    itemCount: contact.notes.length,
+                    itemBuilder: (context, index) => NoteTask(
+                      index: index,
+                      contact: contact,
+                      content: contact.notes[index] ?? 'Note',
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -246,14 +349,14 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
 class NoteTask extends StatelessWidget {
   const NoteTask({
     Key key,
-    this.title,
-    this.date,
-    this.information,
+    @required this.content,
+    @required this.index,
+    @required this.contact,
   }) : super(key: key);
 
-  final String title;
-  final String date;
-  final String information;
+  final String content;
+  final int index;
+  final Contact contact;
 
   @override
   Widget build(BuildContext context) {
@@ -275,34 +378,29 @@ class NoteTask extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title ?? 'Note',
+            'Note',
             style: TextStyle(
               fontFamily: 'Montserrat Bold',
-            ),
-          ),
-          Text(
-            date ?? 'Nov 22, 2020 at 14:47',
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 11.0,
             ),
           ),
           SizedBox(
             height: 10.0,
           ),
           Text(
-            information ?? 'Contact and save our rendez-vous',
+            content ?? 'Contact and save our rendez-vous',
             style: TextStyle(
-              fontFamily: 'Montserrat SemiBold',
+              fontFamily: 'Montserrat Medium',
               fontSize: 13.0,
             ),
           ),
           Container(
             alignment: Alignment.topRight,
             child: FlatButton(
-              onPressed: () {},
+              onPressed: () async {
+                await contactService.deleteNote(contact, index.toString());
+              },
               child: Text(
-                'view',
+                'delete',
                 style: TextStyle(
                   color: Color(0xFFFE0000),
                 ),

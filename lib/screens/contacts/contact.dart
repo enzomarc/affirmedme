@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kronosme/providers/contact_provider.dart';
-import 'package:kronosme/screens/companies_list.dart';
-import 'package:kronosme/screens/contact_list.dart';
+import 'package:kronosme/screens/contacts/companies_list.dart';
+import 'package:kronosme/screens/contacts/contact_list.dart';
 import 'package:provider/provider.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -13,7 +13,7 @@ class _ContactsPageState extends State<ContactScreen>
     with TickerProviderStateMixin {
   final PageStorageBucket bucket = PageStorageBucket();
   int selectedIndex = 0;
-  
+
   List<Widget> tabs = [
     ContactsList(),
     CompaniesList(),
@@ -33,7 +33,11 @@ class _ContactsPageState extends State<ContactScreen>
 
   @override
   Widget build(BuildContext context) {
-    final TabController tabController = TabController(length: 2, vsync: this);
+    final TabController tabController = TabController(
+      initialIndex: selectedIndex,
+      length: 2,
+      vsync: this,
+    );
 
     return SafeArea(
       child: Scaffold(

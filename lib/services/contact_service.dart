@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:kronosme/core/models/contact.dart';
 import 'package:kronosme/core/models/user.dart';
@@ -34,6 +36,29 @@ class ContactService {
           await worker.post("/contacts/${user.id}", params: data);
 
       return response.statusCode == 201;
+    } on DioError catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> storeNote(Contact contact, String note) async {
+    try {
+      Response response =
+          await worker.post("/contacts/${contact.id}/notes", params: jsonEncode(note));
+
+      return response.statusCode == 201;
+    } on DioError catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> deleteNote(Contact contact, String note) async {
+    try {
+      Response response = await worker.delete("/contacts/${contact.id}/$note");
+
+      return response.statusCode == 200;
     } on DioError catch (e) {
       print(e);
       return false;

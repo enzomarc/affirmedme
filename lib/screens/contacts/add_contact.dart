@@ -19,6 +19,7 @@ class _AddContactPageState extends State<AddContactPage> {
     TextEditingController firstName = TextEditingController();
     TextEditingController lastName = TextEditingController();
     TextEditingController mail = TextEditingController();
+    TextEditingController phone = TextEditingController();
     final contactProvider =
         Provider.of<ContactProvider>(context, listen: false);
 
@@ -66,6 +67,7 @@ class _AddContactPageState extends State<AddContactPage> {
                                 'first_name': firstName.text,
                                 'last_name': lastName.text,
                                 'email': mail.text,
+                                'phone': phone.text,
                                 'type': selectedType.toLowerCase(),
                               };
                               await contactService
@@ -115,10 +117,23 @@ class _AddContactPageState extends State<AddContactPage> {
                       height: 10.0,
                     ),
                     InputField(
-                        controller: firstName,
-                        label: 'First Name/Company Name'),
-                    InputField(controller: lastName, label: 'Last Name'),
-                    InputField(controller: mail, label: 'Email'),
+                      controller: firstName,
+                      label: 'First Name/Company Name',
+                    ),
+                    InputField(
+                      controller: lastName,
+                      label: 'Last Name',
+                    ),
+                    InputField(
+                      controller: mail,
+                      label: 'Email',
+                      type: TextInputType.emailAddress,
+                    ),
+                    InputField(
+                      controller: phone,
+                      label: 'Phone',
+                      type: TextInputType.phone,
+                    ),
                     DropdownButton(
                       underline: Container(),
                       isExpanded: true,
@@ -189,10 +204,12 @@ class InputField extends StatelessWidget {
     Key key,
     @required this.controller,
     this.label,
+    this.type,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String label;
+  final TextInputType type;
 
   @override
   Widget build(BuildContext context) {
@@ -202,6 +219,7 @@ class InputField extends StatelessWidget {
       ),
       padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: TextField(
+        keyboardType: type ?? TextInputType.text,
         controller: controller,
         decoration: InputDecoration(
           labelText: label ?? 'Username, Email or Phone',

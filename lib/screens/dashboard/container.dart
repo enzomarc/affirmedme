@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
-import 'package:kronosme/screens/contact.dart';
+import 'package:kronosme/screens/contacts/contact.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
 import 'package:kronosme/screens/reminder/screen.dart';
 import 'package:kronosme/screens/podcasts/container.dart';

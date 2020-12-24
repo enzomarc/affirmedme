@@ -99,19 +99,28 @@ class _ContactsListState extends State<ContactsList> {
                   return GroupedListView(
                     elements: contacts,
                     groupBy: (Contact contact) => contact.firstName[0],
-                    itemBuilder: (context, Contact contact) => Container(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 10.0),
-                      margin:
-                          EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.1),
-                      ),
-                      child: Text(
-                        "${contact.firstName} ${contact.lastName}",
-                        style: TextStyle(
-                          fontFamily: 'Montserrat SemiBold',
-                          fontSize: 13.0,
+                    itemBuilder: (context, Contact contact) => GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/contacts/info',
+                          arguments: contact,
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 10.0),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 2.0, horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.1),
+                        ),
+                        child: Text(
+                          "${contact.firstName} ${contact.lastName}",
+                          style: TextStyle(
+                            fontFamily: 'Montserrat SemiBold',
+                            fontSize: 13.0,
+                          ),
                         ),
                       ),
                     ),
