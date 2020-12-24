@@ -41,6 +41,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => PodcastProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => DateProvider(),
+        ),
       ],
       child: Affirmed(connected ? '/dashboard' : '/login'),
     ),

@@ -21,6 +21,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     DashboardHome(),
     ReminderScreen(),
     ContactScreen(),
+    DateScreen(),
     Podcasts(),
   ];
 
@@ -106,6 +107,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       callback: () {
                         setState(() {
                           currentScreen = screens[2];
+                        });
+
+                        Navigator.pop(context);
+                      },
+                    ),
+                    MenuButton(
+                      label: 'Important Dates',
+                      icon: Icons.calendar_today,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[3];
                         });
 
                         Navigator.pop(context);
