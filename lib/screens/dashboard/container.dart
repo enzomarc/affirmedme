@@ -6,6 +6,8 @@ import 'package:kronosme/screens/contacts/contact.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
 import 'package:kronosme/screens/reminder/screen.dart';
 import 'package:kronosme/screens/podcasts/container.dart';
+import 'package:kronosme/screens/dates/list.dart';
+import 'package:kronosme/screens/meals/list.dart';
 import 'package:kronosme/services/auth_service.dart';
 import 'package:kronosme/services/module_service.dart';
 import 'package:kronosme/widgets/menu_button.dart';
@@ -22,6 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ReminderScreen(),
     ContactScreen(),
     DateScreen(),
+    MealScreen(),
     Podcasts(),
   ];
 
@@ -43,12 +46,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
+    super.initState();
+
     loadInfo();
     username = auth.username;
     type = auth.accountType;
     currentScreen = screens[0];
-
-    super.initState();
   }
 
   @override
@@ -124,11 +127,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       },
                     ),
                     MenuButton(
+                      label: 'Meal Plans',
+                      icon: Icons.mic,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[4];
+                        });
+
+                        Navigator.pop(context);
+                      },
+                    ),
+                    MenuButton(
                       label: 'Podcasts',
                       icon: Icons.mic,
                       callback: () {
                         setState(() {
-                          currentScreen = screens[3];
+                          currentScreen = screens[5];
                         });
 
                         Navigator.pop(context);

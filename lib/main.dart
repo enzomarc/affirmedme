@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kronosme/core/affirmed.dart';
 import 'package:kronosme/providers/contact_provider.dart';
+import 'package:kronosme/providers/date_provider.dart';
 import 'package:kronosme/providers/goal_provider.dart';
+import 'package:kronosme/providers/meal_plan_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
 import 'package:kronosme/providers/podcast_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
@@ -43,6 +45,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => DateProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MealPlanProvider(),
         ),
       ],
       child: Affirmed(connected ? '/dashboard' : '/login'),

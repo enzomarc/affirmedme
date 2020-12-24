@@ -24,7 +24,7 @@ class MenuButton extends StatelessWidget {
                 color: Colors.grey.shade500,
                 borderRadius: BorderRadius.circular(200.0),
               ),
-              padding: EdgeInsets.all(1.0),
+              padding: EdgeInsets.all(2.0),
               child: Icon(
                 icon ?? Icons.add,
                 color: Colors.white,
