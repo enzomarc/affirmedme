@@ -11,7 +11,7 @@ class DashboardHome extends StatefulWidget {
   _DashboardHomeState createState() => _DashboardHomeState();
 }
 
-List<Module> modules = [];
+List<Module> modules = moduleService.modules;
 final List<String> goals = [
   'Mindset',
   'Character',
@@ -25,8 +25,6 @@ final List<String> goals = [
 class _DashboardHomeState extends State<DashboardHome> {
   @override
   Widget build(BuildContext context) {
-    modules = moduleService.modules;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

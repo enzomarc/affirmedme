@@ -113,13 +113,15 @@ class AuthService {
 
         worker.navigatorKey.currentState.pushReplacementNamed("/dashboard");
       }
-    } on DioError catch (e) {
+    } catch (e) {
       print("Error: $e");
       return false;
     }
   }
 
-  /// Register basic user with given `data`.
+  /// Register user with given `data`.
+  /// Set `data['premium'] = true` and user
+  /// `data['card']` info if you want registration to be premium.
   Future<dynamic> register(Map<String, dynamic> data) async {
     try {
       Response response = await worker.post("/register", params: data);
@@ -130,11 +132,14 @@ class AuthService {
       } else {
         String token = response.data['token'];
         User user = User.fromJson(response.data['user']);
-        await _auth(token, user).then((value) => worker.check());
 
-        worker.navigatorKey.currentState.pushReplacementNamed("/welcome");
+        if (token != null) {
+          await _auth(token, user).then((value) => worker.check());
+
+          worker.navigatorKey.currentState.pushReplacementNamed("/welcome");
+        }
       }
-    } on DioError catch (e) {
+    } catch (e) {
       print(e);
       return false;
     }

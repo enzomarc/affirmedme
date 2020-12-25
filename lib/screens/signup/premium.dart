@@ -1,11 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kronosme/core/utils/helpers.dart';
+import 'package:kronosme/services/auth_service.dart';
+import 'package:kronosme/services/payment_service.dart';
 
 class PremiumSignup extends StatefulWidget {
   @override
   _SignupScreenState createState() => _SignupScreenState();
 }
 
+TextEditingController nameController = TextEditingController();
+TextEditingController mailController = TextEditingController();
+TextEditingController phoneController = TextEditingController();
+TextEditingController passController = TextEditingController();
+TextEditingController confirmPassController = TextEditingController();
+TextEditingController cardNumber = TextEditingController();
+TextEditingController exp = TextEditingController();
+TextEditingController cvc = TextEditingController();
+
+GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+Map<String, dynamic> data = {};
+List<StepState> stepStates = [
+  StepState.editing,
+  StepState.disabled,
+  StepState.disabled,
+];
 final List<String> modules = [
   'DISCOVERY LEARNING',
   'THINK THROUGH ACTIONS',
@@ -22,6 +41,8 @@ class _SignupScreenState extends State<PremiumSignup> {
   bool complete = false;
 
   next() {
+    setState(() => stepStates[currentStep] = StepState.complete);
+
     currentStep + 1 != 3
         ? goTo(currentStep + 1)
         : setState(() => complete = true);
@@ -48,7 +69,8 @@ class _SignupScreenState extends State<PremiumSignup> {
 
     Step generalStep = Step(
       title: const Text('General'),
-      isActive: true,
+      isActive: currentStep == 0,
+      state: stepStates[0],
       content: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Form(
@@ -66,6 +88,38 @@ class _SignupScreenState extends State<PremiumSignup> {
                 child: Column(
                   children: <Widget>[
                     TextFormField(
+                      controller: nameController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: 'Name',
+                        hintStyle: TextStyle(
+                          color: Colors.grey.withOpacity(0.8),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 15.0),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000).withOpacity(0.4),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.0,
+                            color: Color(0xFFFE0000),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      controller: mailController,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         hintText: 'Email',
@@ -96,6 +150,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
+                      controller: phoneController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         hintText: 'Phone number',
@@ -126,6 +181,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
+                      controller: passController,
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
@@ -156,6 +212,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
+                      controller: confirmPassController,
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Confirm password',
@@ -191,8 +248,32 @@ class _SignupScreenState extends State<PremiumSignup> {
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: RaisedButton(
-                  onPressed: () {
-                    //
+                  onPressed: () async {
+                    String msg = "";
+
+                    if (nameController.text.isEmpty ||
+                        mailController.text.isEmpty ||
+                        phoneController.text.isEmpty ||
+                        passController.text.isEmpty) {
+                      msg = "All fields are required.";
+                    } else {
+                      if (passController.text == confirmPassController.text) {
+                        setState(() {
+                          data.addAll({
+                            'name': nameController.text,
+                            'email': mailController.text,
+                            'phone': phoneController.text,
+                            'password': passController.text,
+                          });
+                        });
+
+                        next();
+                      } else {
+                        msg = "Password doesn't match.";
+                      }
+                    }
+
+                    if (msg != "") helpers.alert(scaffoldKey, msg);
                   },
                   padding: const EdgeInsets.symmetric(
                     horizontal: 50.0,
@@ -231,7 +312,8 @@ class _SignupScreenState extends State<PremiumSignup> {
     );
     Step paymentStep = Step(
       title: const Text('Payment'),
-      isActive: false,
+      isActive: currentStep == 1,
+      state: stepStates[1],
       content: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Form(
@@ -246,69 +328,50 @@ class _SignupScreenState extends State<PremiumSignup> {
               ),
               SizedBox(height: 30.0),
               TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                  hintStyle: TextStyle(
-                    color: Colors.grey.withOpacity(0.8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: 'Password',
-                  hintStyle: TextStyle(
-                    color: Colors.grey.withOpacity(0.8),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000).withOpacity(0.4),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1.0,
-                      color: Color(0xFFFE0000),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10.0),
-              TextFormField(
+                controller: cardNumber,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  hintText: 'Card',
+                  suffixIcon: Icon(Icons.credit_card),
+                  labelText: 'Card Number',
+                  hintText: '4242 4242 4242 4242',
+                  hintStyle: TextStyle(
+                    color: Colors.grey.withOpacity(0.8),
+                  ),
+                  labelStyle: TextStyle(
+                    color: Colors.grey.withOpacity(0.8),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 5.0, horizontal: 15.0),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1.0,
+                      color: Color(0xFFFE0000).withOpacity(0.4),
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1.0,
+                      color: Color(0xFFFE0000).withOpacity(0.4),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1.0,
+                      color: Color(0xFFFE0000),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.0),
+              TextFormField(
+                controller: exp,
+                decoration: InputDecoration(
+                  hintText: '10/21',
+                  labelText: 'Expiration date',
+                  helperText: 'MM/YY',
+                  helperStyle: TextStyle(
+                    fontSize: 10.0,
+                  ),
                   hintStyle: TextStyle(
                     color: Colors.grey.withOpacity(0.8),
                   ),
@@ -335,83 +398,140 @@ class _SignupScreenState extends State<PremiumSignup> {
                 ),
               ),
               SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: '12/06',
-                        labelText: 'Expiration day',
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        hintStyle: TextStyle(
-                          color: Colors.grey.withOpacity(0.8),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 15.0),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.0,
-                            color: Color(0xFFFE0000).withOpacity(0.4),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.0,
-                            color: Color(0xFFFE0000).withOpacity(0.4),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.0,
-                            color: Color(0xFFFE0000),
-                          ),
-                        ),
-                      ),
+              TextFormField(
+                controller: cvc,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: '444',
+                  labelText: 'CVC',
+                  hintStyle: TextStyle(
+                    color: Colors.grey.withOpacity(0.8),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 5.0,
+                    horizontal: 15.0,
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1.0,
+                      color: Color(0xFFFE0000).withOpacity(0.4),
                     ),
                   ),
-                  SizedBox(width: 15.0),
-                  Expanded(
-                    child: TextFormField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: '000',
-                        labelText: 'CVV',
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                        hintStyle: TextStyle(
-                          color: Colors.grey.withOpacity(0.8),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 15.0),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.0,
-                            color: Color(0xFFFE0000).withOpacity(0.4),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.0,
-                            color: Color(0xFFFE0000).withOpacity(0.4),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1.0,
-                            color: Color(0xFFFE0000),
-                          ),
-                        ),
-                      ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1.0,
+                      color: Color(0xFFFE0000).withOpacity(0.4),
                     ),
                   ),
-                ],
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 1.0,
+                      color: Color(0xFFFE0000),
+                    ),
+                  ),
+                ),
               ),
               SizedBox(height: 30.0),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: RaisedButton(
-                  onPressed: () {
-                    //
+                  onPressed: () async {
+                    if (cardNumber.text.isEmpty ||
+                        exp.text.isEmpty ||
+                        cvc.text.isEmpty) {
+                      helpers.alert(scaffoldKey, cvc.text);
+                    } else {
+                      Map<String, dynamic> cardData = {
+                        'number': cardNumber.text,
+                        'exp': exp.text,
+                        'cvc': cvc.text,
+                      };
+
+                      var paymentMethod =
+                          await paymentService.createCard(cardData);
+
+                      if (paymentMethod != false) {
+                        var payment = await paymentService.createPayment();
+
+                        if (payment != false) {
+                          showDialog(
+                            context: context,
+                            child: AlertDialog(
+                              contentPadding: EdgeInsets.all(20.0),
+                              titlePadding: EdgeInsets.all(20.0),
+                              actionsPadding: EdgeInsets.all(20.0),
+                              title: Text(
+                                'Payment Request',
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat Bold',
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "You're going to make a payment to confirm your subscription to premium plan on AffirmedMe.",
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat Semibold',
+                                      fontSize: 13.0,
+                                    ),
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Text(
+                                    "Amount: \$9.99",
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat Bold',
+                                      fontSize: 15.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Cancel'),
+                                ),
+                                FlatButton(
+                                  onPressed: () async {
+                                    var confirmedPayment =
+                                        await paymentService.confirmPayment(
+                                            payment['payment_id'],
+                                            paymentMethod);
+
+                                    if (confirmedPayment != false) {
+                                      data.addAll({
+                                        'premium': true,
+                                        'card': cardData,
+                                        'payment': confirmedPayment['_id'],
+                                      });
+
+                                      Navigator.pop(context);
+                                      next();
+                                    } else {
+                                      helpers.alert(scaffoldKey,
+                                          "Unable to confirm your payment request, retry later.");
+                                    }
+                                  },
+                                  color: Colors.green[700],
+                                  textColor: Colors.white,
+                                  child: Text('Confirm Payment'),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          helpers.alert(scaffoldKey,
+                              "Unable to create payment request, retry later.");
+                        }
+                      } else {
+                        helpers.alert(scaffoldKey,
+                            "Unable to verify your card informations, retry later.");
+                      }
+                    }
                   },
                   padding: const EdgeInsets.symmetric(
                     horizontal: 50.0,
@@ -439,8 +559,9 @@ class _SignupScreenState extends State<PremiumSignup> {
       ),
     );
     Step confirmationStep = Step(
-      title: const Text('General'),
-      isActive: false,
+      title: const Text('Confirmation'),
+      isActive: currentStep == 2,
+      state: stepStates[2],
       content: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Form(
@@ -455,7 +576,7 @@ class _SignupScreenState extends State<PremiumSignup> {
               ),
               SizedBox(height: 30.0),
               Text(
-                'Email: emarc237@gmail.com',
+                "Email: ${data['email']}",
                 style: TextStyle(
                   fontFamily: 'Montserrat Bold',
                   fontSize: 15.0,
@@ -463,7 +584,7 @@ class _SignupScreenState extends State<PremiumSignup> {
               ),
               SizedBox(height: 10.0),
               Text(
-                'Name: Marc Enzo',
+                "Name: ${data['name']}",
                 style: TextStyle(
                   fontFamily: 'Montserrat Bold',
                   fontSize: 15.0,
@@ -471,7 +592,7 @@ class _SignupScreenState extends State<PremiumSignup> {
               ),
               SizedBox(height: 10.0),
               Text(
-                'Total Payment: \$69',
+                'Total Payment: \$9.99',
                 style: TextStyle(
                   fontFamily: 'Montserrat Bold',
                   fontSize: 15.0,
@@ -481,9 +602,17 @@ class _SignupScreenState extends State<PremiumSignup> {
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: RaisedButton(
-                  onPressed: () {
-                    Navigator.popAndPushNamed(context, '/dashboard',
-                        arguments: 'premium');
+                  onPressed: () async {
+                    await auth.register(data).then((res) {
+                      if (res == false) {
+                        helpers.alert(scaffoldKey,
+                            "An error occurred, unable to register.");
+                      }
+                    }).catchError((err) {
+                      print(err);
+                      helpers.alert(scaffoldKey,
+                          "An error occurred, unable to register.");
+                    });
                   },
                   padding: const EdgeInsets.symmetric(
                     horizontal: 50.0,
@@ -496,7 +625,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                   ),
                   color: Color(0xFFFE0000),
                   child: Text(
-                    'Confirm payment',
+                    'Create your account',
                     style: TextStyle(
                       fontFamily: 'Montserrat Medium',
                       fontSize: 15.0,
@@ -514,6 +643,7 @@ class _SignupScreenState extends State<PremiumSignup> {
     List<Step> steps = [generalStep, paymentStep, confirmationStep];
 
     return Scaffold(
+      key: scaffoldKey,
       body: SafeArea(
         child: Column(
           children: [
@@ -543,7 +673,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                           ),
                         ),
                         Text(
-                          '\$59',
+                          '\$9.99',
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Montserrat Bold',

@@ -19,6 +19,7 @@ void main() async {
     connected = await auth.check();
 
     if (connected) {
+      // load users params here
       await moduleService.getModules();
     }
   } catch (e) {
