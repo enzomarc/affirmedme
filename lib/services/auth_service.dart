@@ -19,12 +19,14 @@ class AuthService {
     sharedPreferences.clear();
     sharedPreferences.setString('token', token);
     sharedPreferences.setString('user', jsonEncode(user.toJson()));
+    sharedPreferences.setBool('firstLaunch', false);
   }
 
   /// Disconnect the logged user.
   Future<void> logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
+    sharedPreferences.setBool('firstLaunch', false);
 
     worker.navigatorKey.currentState.pushNamed('/login');
   }

@@ -175,9 +175,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       label: 'Help',
                       icon: Icons.info_outline,
                       callback: () {
-                        setState(() {
-                          currentScreen = screens[1];
-                        });
+                        Navigator.pushNamed(context, '/description');
                       },
                     ),
                     MenuButton(

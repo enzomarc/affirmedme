@@ -3,6 +3,7 @@ import 'package:kronosme/screens/contacts/add_contact.dart';
 import 'package:kronosme/screens/add_goal.dart';
 import 'package:kronosme/screens/contacts/contact_information.dart';
 import 'package:kronosme/screens/dashboard/container.dart';
+import 'package:kronosme/screens/description.dart';
 import 'package:kronosme/screens/learning.dart';
 import 'package:kronosme/screens/login.dart';
 import 'package:kronosme/screens/meals/add_meal.dart';
@@ -13,6 +14,7 @@ import 'package:kronosme/screens/signup/premium.dart';
 import 'package:kronosme/screens/welcome.dart';
 
 final Map<String, Widget Function(BuildContext)> routes = {
+  '/description': (context) => DescriptionPage(),
   '/welcome': (context) => WelcomeScreen(),
   '/package': (context) => PackageScreen(),
   '/signup': (context) => PremiumSignup(),

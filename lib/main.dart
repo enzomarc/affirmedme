@@ -11,6 +11,7 @@ import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/services/auth_service.dart';
 import 'package:kronosme/services/module_service.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -18,7 +19,16 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bool connected = false;
+  String defaultRoute = '/login';
 
+  // check if that's first launch
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  bool firstLaunch = true;
+
+  if (sharedPreferences.containsKey('firstLaunch'))
+    firstLaunch = sharedPreferences.getBool('firstLaunch');
+
+  // init push notifications settings
   var initSettingsAndroid = AndroidInitializationSettings('app_logo');
   var initSettingsIOS = IOSInitializationSettings(
     requestAlertPermission: true,
@@ -49,6 +59,13 @@ void main() async {
     print(e);
   }
 
+  if (firstLaunch) {
+    defaultRoute = '/description';
+    sharedPreferences.setBool('firstLaunch', false);
+  } else {
+    if (connected) defaultRoute = '/dashboard';
+  }
+
   runApp(
     MultiProvider(
       providers: [
@@ -74,7 +91,7 @@ void main() async {
           create: (_) => MealPlanProvider(),
         ),
       ],
-      child: Affirmed(connected ? '/dashboard' : '/login'),
+      child: Affirmed(defaultRoute),
     ),
   );
 }
