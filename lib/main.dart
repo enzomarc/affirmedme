@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:kronosme/core/affirmed.dart';
 import 'package:kronosme/providers/contact_provider.dart';
 import 'package:kronosme/providers/date_provider.dart';
@@ -11,9 +12,31 @@ import 'package:kronosme/services/auth_service.dart';
 import 'package:kronosme/services/module_service.dart';
 import 'package:provider/provider.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bool connected = false;
+
+  var initSettingsAndroid = AndroidInitializationSettings('app_logo');
+  var initSettingsIOS = IOSInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+    onDidReceiveLocalNotification: (id, title, body, payload) async {},
+  );
+  var initSettings = InitializationSettings(
+      android: initSettingsAndroid, iOS: initSettingsIOS);
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initSettings,
+    onSelectNotification: (payload) async {
+      if (payload != null) {
+        debugPrint("Notification payload: $payload");
+      }
+    },
+  );
 
   try {
     connected = await auth.check();

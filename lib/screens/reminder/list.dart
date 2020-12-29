@@ -142,8 +142,7 @@ class _ListScreenState extends State<ReminderScreen> {
                                     size: 20.0,
                                   ),
                                   Text(
-                                    "${scheduledAt.year}/${scheduledAt.month}/${scheduledAt.day}" ??
-                                        'Choose date and time',
+                                    'Choose date and time',
                                     style: TextStyle(
                                       color: Color(0xFFFE0000),
                                     ),

@@ -104,59 +104,64 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    MenuButton(
-                      label: 'Contacts',
-                      icon: Icons.person_add,
-                      callback: () {
-                        setState(() {
-                          currentScreen = screens[2];
-                        });
+                    if (type == 'premium')
+                      MenuButton(
+                        label: 'Contacts',
+                        icon: Icons.person_add,
+                        callback: () {
+                          setState(() {
+                            currentScreen = screens[2];
+                          });
 
-                        Navigator.pop(context);
-                      },
-                    ),
-                    MenuButton(
-                      label: 'Important Dates',
-                      icon: Icons.calendar_today,
-                      callback: () {
-                        setState(() {
-                          currentScreen = screens[3];
-                        });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    if (type == 'premium')
+                      MenuButton(
+                        label: 'Important Dates',
+                        icon: Icons.calendar_today,
+                        callback: () {
+                          setState(() {
+                            currentScreen = screens[3];
+                          });
 
-                        Navigator.pop(context);
-                      },
-                    ),
-                    MenuButton(
-                      label: 'Meal Plans',
-                      icon: Icons.mic,
-                      callback: () {
-                        setState(() {
-                          currentScreen = screens[4];
-                        });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    if (type == 'premium')
+                      MenuButton(
+                        label: 'Meal Plans',
+                        icon: Icons.mic,
+                        callback: () {
+                          setState(() {
+                            currentScreen = screens[4];
+                          });
 
-                        Navigator.pop(context);
-                      },
-                    ),
-                    MenuButton(
-                      label: 'Podcasts',
-                      icon: Icons.mic,
-                      callback: () {
-                        setState(() {
-                          currentScreen = screens[5];
-                        });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    if (type == 'premium')
+                      MenuButton(
+                        label: 'Podcasts',
+                        icon: Icons.mic,
+                        callback: () {
+                          setState(() {
+                            currentScreen = screens[5];
+                          });
 
-                        Navigator.pop(context);
-                      },
-                    ),
-                    MenuButton(
-                      label: 'Upgrade to Premium',
-                      icon: Icons.star,
-                      callback: () {
-                        setState(() {
-                          currentScreen = screens[1];
-                        });
-                      },
-                    ),
+                          Navigator.pop(context);
+                        },
+                      ),
+                    if (type == 'basic')
+                      MenuButton(
+                        label: 'Upgrade to Premium',
+                        icon: Icons.star,
+                        callback: () {
+                          setState(() {
+                            currentScreen = screens[1];
+                          });
+                        },
+                      ),
                     MenuButton(
                       label: 'Donate',
                       icon: Icons.bookmark,
