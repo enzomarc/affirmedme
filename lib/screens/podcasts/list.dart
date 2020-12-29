@@ -146,7 +146,9 @@ class PodcastWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        Navigator.pushNamed(context, '/podcasts/player', arguments: podcast);
+      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 200.0,

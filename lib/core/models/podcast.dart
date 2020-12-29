@@ -40,6 +40,7 @@ class Podcast {
   }
 
   String audio() {
+    print("${Constants.host}${this.path}");
     return Constants.host + this.path;
   }
 }
