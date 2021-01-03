@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/providers/goal_provider.dart';
+import 'package:kronosme/providers/module_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/screens/contacts/contact.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
@@ -9,9 +10,9 @@ import 'package:kronosme/screens/meals/list.dart';
 import 'package:kronosme/screens/reminder/list.dart';
 import 'package:kronosme/screens/podcasts/list.dart';
 import 'package:kronosme/services/auth_service.dart';
-import 'package:kronosme/services/module_service.dart';
 import 'package:kronosme/widgets/menu_button.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -35,11 +36,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void loadInfo() async {
-    await moduleService.getModules();
+    final moduleProvider = Provider.of<ModuleProvider>(context, listen: false);
     final goalProvider = Provider.of<GoalProvider>(context, listen: false);
     final reminderProvider =
         Provider.of<ReminderProvider>(context, listen: false);
 
+    moduleProvider.getModules();
     goalProvider.getGoals();
     reminderProvider.getReminders();
   }
@@ -62,6 +64,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         statusBarColor: Colors.white,
       ),
     );
+
+    int paramScreen = ModalRoute.of(context).settings.arguments;
+    if (paramScreen != null) currentScreen = screens[paramScreen];
 
     return SafeArea(
       child: Scaffold(
@@ -131,7 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     if (type == 'premium')
                       MenuButton(
                         label: 'Meal Plans',
-                        icon: Icons.mic,
+                        icon: Icons.shopping_basket,
                         callback: () {
                           setState(() {
                             currentScreen = screens[4];
@@ -165,14 +170,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     MenuButton(
                       label: 'Donate',
                       icon: Icons.bookmark,
-                      callback: () {
-                        setState(() {
-                          currentScreen = screens[1];
-                        });
+                      callback: () async {
+                        const url = 'https://www.affirmedme.com';
+                        if (await canLaunch(url)) await launch(url);
                       },
                     ),
                     MenuButton(
-                      label: 'Help',
+                      label: 'About us',
                       icon: Icons.info_outline,
                       callback: () {
                         Navigator.pushNamed(context, '/description');

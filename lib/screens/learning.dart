@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kronosme/core/models/goal.dart';
 import 'package:kronosme/core/models/module.dart';
 import 'package:kronosme/core/models/step.dart' as Model;
 import 'package:kronosme/core/utils/helpers.dart';
+import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/services/module_service.dart';
 import 'package:kronosme/services/reminder_service.dart';
+import 'package:provider/provider.dart';
 
 class LearningScreen extends StatefulWidget {
   @override
@@ -20,12 +23,14 @@ class _LearningScreenState extends State<LearningScreen> {
   Widget build(BuildContext context) {
     moduleService.getModules();
 
-    String title = (ModalRoute.of(context).settings.arguments as String);
-    String moduleTitle =
-        (ModalRoute.of(context).settings.arguments as String).toLowerCase();
+    Map<String, dynamic> params = ModalRoute.of(context).settings.arguments;
+    String title = params['module'];
+    String moduleTitle = params['module'].toString().toLowerCase();
     Module module = moduleService.modules
         .firstWhere((element) => element.title.toLowerCase() == moduleTitle);
     items = module.steps;
+    String btnTitle = params['btnTitle'];
+    Function btnFunc = params['btnFunc'];
 
     return SafeArea(
       child: Scaffold(
@@ -101,6 +106,31 @@ class _LearningScreenState extends State<LearningScreen> {
                   },
                 ),
               ),
+              if (btnFunc != null)
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 20.0,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      RaisedButton(
+                        onPressed: btnFunc,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 5.0,
+                        ),
+                        color: Color(0xFFFE0000),
+                        child: Text(
+                          btnTitle ?? 'Add Meal Plan',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
             ],
           ),
         ),
@@ -218,61 +248,143 @@ class _SubItemState extends State<SubItem> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
+                    DateTime scheduledAt = DateTime.now();
+                    TextEditingController titleController =
+                        TextEditingController(text: widget.goal.title);
+                    TextEditingController groupController =
+                        TextEditingController(text: widget.moduleTitle);
+
                     showDialog(
                       context: context,
                       child: SimpleDialog(
-                        title: Text('Reminder'),
-                        contentPadding: EdgeInsets.all(20.0),
+                        title: Text('Add Reminder'),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 20.0),
                         children: <Widget>[
-                          Text(
-                            'Add this item to reminder?',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat Medium',
-                              fontSize: 14.0,
+                          TextFormField(
+                            controller: titleController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: 'Title',
+                              hintStyle: TextStyle(
+                                color: Colors.grey.withOpacity(0.8),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 15.0),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000),
+                                ),
+                              ),
                             ),
                           ),
                           SizedBox(height: 10.0),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: RaisedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('Cancel'),
+                          TextFormField(
+                            controller: groupController,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: 'Group',
+                              hintStyle: TextStyle(
+                                color: Colors.grey.withOpacity(0.8),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 15.0),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
                                 ),
                               ),
-                              Expanded(
-                                child: RaisedButton(
-                                  onPressed: () async {
-                                    Map<String, dynamic> data = {
-                                      'content': widget.goal.title,
-                                      'group': widget.moduleTitle,
-                                      'at': DateTime.now()
-                                          .add(Duration(days: 1))
-                                          .toString(),
-                                    };
-
-                                    await reminderService
-                                        .storeReminder(data)
-                                        .then(
-                                      (value) {
-                                        if (value) {
-                                          helpers.alert(scaffoldKey,
-                                              "Item added to the reminder successfully.");
-                                        } else {
-                                          helpers.alert(scaffoldKey,
-                                              "Unable to add this item to reminder.");
-                                        }
-
-                                        Navigator.pop(context);
-                                      },
-                                    );
-                                  },
-                                  child: Text('Add to reminder'),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000).withOpacity(0.4),
                                 ),
                               ),
-                            ],
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1.0,
+                                  color: Color(0xFFFE0000),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10.0),
+                          RaisedButton(
+                            onPressed: () {
+                              DatePicker.showDateTimePicker(
+                                context,
+                                showTitleActions: true,
+                                minTime: DateTime.now(),
+                                currentTime: scheduledAt ??
+                                    DateTime.now().add(Duration(days: 1)),
+                                onChanged: (time) {
+                                  scheduledAt = time;
+                                },
+                              );
+                            },
+                            color: Colors.white,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.date_range,
+                                  color: Color(0xFFFE0000),
+                                  size: 20.0,
+                                ),
+                                Text(
+                                  'Choose date and time',
+                                  style: TextStyle(
+                                    color: Color(0xFFFE0000),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 20.0),
+                          RaisedButton(
+                            onPressed: () async {
+                              if (titleController.text.isNotEmpty) {
+                                Map<String, dynamic> data = {
+                                  'content': titleController.text,
+                                  'group': groupController.text.toLowerCase() ??
+                                      'all',
+                                  'at': scheduledAt.toString(),
+                                };
+
+                                await reminderService
+                                    .storeReminder(data)
+                                    .then((saved) {
+                                  if (saved) {
+                                    Navigator.of(context).pop();
+                                    helpers.alert(scaffoldKey,
+                                        "Task added successfully.");
+                                  } else {
+                                    helpers.alert(scaffoldKey,
+                                        "Unable to save this reminder.");
+                                  }
+                                });
+                              } else
+                                helpers.alert(scaffoldKey, "Title is missing.");
+                            },
+                            color: Color(0xFFFE0000),
+                            child: Text(
+                              'Save',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ],
                       ),

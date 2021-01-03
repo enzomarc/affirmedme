@@ -16,7 +16,7 @@ class Affirmed extends StatelessWidget {
       initialRoute: defaultRoute,
       theme: ThemeData(
         primaryColor: Color(0xFFFE0000),
-        primarySwatch: Colors.white,
+        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,

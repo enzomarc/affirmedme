@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kronosme/providers/goal_provider.dart';
-import 'package:kronosme/services/module_service.dart';
+import 'package:kronosme/providers/module_provider.dart';
 import 'package:kronosme/widgets/goal.dart';
 import 'package:kronosme/core/models/module.dart';
 import 'package:kronosme/widgets/module.dart' as Mod;
@@ -11,7 +11,6 @@ class DashboardHome extends StatefulWidget {
   _DashboardHomeState createState() => _DashboardHomeState();
 }
 
-List<Module> modules = moduleService.modules;
 final List<String> goals = [
   'Mindset',
   'Character',
@@ -50,17 +49,53 @@ class _DashboardHomeState extends State<DashboardHome> {
                 Container(
                   height: 130.0,
                   width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: modules.length,
-                    itemBuilder: (context, index) {
-                      return Mod.Module(
-                        title: modules[index].title,
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/learning',
-                            arguments: modules[index].title,
+                  child: Consumer<ModuleProvider>(
+                    builder: (context, value, child) {
+                      List<Module> modules = value.modules;
+
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: modules.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> params = {
+                            'module': modules[index].title,
+                          };
+
+                          if (modules[index].title.contains('EAT WELL')) {
+                            params.addAll({
+                              'btnTitle': 'Add Meal',
+                              'btnFunc': () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/dashboard',
+                                  arguments: 4,
+                                );
+                              },
+                            });
+                          } else if (modules[index]
+                              .title
+                              .contains('MANAGE YOUR')) {
+                            params.addAll({
+                              'btnTitle': 'Manage Contacts',
+                              'btnFunc': () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/dashboard',
+                                  arguments: 2,
+                                );
+                              }
+                            });
+                          }
+
+                          return Mod.Module(
+                            title: modules[index].title,
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/learning',
+                                arguments: params,
+                              );
+                            },
                           );
                         },
                       );

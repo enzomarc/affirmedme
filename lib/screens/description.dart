@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kronosme/services/auth_service.dart';
 
 class DescriptionPage extends StatefulWidget {
   @override
@@ -39,9 +40,13 @@ class _DescriptionPageState extends State<DescriptionPage> {
                     Icons.skip_next,
                     color: Color(0xFFFE0000),
                   ),
-                  onPressed: () {
-                    print('Something');
-                    Navigator.pushNamed(context, '/podcast');
+                  onPressed: () async {
+                    bool connected = await auth.check();
+
+                    if (!connected)
+                      Navigator.pushNamed(context, '/login');
+                    else
+                      Navigator.pop(context);
                   },
                 ),
                 title: Text(
