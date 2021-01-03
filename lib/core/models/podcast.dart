@@ -35,12 +35,11 @@ class Podcast {
     return data;
   }
 
-  String hero() {
-    return Constants.host + this.image;
+  String artwork() {
+    return "${Constants.host}${this.image}";
   }
 
   String audio() {
-    print("${Constants.host}${this.path}");
-    return Constants.host + this.path;
+    return "${Constants.host}${this.path}";
   }
 }

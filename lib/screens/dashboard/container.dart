@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
+import 'package:kronosme/providers/podcast_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/screens/contacts/contact.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
 import 'package:kronosme/screens/dates/list.dart';
 import 'package:kronosme/screens/meals/list.dart';
+import 'package:kronosme/screens/podcasts/player.dart';
 import 'package:kronosme/screens/reminder/list.dart';
-import 'package:kronosme/screens/podcasts/list.dart';
+// import 'package:kronosme/screens/podcasts/list.dart';
 import 'package:kronosme/services/auth_service.dart';
 import 'package:kronosme/widgets/menu_button.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ContactScreen(),
     DateScreen(),
     MealScreen(),
-    PlayerExample(),//Podcasts(),
+    PodcastPlayer(), //Podcasts(),
   ];
 
   Widget currentScreen;
@@ -38,12 +40,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void loadInfo() async {
     final moduleProvider = Provider.of<ModuleProvider>(context, listen: false);
     final goalProvider = Provider.of<GoalProvider>(context, listen: false);
+    final podcastProvider =
+        Provider.of<PodcastProvider>(context, listen: false);
     final reminderProvider =
         Provider.of<ReminderProvider>(context, listen: false);
 
+    // load items here
     moduleProvider.getModules();
     goalProvider.getGoals();
     reminderProvider.getReminders();
+    podcastProvider.getPodcasts();
   }
 
   @override
@@ -109,18 +115,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    if (type == 'premium')
-                      MenuButton(
-                        label: 'Contacts',
-                        icon: Icons.person_add,
-                        callback: () {
-                          setState(() {
-                            currentScreen = screens[2];
-                          });
+                    MenuButton(
+                      label: 'Contacts',
+                      icon: Icons.person_add,
+                      callback: () {
+                        setState(() {
+                          currentScreen = screens[2];
+                        });
 
-                          Navigator.pop(context);
-                        },
-                      ),
+                        Navigator.pop(context);
+                      },
+                    ),
                     if (type == 'premium')
                       MenuButton(
                         label: 'Important Dates',

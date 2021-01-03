@@ -8,7 +8,6 @@ import 'package:kronosme/screens/learning.dart';
 import 'package:kronosme/screens/login.dart';
 import 'package:kronosme/screens/meals/add_meal.dart';
 import 'package:kronosme/screens/package.dart';
-import 'package:kronosme/screens/podcasts/old_player.dart';
 import 'package:kronosme/screens/signup/basic.dart';
 import 'package:kronosme/screens/signup/premium.dart';
 import 'package:kronosme/screens/welcome.dart';
@@ -26,5 +25,4 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/dashboard': (context) => DashboardScreen(),
   '/learning': (context) => LearningScreen(),
   '/goals/add': (context) => AddGoalScreen(),
-  '/podcasts/player': (context) => PodcastPlayer(),
 };

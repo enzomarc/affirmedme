@@ -1,65 +1,64 @@
 import 'dart:math';
-
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:kronosme/services/podcast_service.dart';
+import 'package:kronosme/core/models/podcast.dart';
+import 'package:kronosme/providers/podcast_provider.dart';
 import 'package:kronosme/services/auth_service.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
-
-class PlayerExample extends StatefulWidget {
+class PodcastPlayer extends StatefulWidget {
   @override
   PlayerExampleState createState() => PlayerExampleState();
 }
 
-class PlayerExampleState extends State<PlayerExample> {
+class PlayerExampleState extends State<PodcastPlayer> {
   String token;
   AudioPlayer _player;
   List<Podcast> podcasts = [];
-  podcastService.getPodcasts().then((value) {
-    podcasts = value;
-  }).catchError((error) {
-    print(error);
-  });
-
   List<AudioSource> audioStreams = [];
-
-  for(Podcast podcast in podcasts){
-    audioStreams.add(
-      AudioSource.uri(
-        Uri.parse(podcast.audio()),
-        tag: AudioMetadata(
-          album: "Affirmed Me Podcast",
-          title: podcast.title,
-          artwork: podcast.image,
-        ),
-      )
-    );
-  }
 
   @override
   void initState() {
     super.initState();
-    token="";
+
+    final podcastProvider =
+        Provider.of<PodcastProvider>(context, listen: false);
+    podcasts = podcastProvider.podcasts;
+
+    print(podcasts.length);
+
+    for (Podcast podcast in podcasts) {
+      audioStreams.add(AudioSource.uri(
+        Uri.parse(podcast.audio()),
+        tag: AudioMetadata(
+          album: "Affirmed Me Podcast",
+          title: podcast.title,
+          artwork: podcast.artwork(),
+        ),
+      ));
+    }
+
+    print(podcasts.length);
+
+    token = "";
     _player = AudioPlayer();
-    ConcatenatingAudioSource _playlist = ConcatenatingAudioSource(children: audioStreams);
+    ConcatenatingAudioSource _playlist =
+        ConcatenatingAudioSource(children: audioStreams);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.black,
     ));
-    _init();
+    _init(_playlist);
   }
 
-  _init() async {
+  _init(AudioSource source) async {
     final session = await AudioSession.instance;
     await session.configure(AudioSessionConfiguration.speech());
     token = await auth.token();
     try {
-      await _player.setAudioSource(_playlist,
-    headers: {'Authorization': token});
+      await _player.setAudioSource(source);
     } catch (e) {
-      // catch load errors: 404, invalid url ...
       print("An error occured $e");
     }
   }
@@ -239,56 +238,43 @@ class ControlButtons extends StatelessWidget {
             );
           },
         ),
-        StreamBuilder<SequenceState>(
-          stream: player.sequenceStateStream,
-          builder: (context, snapshot) => IconButton(
-            icon: Icon(Icons.skip_previous),
-            onPressed: player.hasPrevious ? player.seekToPrevious : null,
+        if (player.playerStateStream != null)
+          StreamBuilder<PlayerState>(
+            stream: player.playerStateStream,
+            builder: (context, snapshot) {
+              final playerState = snapshot.data;
+              final processingState = playerState?.processingState;
+              final playing = playerState?.playing;
+              if (processingState == ProcessingState.loading ||
+                  processingState == ProcessingState.buffering) {
+                return Container(
+                  margin: EdgeInsets.all(8.0),
+                  width: 64.0,
+                  height: 64.0,
+                  child: CircularProgressIndicator(),
+                );
+              } else if (playing != true) {
+                return IconButton(
+                  icon: Icon(Icons.play_arrow),
+                  iconSize: 64.0,
+                  onPressed: player.play,
+                );
+              } else if (processingState != ProcessingState.completed) {
+                return IconButton(
+                  icon: Icon(Icons.pause),
+                  iconSize: 64.0,
+                  onPressed: player.pause,
+                );
+              } else {
+                return IconButton(
+                  icon: Icon(Icons.replay),
+                  iconSize: 64.0,
+                  onPressed: () => player.seek(Duration.zero,
+                      index: player.effectiveIndices.first),
+                );
+              }
+            },
           ),
-        ),
-        StreamBuilder<PlayerState>(
-          stream: player.playerStateStream,
-          builder: (context, snapshot) {
-            final playerState = snapshot.data;
-            final processingState = playerState?.processingState;
-            final playing = playerState?.playing;
-            if (processingState == ProcessingState.loading ||
-                processingState == ProcessingState.buffering) {
-              return Container(
-                margin: EdgeInsets.all(8.0),
-                width: 64.0,
-                height: 64.0,
-                child: CircularProgressIndicator(),
-              );
-            } else if (playing != true) {
-              return IconButton(
-                icon: Icon(Icons.play_arrow),
-                iconSize: 64.0,
-                onPressed: player.play,
-              );
-            } else if (processingState != ProcessingState.completed) {
-              return IconButton(
-                icon: Icon(Icons.pause),
-                iconSize: 64.0,
-                onPressed: player.pause,
-              );
-            } else {
-              return IconButton(
-                icon: Icon(Icons.replay),
-                iconSize: 64.0,
-                onPressed: () => player.seek(Duration.zero,
-                    index: player.effectiveIndices.first),
-              );
-            }
-          },
-        ),
-        StreamBuilder<SequenceState>(
-          stream: player.sequenceStateStream,
-          builder: (context, snapshot) => IconButton(
-            icon: Icon(Icons.skip_next),
-            onPressed: player.hasNext ? player.seekToNext : null,
-          ),
-        ),
         StreamBuilder<double>(
           stream: player.speedStream,
           builder: (context, snapshot) => IconButton(

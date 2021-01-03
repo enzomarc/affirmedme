@@ -31,7 +31,16 @@ class WelcomeScreen extends StatelessWidget {
               fit: BoxFit.contain,
               scale: 12.0,
             ),
-            SizedBox(height: 150.0),
+            SizedBox(height: 50.0),
+            Text(
+              "Writing your GOALS and IDEAS and ACTIONING them. The chances of you completing your GOALS them up significantly if you write it down.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: 'Montserrat Semibold',
+                fontSize: 11.0,
+              ),
+            ),
+            SizedBox(height: 100.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
