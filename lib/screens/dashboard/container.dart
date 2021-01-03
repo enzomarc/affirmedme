@@ -26,7 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ContactScreen(),
     DateScreen(),
     MealScreen(),
-    Podcasts(),
+    PlayerExample(),//Podcasts(),
   ];
 
   Widget currentScreen;
