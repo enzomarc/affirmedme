@@ -20,16 +20,14 @@ class _AddContactPageState extends State<AddContactPage> {
     TextEditingController lastName = TextEditingController();
     TextEditingController mail = TextEditingController();
     TextEditingController phone = TextEditingController();
-    final contactProvider =
-        Provider.of<ContactProvider>(context, listen: false);
+    final contactProvider = Provider.of<ContactProvider>(context, listen: false);
 
     return Scaffold(
       key: scaffoldKey,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.only(
-                top: 10.0, left: 20.0, right: 20.0, bottom: 10.0),
+            padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -60,9 +58,7 @@ class _AddContactPageState extends State<AddContactPage> {
                         ),
                         FlatButton(
                           onPressed: () async {
-                            if (mail.text.isNotEmpty &&
-                                firstName.text.isNotEmpty &&
-                                selectedType != 'Account Type') {
+                            if (mail.text.isNotEmpty && firstName.text.isNotEmpty && selectedType != 'Account Type') {
                               Map<String, dynamic> data = {
                                 'first_name': firstName.text,
                                 'last_name': lastName.text,
@@ -70,25 +66,20 @@ class _AddContactPageState extends State<AddContactPage> {
                                 'phone': phone.text,
                                 'type': selectedType.toLowerCase(),
                               };
-                              await contactService
-                                  .storeContact(data)
-                                  .then((saved) {
+                              await contactService.storeContact(data).then((saved) {
                                 if (saved) {
                                   firstName.text = "";
                                   lastName.text = "";
                                   mail.text = "";
 
                                   contactProvider.getContacts();
-                                  helpers.alert(scaffoldKey,
-                                      "Contact added successfully.");
+                                  helpers.alert(scaffoldKey, "Contact added successfully.");
                                 } else {
-                                  helpers.alert(
-                                      scaffoldKey, "Unable to add contact.");
+                                  helpers.alert(scaffoldKey, "Unable to add contact.");
                                 }
                               });
                             } else {
-                              helpers.alert(scaffoldKey,
-                                  "First name, email and account type are required.");
+                              helpers.alert(scaffoldKey, "First name, email and account type are required.");
                             }
                           },
                           child: Text(
@@ -137,10 +128,7 @@ class _AddContactPageState extends State<AddContactPage> {
                     DropdownButton(
                       underline: Container(),
                       isExpanded: true,
-                      style: TextStyle(
-                          fontFamily: 'Montserrat Bold',
-                          fontSize: 10.0,
-                          color: Colors.black),
+                      style: TextStyle(fontFamily: 'Montserrat Bold', fontSize: 10.0, color: Colors.black),
                       value: selectedType,
                       items: types
                           .map(
@@ -180,7 +168,9 @@ class _AddContactPageState extends State<AddContactPage> {
                         color: Color(0xFFFFFFFF),
                       ),
                       RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/scan');
+                        },
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0),
                         ),

@@ -7,9 +7,12 @@ import 'package:kronosme/screens/description.dart';
 import 'package:kronosme/screens/learning.dart';
 import 'package:kronosme/screens/login.dart';
 import 'package:kronosme/screens/meals/add_meal.dart';
+import 'package:kronosme/screens/meals/show.dart';
 import 'package:kronosme/screens/package.dart';
+import 'package:kronosme/screens/scanCard.dart';
 import 'package:kronosme/screens/signup/basic.dart';
 import 'package:kronosme/screens/signup/premium.dart';
+import 'package:kronosme/screens/upgrade.dart';
 import 'package:kronosme/screens/welcome.dart';
 
 final Map<String, Widget Function(BuildContext)> routes = {
@@ -20,9 +23,12 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/contacts/add': (context) => AddContactPage(),
   '/contacts/info': (context) => ContactInformationPage(),
   '/meals/add': (context) => AddMealScreen(),
+  '/meals/show': (context) => ShowMealScreen(),
   '/basic_signup': (context) => BasicSignUp(),
   '/login': (context) => LoginPage(),
   '/dashboard': (context) => DashboardScreen(),
   '/learning': (context) => LearningScreen(),
   '/goals/add': (context) => AddGoalScreen(),
+  '/upgrade': (context) => UpgradePage(),
+  '/scan': (context) => ScanCard(),
 };
