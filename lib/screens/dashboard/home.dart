@@ -61,40 +61,46 @@ class _DashboardHomeState extends State<DashboardHome> {
                             'module': modules[index].title,
                           };
 
-                          if (modules[index].title.contains('EAT WELL')) {
-                            params.addAll({
-                              'btnTitle': 'Add Meal',
-                              'btnFunc': () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/dashboard',
-                                  arguments: 4,
-                                );
-                              },
-                            });
-                          } else if (modules[index]
-                              .title
-                              .contains('MANAGE YOUR')) {
-                            params.addAll({
-                              'btnTitle': 'Manage Contacts',
-                              'btnFunc': () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/dashboard',
-                                  arguments: 2,
-                                );
-                              }
-                            });
-                          }
+                          // if (modules[index].title.contains('EAT WELL')) {
+                          //   params.addAll({
+                          //     'btnTitle': 'Add Meal',
+                          //     'btnFunc': () {
+                          //       Navigator.pushNamed(
+                          //         context,
+                          //         '/dashboard',
+                          //         arguments: 4,
+                          //       );
+                          //     },
+                          //   });
+                          // } else if (modules[index].title.contains('MANAGE YOUR')) {
+                          //   params.addAll({
+                          //     'btnTitle': 'Manage Contacts',
+                          //     'btnFunc': () {
+                          //       Navigator.pushNamed(
+                          //         context,
+                          //         '/dashboard',
+                          //         arguments: 2,
+                          //       );
+                          //     }
+                          //   });
+                          // }
 
                           return Mod.Module(
                             title: modules[index].title,
                             onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/learning',
-                                arguments: params,
-                              );
+                              if (modules[index].title.toLowerCase().contains('EAT WELL')) {
+                                Navigator.pushNamed(context, '/dashboard', arguments: 4);
+                              } else if (modules[index].title.toLowerCase().contains('MANAGE YOUR')) {
+                                Navigator.pushNamed(context, '/dashboard', arguments: 2);
+                              } else if (modules[index].title.toLowerCase().contains('REMEMBER')) {
+                                Navigator.pushNamed(context, '/dashboard', arguments: 3);
+                              } else {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/learning',
+                                  arguments: params,
+                                );
+                              }
                             },
                           );
                         },
@@ -119,11 +125,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                         itemBuilder: (context, index) {
                           return Goal(
                             title: goals[index],
-                            count: value.goals
-                                .where((e) =>
-                                    e.objective.toLowerCase() ==
-                                    goals[index].toLowerCase())
-                                .length,
+                            count: value.goals.where((e) => e.objective.toLowerCase() == goals[index].toLowerCase()).length,
                           );
                         },
                       );
@@ -166,8 +168,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                     color: Color(0XFF1789FC),
                     borderRadius: BorderRadius.circular(4.0),
                   ),
-                  padding:
-                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
                   margin: EdgeInsets.only(bottom: 20.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -439,7 +439,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                     if (cardNumber.text.isEmpty ||
                         exp.text.isEmpty ||
                         cvc.text.isEmpty) {
-                      helpers.alert(scaffoldKey, cvc.text);
+                      helpers.alert(scaffoldKey, "All fields are required.");
                     } else {
                       Map<String, dynamic> cardData = {
                         'number': cardNumber.text,
@@ -516,7 +516,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                                           "Unable to confirm your payment request, retry later.");
                                     }
                                   },
-                                  color: Colors.green[700],
+                                  color: Colors.green[600],
                                   textColor: Colors.white,
                                   child: Text('Confirm Payment'),
                                 ),

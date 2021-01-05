@@ -40,10 +40,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void loadInfo() async {
     final moduleProvider = Provider.of<ModuleProvider>(context, listen: false);
     final goalProvider = Provider.of<GoalProvider>(context, listen: false);
-    final podcastProvider =
-        Provider.of<PodcastProvider>(context, listen: false);
-    final reminderProvider =
-        Provider.of<ReminderProvider>(context, listen: false);
+    final podcastProvider = Provider.of<PodcastProvider>(context, listen: false);
+    final reminderProvider = Provider.of<ReminderProvider>(context, listen: false);
 
     // load items here
     moduleProvider.getModules();
@@ -115,41 +113,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Navigator.pop(context);
                       },
                     ),
-                    MenuButton(
-                      label: 'Contacts',
-                      icon: Icons.person_add,
-                      callback: () {
-                        setState(() {
-                          currentScreen = screens[2];
-                        });
-
-                        Navigator.pop(context);
-                      },
-                    ),
-                    if (type == 'premium')
-                      MenuButton(
-                        label: 'Important Dates',
-                        icon: Icons.calendar_today,
-                        callback: () {
-                          setState(() {
-                            currentScreen = screens[3];
-                          });
-
-                          Navigator.pop(context);
-                        },
-                      ),
-                    if (type == 'premium')
-                      MenuButton(
-                        label: 'Meal Plans',
-                        icon: Icons.shopping_basket,
-                        callback: () {
-                          setState(() {
-                            currentScreen = screens[4];
-                          });
-
-                          Navigator.pop(context);
-                        },
-                      ),
                     if (type == 'premium')
                       MenuButton(
                         label: 'Podcasts',

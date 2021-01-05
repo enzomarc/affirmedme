@@ -10,7 +10,7 @@ class AuthService {
 
   /// Authentify an `user` with his `token`
   /// for next requests to API.
-  Future<void> _auth(String token, User user) async {
+  Future _auth(String token, User user) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     username = user.name;
@@ -23,7 +23,7 @@ class AuthService {
   }
 
   /// Disconnect the logged user.
-  Future<void> logout() async {
+  Future logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.clear();
     sharedPreferences.setBool('firstLaunch', false);
@@ -35,8 +35,7 @@ class AuthService {
   /// send request to backend to check if logged in token is correct.
   Future<bool> check() async {
     try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       String token = sharedPreferences.getString('token');
       bool connected = false;
       if (token == null) return false;
@@ -65,10 +64,9 @@ class AuthService {
 
   /// Return the logged user or `false`
   /// if there's no logged in user.
-  Future<dynamic> user() async {
+  Future user() async {
     try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       String json = sharedPreferences.getString('user');
 
       if (json.isNotEmpty) {
@@ -86,21 +84,20 @@ class AuthService {
   }
 
   /// Return the `token` of the logged `user`
-  Future<String> token() async {
+  Future token() async {
     try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       String token = sharedPreferences.getString('token');
 
       return token;
     } catch (e) {
       print(e);
-      return '';
+      return false;
     }
   }
 
   /// Log in user using given `email` and `password`.
-  Future<dynamic> login(String email, String password) async {
+  Future login(String email, String password) async {
     try {
       Map<String, dynamic> credentials = {'email': email, 'password': password};
       Response response = await worker.post("/login", params: credentials);
@@ -124,7 +121,7 @@ class AuthService {
   /// Register user with given `data`.
   /// Set `data['premium'] = true` and user
   /// `data['card']` info if you want registration to be premium.
-  Future<dynamic> register(Map<String, dynamic> data) async {
+  Future register(Map<String, dynamic> data) async {
     try {
       Response response = await worker.post("/register", params: data);
 
@@ -142,6 +139,19 @@ class AuthService {
         }
       }
     } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  /// Upgrade logged user plan to premium.
+  Future upgradeAccount(Map<String, dynamic> card, String payment) async {
+    try {
+      User user = await this.user();
+      Response response = await worker.post("/users/${user.id}/upgrade", params: {'payment': payment, 'card': card});
+
+      return response.statusCode == 200;
+    } on DioError catch (e) {
       print(e);
       return false;
     }
