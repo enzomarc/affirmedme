@@ -102,8 +102,7 @@ class MealWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MealPlanProvider mealPlanProvider =
-        Provider.of<MealPlanProvider>(context, listen: false);
+    MealPlanProvider mealPlanProvider = Provider.of<MealPlanProvider>(context, listen: false);
 
     return Dismissible(
       key: Key(meal.id.toString()),
@@ -130,55 +129,60 @@ class MealWidget extends StatelessWidget {
           ),
         ),
       ),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 10.0,
-          vertical: 10.0,
-        ),
-        width: double.infinity,
-        margin: EdgeInsets.only(
-          bottom: 5.0,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.4),
-              blurRadius: 2.0,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              meal.title ?? 'Meal label',
-              style: TextStyle(
-                fontFamily: 'Montserrat Semibold',
-                fontSize: 13.0,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/meals/show', arguments: meal);
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 10.0,
+            vertical: 10.0,
+          ),
+          width: double.infinity,
+          margin: EdgeInsets.only(
+            bottom: 5.0,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.4),
+                blurRadius: 2.0,
               ),
-            ),
-            SizedBox(height: 10.0),
-            Row(
-              children: <Widget>[
-                Icon(
-                  Icons.list,
-                  color: Color(0xFFFE0000),
-                  size: 12.0,
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                meal.title ?? 'Meal label',
+                style: TextStyle(
+                  fontFamily: 'Montserrat Semibold',
+                  fontSize: 13.0,
                 ),
-                SizedBox(width: 5.0),
-                Text(
-                  "${meal.meals.length} meals" ?? '0 meal',
-                  style: TextStyle(
+              ),
+              SizedBox(height: 10.0),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.list,
                     color: Color(0xFFFE0000),
-                    fontFamily: 'Montserrat Medium',
-                    fontSize: 11.0,
+                    size: 12.0,
                   ),
-                ),
-              ],
-            ),
-          ],
+                  SizedBox(width: 5.0),
+                  Text(
+                    "${meal.meals.length} meals" ?? '0 meal',
+                    style: TextStyle(
+                      color: Color(0xFFFE0000),
+                      fontFamily: 'Montserrat Medium',
+                      fontSize: 11.0,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

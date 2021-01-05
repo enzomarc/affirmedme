@@ -130,9 +130,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         label: 'Upgrade to Premium',
                         icon: Icons.star,
                         callback: () {
-                          setState(() {
-                            currentScreen = screens[1];
-                          });
+                          Navigator.pushNamed(context, '/upgrade');
                         },
                       ),
                     MenuButton(
