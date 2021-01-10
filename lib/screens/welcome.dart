@@ -32,12 +32,15 @@ class WelcomeScreen extends StatelessWidget {
               scale: 12.0,
             ),
             SizedBox(height: 50.0),
-            Text(
-              "Writing your GOALS and IDEAS and ACTIONING them. The chances of you completing your GOALS them up significantly if you write it down.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: 'Montserrat Semibold',
-                fontSize: 11.0,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                "Writing your GOALS and IDEAS and ACTIONING them. The chances of you completing your GOALS them up significantly if you write it down.",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Montserrat Semibold',
+                  fontSize: 11.0,
+                ),
               ),
             ),
             SizedBox(height: 100.0),
@@ -50,8 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                   },
                   textColor: Colors.black87,
                   color: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10.0, horizontal: 40.0),
+                  padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50.0),
                   ),

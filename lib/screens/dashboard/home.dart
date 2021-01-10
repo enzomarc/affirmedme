@@ -61,6 +61,18 @@ class _DashboardHomeState extends State<DashboardHome> {
                             'module': modules[index].title,
                           };
 
+                          if (modules[index].title.contains('EAT WELL')) {
+                            params.addAll({
+                              'btnTitle': 'Add Meal Plan',
+                              'btnFunc': () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/dashboard',
+                                  arguments: 4,
+                                );
+                              },
+                            });
+                          }
                           // if (modules[index].title.contains('EAT WELL')) {
                           //   params.addAll({
                           //     'btnTitle': 'Add Meal',
@@ -88,11 +100,9 @@ class _DashboardHomeState extends State<DashboardHome> {
                           return Mod.Module(
                             title: modules[index].title,
                             onTap: () {
-                              if (modules[index].title.toLowerCase().contains('EAT WELL')) {
-                                Navigator.pushNamed(context, '/dashboard', arguments: 4);
-                              } else if (modules[index].title.toLowerCase().contains('MANAGE YOUR')) {
+                              if (modules[index].title.toLowerCase().contains('manage your')) {
                                 Navigator.pushNamed(context, '/dashboard', arguments: 2);
-                              } else if (modules[index].title.toLowerCase().contains('REMEMBER')) {
+                              } else if (modules[index].title.toLowerCase().contains('remember')) {
                                 Navigator.pushNamed(context, '/dashboard', arguments: 3);
                               } else {
                                 Navigator.pushNamed(

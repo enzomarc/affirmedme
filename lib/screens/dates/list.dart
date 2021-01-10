@@ -43,14 +43,23 @@ class _ListScreenState extends State<DateScreen> {
                   width: 120.0,
                   child: RaisedButton(
                     onPressed: () {
-                      TextEditingController labelController =
-                          TextEditingController();
+                      TextEditingController labelController = TextEditingController();
+                      String selectedGroup = 'Friend Birthdays';
+                      List<String> groups = [
+                        'Friend Birthdays',
+                        'Immediate Family Birthdays',
+                        'Extended Family Birthdays',
+                        'Co-Worker Birthdays',
+                        'Organizational Birthdays',
+                        'Anniversaries',
+                        'Other Key Dates',
+                      ];
+
                       showDialog(
                         context: context,
                         child: SimpleDialog(
                           title: Text('Add Important Date'),
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 20.0),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                           children: <Widget>[
                             TextFormField(
                               controller: labelController,
@@ -60,8 +69,7 @@ class _ListScreenState extends State<DateScreen> {
                                 hintStyle: TextStyle(
                                   color: Colors.grey.withOpacity(0.8),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 5.0, horizontal: 15.0),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 1.0,
@@ -83,14 +91,39 @@ class _ListScreenState extends State<DateScreen> {
                               ),
                             ),
                             SizedBox(height: 10.0),
+                            DropdownButton(
+                              underline: Container(),
+                              isExpanded: true,
+                              style: TextStyle(fontFamily: 'Montserrat Bold', fontSize: 10.0, color: Colors.black),
+                              value: selectedGroup,
+                              items: groups
+                                  .map(
+                                    (String item) => DropdownMenuItem(
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                          fontSize: 13.0,
+                                          fontFamily: 'Montserrat Medium',
+                                        ),
+                                      ),
+                                      value: item,
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (String item) {
+                                setState(() {
+                                  selectedGroup = item;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 10.0),
                             RaisedButton(
                               onPressed: () {
                                 DatePicker.showDatePicker(
                                   context,
                                   showTitleActions: true,
                                   minTime: DateTime.now(),
-                                  currentTime: scheduledAt ??
-                                      DateTime.now().add(Duration(days: 1)),
+                                  currentTime: scheduledAt ?? DateTime.now().add(Duration(days: 1)),
                                   onChanged: (time) {
                                     setState(() {
                                       scheduledAt = time;
@@ -100,8 +133,7 @@ class _ListScreenState extends State<DateScreen> {
                               },
                               color: Colors.white,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Icon(
                                     Icons.date_range,
@@ -109,8 +141,7 @@ class _ListScreenState extends State<DateScreen> {
                                     size: 20.0,
                                   ),
                                   Text(
-                                    "${scheduledAt.year}/${scheduledAt.month}/${scheduledAt.day}" ??
-                                        'Choose date and time',
+                                    'Choose date and time',
                                     style: TextStyle(
                                       color: Color(0xFFFE0000),
                                     ),
@@ -124,25 +155,21 @@ class _ListScreenState extends State<DateScreen> {
                                 if (labelController.text.isNotEmpty) {
                                   Map<String, dynamic> data = {
                                     'label': labelController.text,
+                                    'group': selectedGroup,
                                     'at': scheduledAt.toString(),
                                   };
 
-                                  await dateService
-                                      .storeDate(data)
-                                      .then((saved) {
+                                  await dateService.storeDate(data).then((saved) {
                                     if (saved) {
                                       Navigator.of(context).pop();
-                                      helpers.alert(scaffoldKey,
-                                          "Date added successfully.");
+                                      helpers.alert(scaffoldKey, "Date added successfully.");
                                       dateProvider.getDates();
                                     } else {
-                                      helpers.alert(scaffoldKey,
-                                          "Unable to save this date.");
+                                      helpers.alert(scaffoldKey, "Unable to save this date.");
                                     }
                                   });
                                 } else
-                                  helpers.alert(
-                                      scaffoldKey, "Title is missing.");
+                                  helpers.alert(scaffoldKey, "Title is missing.");
                               },
                               color: Color(0xFFFE0000),
                               child: Text(
@@ -187,10 +214,7 @@ class _ListScreenState extends State<DateScreen> {
                       itemBuilder: (context, index) {
                         Date date = provider.dates[index];
 
-                        return DateWidget(
-                            date: date,
-                            scaffoldKey: scaffoldKey,
-                            dateProvider: dateProvider);
+                        return DateWidget(date: date, scaffoldKey: scaffoldKey, dateProvider: dateProvider);
                       }),
                 );
               },

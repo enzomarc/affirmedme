@@ -123,6 +123,7 @@ class _UpgradePageState extends State<UpgradePage> {
                             fontSize: 14.0,
                           ),
                         ),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                         children: <Widget>[
                           TextFormField(
                             controller: cardNumber,
