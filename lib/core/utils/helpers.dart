@@ -14,6 +14,7 @@ class Helpers {
           style: TextStyle(
             color: Colors.white,
             fontFamily: "Montserrat Semibold",
+            fontSize: 11.0,
           ),
         ),
       ),
@@ -34,8 +35,6 @@ class Helpers {
     if (await canLaunch(uri.toString())) {
       await launch(uri.toString());
     }
-
-    print(uri.toString());
   }
 
   /// Open phone call app with `phone` as number.

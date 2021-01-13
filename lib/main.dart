@@ -6,6 +6,7 @@ import 'package:kronosme/providers/date_provider.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/meal_plan_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
+import 'package:kronosme/providers/planning_provider.dart';
 import 'package:kronosme/providers/podcast_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/services/auth_service.dart';
@@ -13,8 +14,7 @@ import 'package:kronosme/services/module_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +25,7 @@ void main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   bool firstLaunch = true;
 
-  if (sharedPreferences.containsKey('firstLaunch'))
-    firstLaunch = sharedPreferences.getBool('firstLaunch');
+  if (sharedPreferences.containsKey('firstLaunch')) firstLaunch = sharedPreferences.getBool('firstLaunch');
 
   // init push notifications settings
   var initSettingsAndroid = AndroidInitializationSettings('app_logo');
@@ -36,8 +35,7 @@ void main() async {
     requestSoundPermission: true,
     onDidReceiveLocalNotification: (id, title, body, payload) async {},
   );
-  var initSettings = InitializationSettings(
-      android: initSettingsAndroid, iOS: initSettingsIOS);
+  var initSettings = InitializationSettings(android: initSettingsAndroid, iOS: initSettingsIOS);
 
   await flutterLocalNotificationsPlugin.initialize(
     initSettings,
@@ -89,6 +87,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => MealPlanProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PlanningProvider(),
         ),
       ],
       child: Affirmed(defaultRoute),

@@ -72,6 +72,13 @@ class _DashboardHomeState extends State<DashboardHome> {
                                 );
                               },
                             });
+                          } else if (modules[index].title.contains('THINK THROUGH')) {
+                            params.addAll({
+                              'btnTitle': 'Manage Planning',
+                              'btnFunc': () {
+                                Navigator.pushNamed(context, '/planning');
+                              }
+                            });
                           }
                           // if (modules[index].title.contains('EAT WELL')) {
                           //   params.addAll({

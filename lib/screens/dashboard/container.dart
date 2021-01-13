@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
+import 'package:kronosme/providers/planning_provider.dart';
 import 'package:kronosme/providers/podcast_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
 import 'package:kronosme/screens/contacts/contact.dart';
@@ -42,12 +43,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final goalProvider = Provider.of<GoalProvider>(context, listen: false);
     final podcastProvider = Provider.of<PodcastProvider>(context, listen: false);
     final reminderProvider = Provider.of<ReminderProvider>(context, listen: false);
+    final planningProvider = Provider.of<PlanningProvider>(context, listen: false);
 
-    // load items here
+    // load user data here
     moduleProvider.getModules();
     goalProvider.getGoals();
     reminderProvider.getReminders();
     podcastProvider.getPodcasts();
+    planningProvider.getPlannings();
   }
 
   @override

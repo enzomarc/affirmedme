@@ -9,6 +9,9 @@ import 'package:kronosme/screens/login.dart';
 import 'package:kronosme/screens/meals/add_meal.dart';
 import 'package:kronosme/screens/meals/show.dart';
 import 'package:kronosme/screens/package.dart';
+import 'package:kronosme/screens/planning/add.dart';
+import 'package:kronosme/screens/planning/edit.dart';
+import 'package:kronosme/screens/planning/list.dart';
 import 'package:kronosme/screens/scanCard.dart';
 import 'package:kronosme/screens/signup/basic.dart';
 import 'package:kronosme/screens/signup/premium.dart';
@@ -31,4 +34,7 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/goals/add': (context) => AddGoalScreen(),
   '/upgrade': (context) => UpgradePage(),
   '/scan': (context) => ScanCard(),
+  '/planning': (context) => PlanningList(),
+  '/planning/add': (context) => AddPlanning(),
+  '/planning/edit': (context) => EditPlanning(),
 };
