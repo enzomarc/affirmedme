@@ -65,18 +65,15 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                             scrollDirection: Axis.horizontal,
                             itemCount: objectives.length,
                             itemBuilder: (context, index) {
-                              String objective =
-                                  objectives[index].toLowerCase();
+                              String objective = objectives[index].toLowerCase();
 
                               return Stack(
                                 alignment: Alignment.center,
                                 children: <Widget>[
                                   Container(
                                     height: 400.0,
-                                    width: MediaQuery.of(context).size.width -
-                                        40.0,
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 10.0),
+                                    width: MediaQuery.of(context).size.width - 40.0,
+                                    margin: EdgeInsets.symmetric(horizontal: 10.0),
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10.0),
@@ -105,100 +102,63 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                                             flex: 6,
                                             child: ListView.builder(
                                               scrollDirection: Axis.vertical,
-                                              itemCount:
-                                                  goals[objective].length,
+                                              itemCount: goals[objective].length,
                                               itemBuilder: (context, index) {
                                                 String value = "";
 
-                                                if (goals[objective].length >
-                                                    0) {
-                                                  value = goals[objective]
-                                                              [index]
-                                                          .isNotEmpty
-                                                      ? goals[objective][index]
-                                                      : "";
+                                                if (goals[objective].length > 0) {
+                                                  value = goals[objective][index].isNotEmpty ? goals[objective][index] : "";
                                                 } else {
                                                   value = "";
                                                 }
 
-                                                TextEditingController
-                                                    goalController =
-                                                    TextEditingController(
-                                                        text: value);
+                                                TextEditingController goalController = TextEditingController(text: value);
 
                                                 return Container(
-                                                  margin: EdgeInsets.only(
-                                                      bottom: 10.0),
-                                                  padding: EdgeInsets.symmetric(
-                                                      horizontal: 10.0),
+                                                  margin: EdgeInsets.only(bottom: 10.0),
+                                                  padding: EdgeInsets.symmetric(horizontal: 10.0),
                                                   child: TextFormField(
                                                     controller: goalController,
-                                                    textInputAction:
-                                                        TextInputAction.done,
-                                                    onFieldSubmitted: (value) =>
-                                                        goals[objective]
-                                                            [index] = value,
+                                                    textInputAction: TextInputAction.done,
+                                                    onFieldSubmitted: (value) => goals[objective][index] = value,
                                                     decoration: InputDecoration(
                                                       suffixIcon: IconButton(
                                                         icon: Icon(
                                                           Icons.close,
                                                         ),
-                                                        onPressed: () =>
-                                                            goals[objective]
-                                                                .removeAt(
-                                                                    index),
+                                                        onPressed: () => goals[objective].removeAt(index),
                                                       ),
-                                                      fillColor: Colors.grey
-                                                          .withOpacity(0.2),
+                                                      fillColor: Colors.grey.withOpacity(0.2),
                                                       filled: true,
-                                                      hintText:
-                                                          "Goal ${(index + 1).toString()}",
+                                                      hintText: "Goal ${(index + 1).toString()}",
                                                       hintStyle: TextStyle(
                                                         color: Colors.black,
-                                                        fontFamily:
-                                                            'Montserrat Medium',
+                                                        fontFamily: 'Montserrat Medium',
                                                         fontSize: 13.0,
                                                       ),
-                                                      contentPadding:
-                                                          const EdgeInsets
-                                                              .symmetric(
+                                                      contentPadding: const EdgeInsets.symmetric(
                                                         vertical: 5.0,
                                                         horizontal: 15.0,
                                                       ),
-                                                      border:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    500.0),
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(500.0),
                                                         borderSide: BorderSide(
                                                           width: 0.0,
-                                                          color: Colors.grey
-                                                              .withOpacity(0.2),
+                                                          color: Colors.grey.withOpacity(0.2),
                                                         ),
                                                       ),
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    500.0),
+                                                      enabledBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(500.0),
                                                         borderSide: BorderSide(
                                                           width: 0.0,
-                                                          color: Colors.grey
-                                                              .withOpacity(0.2),
+                                                          color: Colors.grey.withOpacity(0.2),
                                                         ),
                                                       ),
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    500.0),
+                                                      focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(500.0),
                                                         borderSide: BorderSide(
                                                           width: 0.0,
-                                                          color: Colors.grey
-                                                              .withOpacity(0.2),
+                                                          color: Colors.grey.withOpacity(0.2),
                                                         ),
                                                       ),
                                                     ),
@@ -211,9 +171,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                                           Expanded(
                                             child: FlatButton(
                                               shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        500.0),
+                                                borderRadius: BorderRadius.circular(500.0),
                                               ),
                                               color: Colors.grey.shade200,
                                               padding: EdgeInsets.symmetric(
@@ -243,8 +201,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                                     width: 80.0,
                                     margin: EdgeInsets.only(bottom: 400.0),
                                     decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(500.0),
+                                      borderRadius: BorderRadius.circular(500.0),
                                       color: Colors.white,
                                       boxShadow: [
                                         BoxShadow(
@@ -278,11 +235,9 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                           onPressed: () async {
                             await goalService.storeGoal(goals).then((added) {
                               if (added) {
-                                Navigator.popAndPushNamed(
-                                    context, '/dashboard');
+                                Navigator.popAndPushNamed(context, '/dashboard');
                               } else {
-                                helpers.alert(
-                                    scaffoldKey, "Unable to save your goals.");
+                                helpers.alert(scaffoldKey, "Unable to save your goals.");
                               }
                             });
                           },
