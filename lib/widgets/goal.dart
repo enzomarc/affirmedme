@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class Goal extends StatelessWidget {
   const Goal({
     Key key,
-    this.icon,
+    this.assetImage,
     this.title,
     this.count,
     this.countColor = const Color(0xFFFE0000),
   }) : super(key: key);
 
-  final IconData icon;
+  final String assetImage;
   final String title;
   final int count;
   final Color countColor;
@@ -26,7 +26,10 @@ class Goal extends StatelessWidget {
             alignment: Alignment.topRight,
             children: <Widget>[
               Container(
-                height: 100.0,
+                height: 70.0,
+                width: 70.0,
+                margin: EdgeInsets.only(right: 10.0, left: 10.0, bottom: 10.0),
+                padding: EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(10.0),
@@ -38,27 +41,17 @@ class Goal extends StatelessWidget {
                     ),
                   ],
                 ),
-                margin: EdgeInsets.only(right: 10.0, left: 10.0, bottom: 10.0),
-                padding: EdgeInsets.all(10.0),
-                width: 100.0,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      title[0] ?? 'G',
-                      style: TextStyle(
-                        color: Color(0xFFFE0000),
-                        fontFamily: "Montserrat Bold",
-                        fontSize: 24.0,
-                      ),
-                    ),
+                    Image.asset(assetImage ?? 'assets/images/relationships.png'),
                   ],
                 ),
               ),
               Container(
-                width: 30.0,
-                height: 30.0,
+                width: 18.0,
+                height: 18.0,
                 decoration: BoxDecoration(
                   color: countColor,
                   borderRadius: BorderRadius.circular(500.0),
@@ -68,6 +61,7 @@ class Goal extends StatelessWidget {
                     count.toString() ?? '0',
                     style: TextStyle(
                       color: Colors.white,
+                      fontSize: 10.0,
                     ),
                   ),
                 ),
@@ -78,7 +72,7 @@ class Goal extends StatelessWidget {
             title ?? 'Goal',
             style: TextStyle(
               fontFamily: 'Montserrat Bold',
-              fontSize: 16.0,
+              fontSize: 12.0,
             ),
           ),
         ],

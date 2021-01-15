@@ -26,9 +26,9 @@ class Module extends StatelessWidget {
             ),
           ],
         ),
-        margin: EdgeInsets.only(right: 10.0, left: 10.0, bottom: 10.0),
         padding: EdgeInsets.all(10.0),
-        width: 120.0,
+        width: 70.0,
+        height: 70.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,7 +38,7 @@ class Module extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Montserrat Medium',
-                fontSize: 12.0,
+                fontSize: 10.0,
                 color: Color(0xFFFE0000),
               ),
             ),

@@ -35,6 +35,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget currentScreen;
   String username = "";
   String type;
+  bool paramLoaded = false;
   final PageStorageBucket bucket = PageStorageBucket();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -73,7 +74,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
 
     int paramScreen = ModalRoute.of(context).settings.arguments;
-    if (paramScreen != null) currentScreen = screens[paramScreen];
+    if (!paramLoaded && paramScreen != null) {
+      currentScreen = screens[paramScreen];
+      paramLoaded = true;
+    }
 
     return SafeArea(
       child: Scaffold(
