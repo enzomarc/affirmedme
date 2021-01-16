@@ -1,29 +1,44 @@
 class Contact {
   String id;
-  String firstName;
-  String lastName;
+  String name;
+  String location;
+  String industry;
+  String hobby;
   String email;
   String phone;
-  String type;
+  DateTime birthday;
+  DateTime lastContact;
+  DateTime nextContact;
+  DateTime remindAt;
   List<String> notes;
 
   Contact({
     this.id,
-    this.firstName,
-    this.lastName,
+    this.name,
+    this.location,
+    this.industry,
+    this.hobby,
     this.email,
     this.phone,
-    this.type,
+    this.birthday,
+    this.lastContact,
+    this.nextContact,
+    this.remindAt,
     this.notes,
   });
 
   Contact.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
+    name = json['name'];
+    location = json['location'];
+    industry = json['industry'];
+    hobby = json['hobby'];
     email = json['email'];
     phone = json['phone'];
-    type = json['type'];
+    birthday = DateTime.parse(json['birthday']);
+    lastContact = DateTime.parse(json['last_contact']);
+    nextContact = DateTime.parse(json['next_contact']);
+    remindAt = DateTime.parse(json['remind_at']);
     notes = List<String>.from(json['notes']);
   }
 
@@ -31,11 +46,16 @@ class Contact {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 
     data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
+    data['name'] = this.name;
+    data['location'] = this.location;
+    data['industry'] = this.industry;
+    data['hobby'] = this.hobby;
     data['email'] = this.email;
     data['phone'] = this.phone;
-    data['type'] = this.type;
+    data['birthday'] = this.birthday.toString();
+    data['last_contact'] = this.lastContact.toString();
+    data['next_contact'] = this.nextContact.toString();
+    data['remind_at'] = this.remindAt.toString();
     data['notes'] = this.notes;
 
     return data;

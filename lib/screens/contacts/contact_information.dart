@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kronosme/core/models/contact.dart';
 import 'package:kronosme/core/utils/helpers.dart';
@@ -22,325 +23,216 @@ class _ContactInformationPageState extends State<ContactInformationPage> {
       child: Scaffold(
         key: scaffoldKey,
         appBar: AppBar(
-          backgroundColor: Color(0xFFFFFFFF),
+          backgroundColor: Colors.white,
           leading: IconButton(
+            onPressed: () => Navigator.pop(context),
             icon: Icon(
-              Icons.menu,
+              Icons.arrow_back,
               color: Color(0xFFFE0000),
-            ),
-            onPressed: () {
-              setState(() {
-                print('The menu btn');
-              });
-            },
-          ),
-          title: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    FlatButton(
-                      onPressed: () {
-                        setState(() {
-                          print(' The account Btn');
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.account_circle,
-                            size: 30.0,
-                            color: Color(0xFFFE0000),
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Hi John Doe',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 16.0,
-                                  ),
-                                ),
-                                Text(
-                                  'Premium package',
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat Bold',
-                                    fontSize: 10.0,
-                                    color: Color(0xFF59B306),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.notifications,
-                            size: 30.0,
-                            color: Color(0xFF7C7373),
-                          ),
-                          onPressed: () {
-                            print('Notification');
-                          },
-                        ),
-                        Positioned(
-                          top: 0.0,
-                          right: 0.0,
-                          child: Icon(
-                            Icons.brightness_1,
-                            color: Color(0xFFFE0000),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              ],
+              size: 20.0,
             ),
           ),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(
-              top: 5.0,
-              left: 20.0,
-              right: 20.0,
+          title: Text(
+            "${contact.name}" ?? "Contact Information",
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Montserrat Bold',
+              fontSize: 13.0,
             ),
-            child: Column(
-              children: [
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: Color(0xFFFE0000),
-                            size: 20.0,
-                          ),
+          ),
+          titleSpacing: 0.0,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.black,
+                size: 20.0,
+              ),
+              onPressed: () {
+                helpers.alert(scaffoldKey, "You can't edit this contact.");
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.delete,
+                color: Colors.red,
+                size: 20.0,
+              ),
+              onPressed: () async {
+                showCupertinoDialog(
+                  context: context,
+                  builder: (context) {
+                    return CupertinoAlertDialog(
+                      title: Text('Delete Contact'),
+                      content: Text('Are you sure you want to delete this contact?'),
+                      actions: <Widget>[
+                        CupertinoDialogAction(
+                          child: Text('Cancel'),
+                          isDestructiveAction: true,
                           onPressed: () {
                             Navigator.pop(context);
                           },
                         ),
-                        Text(
-                          "${contact.firstName} ${contact.lastName}" ??
-                              'Aladin Smith',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat Bold',
+                        CupertinoDialogAction(
+                          child: Text('Yes, Delete'),
+                          isDefaultAction: true,
+                          onPressed: () async {
+                            await contactService.deleteContact(contact.id).then((deleted) {
+                              Navigator.pop(context);
+
+                              if (deleted) {
+                                contactProvider.getContacts();
+                                Navigator.pop(context);
+                              } else {
+                                helpers.alert(scaffoldKey, "An error occured, unable to delete this contact.");
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                Field(label: 'Name', value: contact.name),
+                Field(label: 'Email', value: contact.email),
+                Field(label: 'Phone', value: contact.phone),
+                Field(label: 'Location', value: contact.location),
+                Field(label: 'Industry', value: contact.industry),
+                Field(label: 'Hobby', value: contact.hobby),
+                Field(label: 'Birthday', value: contact.birthday.toString()),
+                Field(label: 'Last Contact Date', value: contact.lastContact.toString()),
+                Field(label: 'Next Contact Date', value: contact.nextContact.toString()),
+                Field(label: 'Remind Me On', value: contact.remindAt.toString()),
+                SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: () {
+                        helpers.sendSMS(contact.phone);
+                      },
+                      color: Colors.black,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.sms,
+                            color: Colors.white,
+                            size: 16.0,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Send SMS',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ActionBtn(
-                          title: 'Call',
-                          onpressed: () {
-                            helpers.makeCall(contact.phone);
-                          },
-                        ),
-                        ActionBtn(
-                          title: 'Email',
-                          icon: Icons.mail,
-                          onpressed: () {
-                            helpers.sendMail(contact.email);
-                          },
-                        ),
-                        ActionBtn(
-                          title: 'Message',
-                          icon: Icons.message,
-                          onpressed: () {
-                            helpers.sendSMS(contact.phone);
-                          },
-                        ),
-                      ],
+                    RaisedButton(
+                      onPressed: () {
+                        helpers.sendMail(contact.email);
+                      },
+                      color: Colors.black,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.mail,
+                            color: Colors.white,
+                            size: 16.0,
+                          ),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Send Mail',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        helpers.makeCall(contact.phone);
+                      },
+                      color: Colors.green.shade400,
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.phone,
+                            color: Colors.white,
+                            size: 16.0,
+                          ),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Call',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                ),
-                SizedBox(
-                  height: 40.0,
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 10.0,
-                  ),
-                  alignment: Alignment.topLeft,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ),
-                  ),
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: 100.0,
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom:
-                            BorderSide(color: Color(0xFFFE0000), width: 2.0),
-                      ),
-                    ),
-                    child: Text(
-                      'Activity',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat Bold',
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 50.0, right: 50.0, top: 30.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ActionBtn(
-                        title: 'Add note',
-                        icon: Icons.note_add,
-                        onpressed: () {
-                          TextEditingController noteController =
-                              TextEditingController();
-
-                          showDialog(
-                            context: context,
-                            child: SimpleDialog(
-                              title: Text('New Note'),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 20.0),
-                              children: <Widget>[
-                                TextFormField(
-                                  controller: noteController,
-                                  keyboardType: TextInputType.text,
-                                  minLines: 2,
-                                  maxLines: 20,
-                                  decoration: InputDecoration(
-                                    hintText: 'Note Content',
-                                    hintStyle: TextStyle(
-                                      color: Colors.grey.withOpacity(0.8),
-                                    ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 5.0, horizontal: 15.0),
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        width: 1.0,
-                                        color:
-                                            Color(0xFFFE0000).withOpacity(0.4),
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        width: 1.0,
-                                        color:
-                                            Color(0xFFFE0000).withOpacity(0.4),
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        width: 1.0,
-                                        color: Color(0xFFFE0000),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 20.0),
-                                RaisedButton(
-                                  onPressed: () async {
-                                    if (noteController.text.isNotEmpty) {
-                                      String data = noteController.text;
-
-                                      await contactService
-                                          .storeNote(contact, data)
-                                          .then((saved) {
-                                        if (saved) {
-                                          Navigator.of(context).pop();
-                                          helpers.alert(scaffoldKey,
-                                              "Note added successfully.");
-                                          contactProvider.getContacts();
-                                        } else {
-                                          helpers.alert(scaffoldKey,
-                                              "Unable to save this note.");
-                                        }
-                                      });
-                                    } else
-                                      helpers.alert(
-                                          scaffoldKey, "Note content is missing.");
-                                  },
-                                  color: Color(0xFFFE0000),
-                                  child: Text(
-                                    'Save',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      ActionBtn(
-                        title: 'Delete',
-                        icon: Icons.close,
-                        onpressed: () async {
-                          await contactService
-                              .deleteContact(contact.id)
-                              .then((deleted) {
-                            if (deleted) {
-                              Navigator.pop(context);
-                            } else {
-                              helpers.alert(
-                                  scaffoldKey, "Unable to delete contact.");
-                            }
-                          }).catchError((err) {
-                            print(err);
-                            helpers.alert(
-                                scaffoldKey, "Unable to delete contact.");
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    'Notes',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat Semibold',
-                      fontSize: 20.0,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 300.0,
-                  child: ListView.builder(
-                    itemCount: contact.notes.length,
-                    itemBuilder: (context, index) => NoteTask(
-                      index: index,
-                      contact: contact,
-                      content: contact.notes[index] ?? 'Note',
-                    ),
-                  ),
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Field extends StatelessWidget {
+  const Field({
+    Key key,
+    @required this.label,
+    @required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.grey.shade300),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'Montserrat Medium',
+              fontSize: 12.0,
+              color: Colors.grey,
+            ),
+          ),
+          Text(
+            value != null && value.isNotEmpty ? value : 'N/A',
+            style: TextStyle(
+              fontFamily: 'Montserrat SemiBold',
+              fontSize: 12.0,
+            ),
+          ),
+        ],
       ),
     );
   }

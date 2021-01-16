@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kronosme/core/models/planning.dart';
 import 'package:kronosme/core/utils/helpers.dart';
 import 'package:kronosme/providers/planning_provider.dart';
-import 'package:kronosme/screens/planning/add.dart';
 import 'package:kronosme/services/planning_service.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +51,7 @@ class _PlanningListState extends State<PlanningList> {
                   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
                   children: <Widget>[
                     Text(
-                      "Review the information below and put it into yourcalendar application. You may use the recommended timelines or change them to fit your life. Set the alarm function for each event to remind you of the upcoming event two weeks before it’s due for completion. For bigger events requiring longer planning, set the alarm function a couple of months before (example: planning a vacation or planning a dinner party). Once you have everything set in your calendar,in order to make sure your planning works, you must review the calendar often. Every week, take time to review the next two or three months to ensure you start thinking through planning considerations and coordination. Consider using the AR-TEC-ARC-D model to think through all actions, activities, and events. Memorize the model to have a quick mental checklist you can use that will force you to plan from multiple angles. Remember, you can also use this model for individual actions such as driving to work or simply just thinking through your day.",
+                      "Review the information below and put it into your calendar application. You may use the recommended timelines or change them to fit your life. Set the alarm function for each event to remind you of the upcoming event two weeks before it’s due for completion. For bigger events requiring longer planning, set the alarm function a couple of months before (example: planning a vacation or planning a dinner party). Once you have everything set in your calendar,in order to make sure your planning works, you must review the calendar often. Every week, take time to review the next two or three months to ensure you start thinking through planning considerations and coordination. Consider using the AR-TEC-ARC-D model to think through all actions, activities, and events. Memorize the model to have a quick mental checklist you can use that will force you to plan from multiple angles. Remember, you can also use this model for individual actions such as driving to work or simply just thinking through your day.",
                       style: TextStyle(
                         fontFamily: 'Montserrat Medium',
                         fontSize: 11.0,

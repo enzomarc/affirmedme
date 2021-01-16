@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kronosme/screens/contacts/add_contact.dart';
 import 'package:kronosme/screens/add_goal.dart';
+import 'package:kronosme/screens/contacts/contact.dart';
 import 'package:kronosme/screens/contacts/contact_information.dart';
 import 'package:kronosme/screens/dashboard/container.dart';
 import 'package:kronosme/screens/description.dart';
@@ -23,6 +24,7 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/welcome': (context) => WelcomeScreen(),
   '/package': (context) => PackageScreen(),
   '/signup': (context) => PremiumSignup(),
+  '/contacts': (context) => ContactScreen(),
   '/contacts/add': (context) => AddContactPage(),
   '/contacts/info': (context) => ContactInformationPage(),
   '/meals/add': (context) => AddMealScreen(),

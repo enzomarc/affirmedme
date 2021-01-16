@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kronosme/core/models/planning.dart';
 import 'package:kronosme/core/utils/helpers.dart';
 import 'package:kronosme/providers/planning_provider.dart';
 import 'package:kronosme/services/planning_service.dart';

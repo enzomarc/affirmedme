@@ -26,8 +26,7 @@ class _LearningScreenState extends State<LearningScreen> {
     String moduleTitle = params['module'].toString().toLowerCase();
     Module module = moduleService.modules.firstWhere((element) => element.title.toLowerCase() == moduleTitle);
     items = module.steps;
-    String btnTitle = params['btnTitle'];
-    Function btnFunc = params['btnFunc'];
+    Widget buttons = params['buttons'];
 
     return SafeArea(
       child: Scaffold(
@@ -99,30 +98,13 @@ class _LearningScreenState extends State<LearningScreen> {
                   },
                 ),
               ),
-              if (btnFunc != null)
+              if (buttons != null)
                 Container(
                   padding: EdgeInsets.symmetric(
                     vertical: 10.0,
                     horizontal: 20.0,
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      RaisedButton(
-                        onPressed: btnFunc,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 5.0,
-                        ),
-                        color: Color(0xFFFE0000),
-                        child: Text(
-                          btnTitle ?? 'Add Meal Plan',
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: buttons,
                 ),
             ],
           ),
@@ -423,7 +405,7 @@ class ItemChildren extends StatelessWidget {
           ),
         ),
       ),
-      padding: EdgeInsets.only(left: 10.0),    
+      padding: EdgeInsets.only(left: 10.0),
       margin: EdgeInsets.only(left: 20.0, bottom: 10.0),
       child: Text(
         content ?? 'Dreams + Reality + Determination = A Successful Life.',

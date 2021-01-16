@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kronosme/core/utils/helpers.dart';
 import 'package:kronosme/providers/contact_provider.dart';
 import 'package:kronosme/services/contact_service.dart';
@@ -10,110 +11,82 @@ class AddContactPage extends StatefulWidget {
 }
 
 GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+TextEditingController name = TextEditingController();
+TextEditingController location = TextEditingController();
+TextEditingController industry = TextEditingController();
+TextEditingController hobby = TextEditingController();
+TextEditingController mail = TextEditingController();
+TextEditingController phone = TextEditingController();
+DateTime birthdate;
+DateTime lastContact;
+DateTime nextContact;
+DateTime remindAt;
 String selectedType = 'Account Type';
 List<String> types = ['Account Type', 'Contact', 'Company'];
 
 class _AddContactPageState extends State<AddContactPage> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController firstName = TextEditingController();
-    TextEditingController lastName = TextEditingController();
-    TextEditingController mail = TextEditingController();
-    TextEditingController phone = TextEditingController();
     final contactProvider = Provider.of<ContactProvider>(context, listen: false);
 
     return Scaffold(
       key: scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Color(0xFFFE0000),
+            size: 20.0,
+          ),
+        ),
+        title: Text(
+          'Add New Contact',
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Montserrat Bold',
+            fontSize: 13.0,
+          ),
+        ),
+        titleSpacing: 0.0,
+        actions: <Widget>[
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(right: 25.0),
+            child: GestureDetector(
+              child: Text(
+                'Save',
+                style: TextStyle(color: Color(0xFFFE0000), fontFamily: 'Montserrat Bold'),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 10.0),
+            padding: EdgeInsets.only(top: 30.0, left: 20.0, right: 20.0, bottom: 10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: Color(0xFFFE0000),
-                                size: 20.0,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            Text(
-                              'Add new contact',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat Bold',
-                              ),
-                            ),
-                          ],
-                        ),
-                        FlatButton(
-                          onPressed: () async {
-                            if (mail.text.isNotEmpty && firstName.text.isNotEmpty && selectedType != 'Account Type') {
-                              Map<String, dynamic> data = {
-                                'first_name': firstName.text,
-                                'last_name': lastName.text,
-                                'email': mail.text,
-                                'phone': phone.text,
-                                'type': selectedType.toLowerCase(),
-                              };
-                              await contactService.storeContact(data).then((saved) {
-                                if (saved) {
-                                  firstName.text = "";
-                                  lastName.text = "";
-                                  mail.text = "";
-
-                                  contactProvider.getContacts();
-                                  helpers.alert(scaffoldKey, "Contact added successfully.");
-                                } else {
-                                  helpers.alert(scaffoldKey, "Unable to add contact.");
-                                }
-                              });
-                            } else {
-                              helpers.alert(scaffoldKey, "First name, email and account type are required.");
-                            }
-                          },
-                          child: Text(
-                            'Save',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat SemiBold',
-                              color: Color(0xFFFE0000),
-                              fontSize: 15.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25.0,
-                    ),
-                    Text(
-                      'Start by entering an email address, name or both',
-                      style: TextStyle(
-                        fontFamily: 'Montserrat SemiBold',
-                        fontSize: 11.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
+                    InputField(
+                      controller: name,
+                      label: 'Name',
                     ),
                     InputField(
-                      controller: firstName,
-                      label: 'First Name/Company Name',
+                      controller: location,
+                      label: 'Location',
                     ),
                     InputField(
-                      controller: lastName,
-                      label: 'Last Name',
+                      controller: industry,
+                      label: 'Industry',
+                    ),
+                    InputField(
+                      controller: hobby,
+                      label: 'Hobby',
                     ),
                     InputField(
                       controller: mail,
@@ -125,57 +98,159 @@ class _AddContactPageState extends State<AddContactPage> {
                       label: 'Phone',
                       type: TextInputType.phone,
                     ),
-                    DropdownButton(
-                      underline: Container(),
-                      isExpanded: true,
-                      style: TextStyle(fontFamily: 'Montserrat Bold', fontSize: 10.0, color: Colors.black),
-                      value: selectedType,
-                      items: types
-                          .map(
-                            (String item) => DropdownMenuItem(
-                              child: Text(
-                                item,
-                                style: TextStyle(
-                                  fontSize: 13.0,
-                                  fontFamily: 'Montserrat Medium',
-                                ),
-                              ),
-                              value: item,
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (String item) {
-                        setState(() {
-                          selectedType = item;
-                        });
-                      },
+                    SizedBox(
+                      width: double.infinity,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        onPressed: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            showTitleActions: true,
+                            maxTime: DateTime.now().subtract(Duration(days: 365)),
+                            currentTime: birthdate ?? DateTime.now().subtract(Duration(days: 365)),
+                            onChanged: (time) {
+                              setState(() {
+                                birthdate = time;
+                              });
+                            },
+                          );
+                        },
+                        child: Text(
+                          'Birthdate',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat SemiBold',
+                            fontSize: 11.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        onPressed: () {
+                          DatePicker.showDateTimePicker(
+                            context,
+                            showTitleActions: true,
+                            currentTime: lastContact ?? DateTime.now(),
+                            onChanged: (time) {
+                              setState(() {
+                                lastContact = time;
+                              });
+                            },
+                          );
+                        },
+                        child: Text(
+                          'Last Contact Date',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat SemiBold',
+                            fontSize: 11.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        onPressed: () {
+                          DatePicker.showDateTimePicker(
+                            context,
+                            showTitleActions: true,
+                            minTime: DateTime.now().add(Duration(minutes: 1)),
+                            currentTime: nextContact ?? DateTime.now().add(Duration(minutes: 1)),
+                            onChanged: (time) {
+                              setState(() {
+                                nextContact = time;
+                              });
+                            },
+                          );
+                        },
+                        child: Text(
+                          'Next Contact Date',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat SemiBold',
+                            fontSize: 11.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        onPressed: () {
+                          DatePicker.showDateTimePicker(
+                            context,
+                            showTitleActions: true,
+                            minTime: DateTime.now().add(Duration(minutes: 1)),
+                            currentTime: remindAt ?? DateTime.now().add(Duration(minutes: 1)),
+                            onChanged: (time) {
+                              setState(() {
+                                remindAt = time;
+                              });
+                            },
+                          );
+                        },
+                        child: Text(
+                          'Remind Me On',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat SemiBold',
+                            fontSize: 11.0,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: 30.0),
                 Container(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       RaisedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/contactList');
+                        onPressed: () async {
+                          if (mail.text.isNotEmpty && name.text.isNotEmpty && location.text.isNotEmpty) {
+                            Map<String, dynamic> data = {
+                              'name': name.text,
+                              'location': location.text,
+                              'industry': industry.text,
+                              'hobby': hobby.text,
+                              'email': mail.text,
+                              'phone': phone.text,
+                              'birthday': birthdate.toString(),
+                              'last_contact': lastContact.toString(),
+                              'next_contact': nextContact.toString(),
+                              'remind_at': remindAt.toString(),
+                            };
+
+                            await contactService.storeContact(data).then((saved) {
+                              if (saved) {
+                                name.text = "";
+                                location.text = "";
+                                industry.text = "";
+                                mail.text = "";
+                                phone.text = "";
+
+                                contactProvider.getContacts();
+                                helpers.alert(scaffoldKey, "Contact added successfully.");
+                              } else {
+                                helpers.alert(scaffoldKey, "Unable to add contact.");
+                              }
+                            });
+                          } else {
+                            helpers.alert(scaffoldKey, "Name, email and location are required.");
+                          }
                         },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100.0),
+                        child: Text(
+                          'Save Contact',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Montserrat SemiBold',
+                            fontSize: 12.0,
+                          ),
                         ),
-                        child: Text('Import contact'),
-                        color: Color(0xFFFFFFFF),
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/scan');
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100.0),
-                        ),
-                        child: Text('Scan a business card'),
-                        color: Color(0xFFFFFFFF),
+                        color: Colors.black,
                       ),
                     ],
                   ),
@@ -207,18 +282,23 @@ class InputField extends StatelessWidget {
       margin: EdgeInsets.only(
         bottom: 10.0,
       ),
-      padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: TextField(
         keyboardType: type ?? TextInputType.text,
         controller: controller,
+        style: TextStyle(
+          fontFamily: 'Montserrat',
+          fontSize: 13.0,
+        ),
         decoration: InputDecoration(
           labelText: label ?? 'Username, Email or Phone',
           labelStyle: TextStyle(
             fontFamily: 'Montserrat',
+            fontSize: 13.0,
             color: Colors.grey.withOpacity(0.8),
           ),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(100.0),
+            borderRadius: BorderRadius.circular(5.0),
           ),
         ),
       ),

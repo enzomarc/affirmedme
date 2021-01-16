@@ -210,10 +210,70 @@ class _DashboardHomeState extends State<DashboardHome> {
                             });
                           } else if (modules[index].title.contains('THINK THROUGH')) {
                             params.addAll({
-                              'btnTitle': 'Manage Planning',
-                              'btnFunc': () {
-                                Navigator.pushNamed(context, '/planning');
-                              }
+                              'buttons': Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  RaisedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/planning', arguments: 2);
+                                    },
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                      horizontal: 15.0,
+                                    ),
+                                    color: Colors.black,
+                                    child: Text(
+                                      'Manage Your Planning',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            });
+                          } else if (modules[index].title.contains('MANAGE YOUR')) {
+                            params.addAll({
+                              'buttons': Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  RaisedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/contacts');
+                                    },
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                      horizontal: 15.0,
+                                    ),
+                                    color: Colors.black,
+                                    child: Text(
+                                      'Manage Your Network',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                  RaisedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/contacts/add');
+                                    },
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                      horizontal: 15.0,
+                                    ),
+                                    color: Colors.black,
+                                    child: Text(
+                                      'Add Contact',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             });
                           }
                           // if (modules[index].title.contains('EAT WELL')) {
@@ -243,9 +303,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                           return Mod.Module(
                             title: modules[index].title,
                             onTap: () {
-                              if (modules[index].title.toLowerCase().contains('manage your')) {
-                                Navigator.pushNamed(context, '/dashboard', arguments: 2);
-                              } else if (modules[index].title.toLowerCase().contains('remember')) {
+                              if (modules[index].title.toLowerCase().contains('remember')) {
                                 Navigator.pushNamed(context, '/dashboard', arguments: 3);
                               } else {
                                 Navigator.pushNamed(
