@@ -304,7 +304,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                             title: modules[index].title,
                             onTap: () {
                               if (modules[index].title.toLowerCase().contains('remember')) {
-                                Navigator.pushNamed(context, '/dashboard', arguments: 3);
+                                Navigator.pushNamed(context, '/dates');
                               } else {
                                 Navigator.pushNamed(
                                   context,

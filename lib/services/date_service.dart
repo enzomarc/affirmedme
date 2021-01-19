@@ -16,8 +16,8 @@ class DateService {
         return dates;
       else {
         List data = response.data as List;
-        dates =
-            List<Date>.from(data.map((json) => Date.fromJson(json)));
+        print(response.data);
+        dates = List<Date>.from(data.map((json) => Date.fromJson(json)));
 
         return dates;
       }
@@ -30,8 +30,7 @@ class DateService {
   Future<bool> storeDate(Map<String, dynamic> data) async {
     try {
       User user = await auth.user();
-      Response response =
-          await worker.post("/dates/${user.id}", params: data);
+      Response response = await worker.post("/dates/${user.id}", params: data);
 
       return response.statusCode == 201;
     } on DioError catch (e) {
@@ -43,8 +42,7 @@ class DateService {
   Future<bool> updateDate(String id, Map<String, dynamic> data) async {
     try {
       User user = await auth.user();
-      Response response =
-          await worker.put("/dates/${user.id}/$id", params: data);
+      Response response = await worker.put("/dates/${user.id}/$id", params: data);
 
       return response.statusCode == 200;
     } on DioError catch (e) {

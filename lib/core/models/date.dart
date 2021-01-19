@@ -1,27 +1,37 @@
 class Date {
   String id;
-  String label;
-  DateTime at;
+  String name;
+  String group;
+  DateTime date;
+  DateTime remindAt;
 
-  Date({this.id, this.label, this.at});
+  Date({this.id, this.name, this.date, this.remindAt});
 
   Date.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
-    label = json['label'];
-    at = DateTime.parse(json['at']);
+    name = json['name'];
+    group = json['group'];
+    date = DateTime.parse(json['date']);
+    remindAt = DateTime.parse(json['remind_at']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 
     data['id'] = this.id;
-    data['label'] = this.label;
-    data['at'] = this.at.toString();
+    data['name'] = this.name;
+    data['group'] = this.group;
+    data['date'] = this.date.toString();
+    data['remind_at'] = this.remindAt.toString();
 
     return data;
   }
 
   String getDate() {
-    return "${this.at.year}/${this.at.month}/${this.at.day}";
+    return "${this.date.year}/${this.date.month}/${this.date.day}";
+  }
+
+  String getRemindAt() {
+    return "${this.remindAt.year}/${this.remindAt.month}/${this.remindAt.day}";
   }
 }

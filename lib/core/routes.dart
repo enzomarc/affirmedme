@@ -4,6 +4,7 @@ import 'package:kronosme/screens/add_goal.dart';
 import 'package:kronosme/screens/contacts/contact.dart';
 import 'package:kronosme/screens/contacts/contact_information.dart';
 import 'package:kronosme/screens/dashboard/container.dart';
+import 'package:kronosme/screens/dates/module.dart';
 import 'package:kronosme/screens/description.dart';
 import 'package:kronosme/screens/learning.dart';
 import 'package:kronosme/screens/login.dart';
@@ -24,17 +25,18 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/welcome': (context) => WelcomeScreen(),
   '/package': (context) => PackageScreen(),
   '/signup': (context) => PremiumSignup(),
-  '/contacts': (context) => ContactScreen(),
-  '/contacts/add': (context) => AddContactPage(),
-  '/contacts/info': (context) => ContactInformationPage(),
-  '/meals/add': (context) => AddMealScreen(),
-  '/meals/show': (context) => ShowMealScreen(),
   '/basic_signup': (context) => BasicSignUp(),
   '/login': (context) => LoginPage(),
   '/dashboard': (context) => DashboardScreen(),
+  '/upgrade': (context) => UpgradePage(),
+  '/contacts': (context) => ContactScreen(),
+  '/contacts/add': (context) => AddContactPage(),
+  '/contacts/info': (context) => ContactInformationPage(),
+  '/dates': (context) => DateModule(),
+  '/meals/add': (context) => AddMealScreen(),
+  '/meals/show': (context) => ShowMealScreen(),
   '/learning': (context) => LearningScreen(),
   '/goals/add': (context) => AddGoalScreen(),
-  '/upgrade': (context) => UpgradePage(),
   '/scan': (context) => ScanCard(),
   '/planning': (context) => PlanningList(),
   '/planning/add': (context) => AddPlanning(),
