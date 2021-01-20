@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kronosme/core/utils/helpers.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
 import 'package:kronosme/widgets/goal.dart';
@@ -21,10 +22,13 @@ final List<String> goals = [
   'Profession',
 ];
 
+final scaffoldKey = GlobalKey<ScaffoldState>();
+
 class _DashboardHomeState extends State<DashboardHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -141,6 +145,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                     builder: (context, value, child) {
                       return GridView.count(
                         crossAxisCount: MediaQuery.of(context).size.width > 300.0 ? 3 : 2,
+                        physics: NeverScrollableScrollPhysics(),
                         children: List.generate(
                           goals.length,
                           (index) {
@@ -192,23 +197,13 @@ class _DashboardHomeState extends State<DashboardHome> {
                         crossAxisCount: 3,
                         mainAxisSpacing: 20.0,
                         crossAxisSpacing: 20.0,
+                        physics: NeverScrollableScrollPhysics(),
                         children: List.generate(modules.length, (index) {
                           Map<String, dynamic> params = {
                             'module': modules[index].title,
                           };
 
-                          if (modules[index].title.contains('EAT WELL')) {
-                            params.addAll({
-                              'btnTitle': 'Add Meal Plan',
-                              'btnFunc': () {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/dashboard',
-                                  arguments: 4,
-                                );
-                              },
-                            });
-                          } else if (modules[index].title.contains('THINK THROUGH')) {
+                          if (modules[index].title.contains('THINK THROUGH')) {
                             params.addAll({
                               'buttons': Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -266,6 +261,48 @@ class _DashboardHomeState extends State<DashboardHome> {
                                     color: Colors.black,
                                     child: Text(
                                       'Add Contact',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            });
+                          } else if (modules[index].title.contains('EAT WELL')) {
+                            params.addAll({
+                              'buttons': Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  RaisedButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/meals');
+                                    },
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                      horizontal: 15.0,
+                                    ),
+                                    color: Colors.black,
+                                    child: Text(
+                                      'Manage Meals Plan',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ),
+                                  RaisedButton(
+                                    onPressed: () {
+                                      helpers.alert(scaffoldKey, "The grocery list isn't available now.");
+                                    },
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10.0,
+                                      horizontal: 15.0,
+                                    ),
+                                    color: Colors.black,
+                                    child: Text(
+                                      'Grocery List',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 12.0,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kronosme/providers/date_provider.dart';
 import 'package:kronosme/providers/goal_provider.dart';
+import 'package:kronosme/providers/meal_plan_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
 import 'package:kronosme/providers/planning_provider.dart';
 import 'package:kronosme/providers/podcast_provider.dart';
@@ -44,6 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final reminderProvider = Provider.of<ReminderProvider>(context, listen: false);
     final planningProvider = Provider.of<PlanningProvider>(context, listen: false);
     final dateProvider = Provider.of<DateProvider>(context, listen: false);
+    final mealProvider = Provider.of<MealPlanProvider>(context, listen: false);
 
     // load user data here
     moduleProvider.getModules();
@@ -52,6 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     podcastProvider.getPodcasts();
     planningProvider.getPlannings();
     dateProvider.getDates();
+    mealProvider.getMealPlans();
   }
 
   @override

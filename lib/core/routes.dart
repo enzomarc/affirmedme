@@ -6,6 +6,7 @@ import 'package:kronosme/screens/dashboard/container.dart';
 import 'package:kronosme/screens/dates/module.dart';
 import 'package:kronosme/screens/login.dart';
 import 'package:kronosme/screens/meals/add_meal.dart';
+import 'package:kronosme/screens/meals/module.dart';
 import 'package:kronosme/screens/meals/show.dart';
 import 'package:kronosme/screens/misc/add_goal.dart';
 import 'package:kronosme/screens/misc/description.dart';
@@ -33,6 +34,7 @@ final Map<String, Widget Function(BuildContext)> routes = {
   '/contacts/add': (context) => AddContactPage(),
   '/contacts/info': (context) => ContactInformationPage(),
   '/dates': (context) => DateModule(),
+  '/meals': (context) => MealModule(),
   '/meals/add': (context) => AddMealScreen(),
   '/meals/show': (context) => ShowMealScreen(),
   '/learning': (context) => LearningScreen(),

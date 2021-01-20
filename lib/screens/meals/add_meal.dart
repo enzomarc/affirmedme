@@ -17,9 +17,30 @@ class _AddMealScreenState extends State<AddMealScreen> {
   @override
   Widget build(BuildContext context) {
     final mealProvider = Provider.of<MealPlanProvider>(context, listen: false);
+    String group = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       key: scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Color(0xFFFE0000),
+            size: 20.0,
+          ),
+        ),
+        title: Text(
+          'Add Meal Plan',
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Montserrat Bold',
+            fontSize: 13.0,
+          ),
+        ),
+        titleSpacing: 0.0,
+      ),
       body: Container(
         padding: EdgeInsets.only(
           top: 40.0,
@@ -30,28 +51,6 @@ class _AddMealScreenState extends State<AddMealScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Color(0xFFFE0000),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                SizedBox(width: 10.0),
-                Text(
-                  'Add Meal Plan',
-                  style: TextStyle(
-                    fontFamily: 'Montserrat Bold',
-                    fontSize: 15.0,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10.0),
             TextFormField(
               controller: title,
               keyboardType: TextInputType.text,
@@ -60,8 +59,7 @@ class _AddMealScreenState extends State<AddMealScreen> {
                 labelStyle: TextStyle(
                   color: Colors.grey.withOpacity(0.8),
                 ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                 border: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 1.0,
@@ -187,36 +185,27 @@ class _AddMealScreenState extends State<AddMealScreen> {
                 children: <Widget>[
                   RaisedButton(
                     onPressed: () async {
-                      if (title.text.isNotEmpty) {
-                        Map<String, dynamic> data = {
-                          'title': title.text,
-                          'meals': meals
-                        };
+                      if (title.text.isNotEmpty && group != null) {
+                        Map<String, dynamic> data = {'group': group, 'title': title.text, 'meals': meals};
 
-                        await mealPlanService
-                            .storeMealPlan(data)
-                            .then((stored) {
+                        await mealPlanService.storeMealPlan(data).then((stored) {
                           if (stored) {
                             setState(() {
                               meals = [];
                               title.text = '';
                             });
 
-                            helpers.alert(
-                                scaffoldKey, "Meal plan added successfully.");
+                            helpers.alert(scaffoldKey, "Meal plan added successfully.");
                             mealProvider.getMealPlans();
                           } else {
-                            helpers.alert(
-                                scaffoldKey, "Unable to add the meal plan.");
+                            helpers.alert(scaffoldKey, "Unable to add the meal plan.");
                           }
                         }).catchError((err) {
                           print(err);
-                          helpers.alert(
-                              scaffoldKey, "Unable to add the meal plan.");
+                          helpers.alert(scaffoldKey, "Unable to add the meal plan.");
                         });
                       } else {
-                        helpers.alert(
-                            scaffoldKey, "Meal plan title is required.");
+                        helpers.alert(scaffoldKey, "Meal plan title and day are required.");
                       }
                     },
                     color: Color(0xFFFE0000),

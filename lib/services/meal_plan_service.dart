@@ -16,8 +16,7 @@ class MealPlanService {
         return meals;
       else {
         List data = response.data as List;
-        meals =
-            List<MealPlan>.from(data.map((json) => MealPlan.fromJson(json)));
+        meals = List<MealPlan>.from(data.map((json) => MealPlan.fromJson(json)));
 
         return meals;
       }
@@ -30,8 +29,7 @@ class MealPlanService {
   Future<bool> storeMealPlan(Map<String, dynamic> data) async {
     try {
       User user = await auth.user();
-      Response response =
-          await worker.post("/meals/${user.id}", params: data);
+      Response response = await worker.post("/meals/${user.id}", params: data);
 
       return response.statusCode == 201;
     } on DioError catch (e) {
@@ -43,8 +41,7 @@ class MealPlanService {
   Future<bool> updateMealPlan(String id, Map<String, dynamic> data) async {
     try {
       User user = await auth.user();
-      Response response =
-          await worker.put("/meals/${user.id}/$id", params: data);
+      Response response = await worker.put("/meals/${user.id}/$id", params: data);
 
       return response.statusCode == 200;
     } on DioError catch (e) {
