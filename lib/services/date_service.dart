@@ -16,7 +16,6 @@ class DateService {
         return dates;
       else {
         List data = response.data as List;
-        print(response.data);
         dates = List<Date>.from(data.map((json) => Date.fromJson(json)));
 
         return dates;

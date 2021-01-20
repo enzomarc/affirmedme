@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:kronosme/core/models/date.dart';
@@ -23,6 +21,7 @@ List<String> groups = [
   'Anniversaries',
   'Other Key Dates',
 ];
+List<bool> expanded = [false, false, false, false, false, false, false];
 
 class _DateModuleState extends State<DateModule> {
   @override
@@ -86,7 +85,6 @@ class _DateModuleState extends State<DateModule> {
                 Consumer<DateProvider>(
                   builder: (context, provider, child) {
                     List<Date> dates = provider.dates;
-                    print(jsonEncode(dates));
 
                     return Expanded(
                       child: ListView.builder(
@@ -100,233 +98,253 @@ class _DateModuleState extends State<DateModule> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  group.toUpperCase(),
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat Bold',
-                                    fontSize: 15.0,
-                                  ),
-                                ),
-                                SizedBox(height: 10.0),
-                                Container(
-                                  margin: EdgeInsets.only(left: 10.0),
-                                  child: Column(
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      expanded[index] = !expanded[index];
+                                    });
+                                  },
+                                  child: Row(
                                     children: <Widget>[
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: groupDates.length,
-                                        itemBuilder: (context, index) {
-                                          Date tmpDate = groupDates[index];
-
-                                          return Container(
-                                            margin: EdgeInsets.only(bottom: 10.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Text(
-                                                  tmpDate.name ?? 'Marc Enzo',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Montserrat SemiBold',
-                                                    fontSize: 14.0,
-                                                  ),
-                                                ), // date name
-                                                SizedBox(height: 5.0),
-                                                Container(
-                                                  margin: EdgeInsets.only(left: 5.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        "Important Date: ${tmpDate.getDate()}",
-                                                        style: TextStyle(
-                                                          fontFamily: 'Montserrat Medium',
-                                                          fontSize: 13.0,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 5.0),
-                                                      Text(
-                                                        "Remind On: ${tmpDate.getRemindAt()}",
-                                                        style: TextStyle(
-                                                          fontFamily: 'Montserrat Medium',
-                                                          fontSize: 13.0,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
+                                      Icon(
+                                        expanded[index] ? Icons.arrow_drop_down : Icons.arrow_right,
+                                        color: Colors.grey,
                                       ),
-                                      SizedBox(height: 10.0),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              String tmp = group.substring(0, group.length - 1);
-                                              String title = "Add $tmp";
-                                              TextEditingController name = TextEditingController();
-                                              DateTime date;
-                                              DateTime remind;
-
-                                              return SimpleDialog(
-                                                title: Text(
-                                                  title,
-                                                  style: TextStyle(
-                                                    fontFamily: 'Montserrat SemiBold',
-                                                    fontSize: 15.0,
-                                                  ),
-                                                ),
-                                                contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
-                                                children: <Widget>[
-                                                  TextFormField(
-                                                    controller: name,
-                                                    keyboardType: TextInputType.text,
-                                                    style: TextStyle(fontSize: 13.0),
-                                                    decoration: InputDecoration(
-                                                      labelText: 'Name',
-                                                      labelStyle: TextStyle(
-                                                        color: Colors.grey.withOpacity(0.8),
-                                                        fontSize: 12.0,
-                                                      ),
-                                                      contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-                                                      border: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          width: 1.0,
-                                                          color: Colors.grey.withOpacity(0.4),
-                                                        ),
-                                                      ),
-                                                      enabledBorder: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          width: 1.0,
-                                                          color: Colors.grey.withOpacity(0.4),
-                                                        ),
-                                                      ),
-                                                      focusedBorder: OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          width: 1.0,
-                                                          color: Color(0xFFFE0000),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: double.infinity,
-                                                    child: RaisedButton(
-                                                      color: Colors.white,
-                                                      onPressed: () {
-                                                        DatePicker.showDatePicker(
-                                                          context,
-                                                          showTitleActions: true,
-                                                          currentTime: date ?? DateTime.now(),
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              date = value;
-                                                            });
-                                                          },
-                                                        );
-                                                      },
-                                                      child: Text(
-                                                        'Select Date',
-                                                        style: TextStyle(
-                                                          fontFamily: 'Montserrat SemiBold',
-                                                          fontSize: 11.0,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: double.infinity,
-                                                    child: RaisedButton(
-                                                      color: Colors.white,
-                                                      onPressed: () {
-                                                        DatePicker.showDateTimePicker(
-                                                          context,
-                                                          showTitleActions: true,
-                                                          currentTime: remind ?? DateTime.now(),
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              remind = value;
-                                                            });
-                                                          },
-                                                        );
-                                                      },
-                                                      child: Text(
-                                                        'Remind On',
-                                                        style: TextStyle(
-                                                          fontFamily: 'Montserrat SemiBold',
-                                                          fontSize: 11.0,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 10.0),
-                                                  SizedBox(
-                                                    width: double.infinity,
-                                                    child: RaisedButton(
-                                                      color: Colors.black,
-                                                      onPressed: () async {
-                                                        Map<String, dynamic> data = {
-                                                          'name': name.text,
-                                                          'group': group,
-                                                          'date': date.toString(),
-                                                          'remind_at': remind.toString(),
-                                                        };
-
-                                                        if (name.text.isNotEmpty && date != null && remind != null) {
-                                                          await dateService.storeDate(data).then((stored) {
-                                                            Navigator.pop(context);
-
-                                                            if (stored) {
-                                                              helpers.alert(scaffoldKey, "Important date added successfully.");
-                                                              provider.getDates();
-                                                            } else {
-                                                              helpers.alert(scaffoldKey, "An error occurred, unable to add important date.");
-                                                            }
-                                                          });
-                                                        } else {
-                                                          helpers.alert(scaffoldKey, "All fields are required.");
-                                                        }
-                                                      },
-                                                      child: Text(
-                                                        'Save Important Date',
-                                                        style: TextStyle(
-                                                          fontFamily: 'Montserrat SemiBold',
-                                                          fontSize: 11.0,
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: Row(
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.add_circle_outline,
-                                              color: Color(0xFFFE0000),
-                                              size: 14.0,
-                                            ),
-                                            SizedBox(width: 5.0),
-                                            Text(
-                                              'Add Date',
-                                              style: TextStyle(
-                                                fontFamily: 'Montserrat SemiBold',
-                                                fontSize: 12.0,
-                                              ),
-                                            )
-                                          ],
+                                      Expanded(
+                                        child: Text(
+                                          group.toUpperCase(),
+                                          style: TextStyle(
+                                            fontFamily: 'Montserrat Bold',
+                                            fontSize: 15.0,
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
+                                SizedBox(height: 10.0),
+                                if (expanded[index])
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        ListView.builder(
+                                          shrinkWrap: true,
+                                          physics: NeverScrollableScrollPhysics(),
+                                          itemCount: groupDates.length,
+                                          itemBuilder: (context, index) {
+                                            Date tmpDate = groupDates[index];
+
+                                            return Container(
+                                              margin: EdgeInsets.only(bottom: 10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    tmpDate.name ?? 'Marc Enzo',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Montserrat SemiBold',
+                                                      fontSize: 14.0,
+                                                    ),
+                                                  ), // date name
+                                                  SizedBox(height: 5.0),
+                                                  Container(
+                                                    margin: EdgeInsets.only(left: 5.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          "Important Date: ${tmpDate.getDate()}",
+                                                          style: TextStyle(
+                                                            fontFamily: 'Montserrat Medium',
+                                                            fontSize: 13.0,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 5.0),
+                                                        Text(
+                                                          "Remind On: ${tmpDate.getRemindAt()}",
+                                                          style: TextStyle(
+                                                            fontFamily: 'Montserrat Medium',
+                                                            fontSize: 13.0,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        SizedBox(height: 10.0),
+                                        GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                String tmp = group.substring(0, group.length - 1);
+                                                String title = "Add $tmp";
+                                                TextEditingController name = TextEditingController();
+                                                DateTime date;
+                                                DateTime remind;
+
+                                                return SimpleDialog(
+                                                  title: Text(
+                                                    title,
+                                                    style: TextStyle(
+                                                      fontFamily: 'Montserrat SemiBold',
+                                                      fontSize: 15.0,
+                                                    ),
+                                                  ),
+                                                  contentPadding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
+                                                  children: <Widget>[
+                                                    TextFormField(
+                                                      controller: name,
+                                                      keyboardType: TextInputType.text,
+                                                      style: TextStyle(fontSize: 13.0),
+                                                      decoration: InputDecoration(
+                                                        labelText: 'Name',
+                                                        labelStyle: TextStyle(
+                                                          color: Colors.grey.withOpacity(0.8),
+                                                          fontSize: 12.0,
+                                                        ),
+                                                        contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+                                                        border: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            width: 1.0,
+                                                            color: Colors.grey.withOpacity(0.4),
+                                                          ),
+                                                        ),
+                                                        enabledBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            width: 1.0,
+                                                            color: Colors.grey.withOpacity(0.4),
+                                                          ),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            width: 1.0,
+                                                            color: Color(0xFFFE0000),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      child: RaisedButton(
+                                                        color: Colors.white,
+                                                        onPressed: () {
+                                                          DatePicker.showDatePicker(
+                                                            context,
+                                                            showTitleActions: true,
+                                                            currentTime: date ?? DateTime.now(),
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                date = value;
+                                                              });
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Text(
+                                                          'Select Date',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Montserrat SemiBold',
+                                                            fontSize: 11.0,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      child: RaisedButton(
+                                                        color: Colors.white,
+                                                        onPressed: () {
+                                                          DatePicker.showDateTimePicker(
+                                                            context,
+                                                            showTitleActions: true,
+                                                            currentTime: remind ?? DateTime.now(),
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                remind = value;
+                                                              });
+                                                            },
+                                                          );
+                                                        },
+                                                        child: Text(
+                                                          'Remind On',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Montserrat SemiBold',
+                                                            fontSize: 11.0,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(height: 10.0),
+                                                    SizedBox(
+                                                      width: double.infinity,
+                                                      child: RaisedButton(
+                                                        color: Colors.black,
+                                                        onPressed: () async {
+                                                          Map<String, dynamic> data = {
+                                                            'name': name.text,
+                                                            'group': group,
+                                                            'date': date.toString(),
+                                                            'remind_at': remind.toString(),
+                                                          };
+
+                                                          if (name.text.isNotEmpty && date != null && remind != null) {
+                                                            await dateService.storeDate(data).then((stored) {
+                                                              Navigator.pop(context);
+
+                                                              if (stored) {
+                                                                helpers.alert(scaffoldKey, "Important date added successfully.");
+                                                                provider.getDates();
+                                                              } else {
+                                                                helpers.alert(scaffoldKey, "An error occurred, unable to add important date.");
+                                                              }
+                                                            });
+                                                          } else {
+                                                            helpers.alert(scaffoldKey, "All fields are required.");
+                                                          }
+                                                        },
+                                                        child: Text(
+                                                          'Save Important Date',
+                                                          style: TextStyle(
+                                                            fontFamily: 'Montserrat SemiBold',
+                                                            fontSize: 11.0,
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(
+                                                Icons.add_circle_outline,
+                                                color: Color(0xFFFE0000),
+                                                size: 14.0,
+                                              ),
+                                              SizedBox(width: 5.0),
+                                              Text(
+                                                'Add Date',
+                                                style: TextStyle(
+                                                  fontFamily: 'Montserrat SemiBold',
+                                                  fontSize: 12.0,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                else
+                                  Container()
                               ],
                             ),
                           );
