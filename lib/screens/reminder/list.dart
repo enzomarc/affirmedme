@@ -17,8 +17,7 @@ class _ListScreenState extends State<ReminderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final reminderProvider =
-        Provider.of<ReminderProvider>(context, listen: false);
+    final reminderProvider = Provider.of<ReminderProvider>(context, listen: false);
     reminderProvider.getReminders();
 
     return Scaffold(
@@ -44,17 +43,14 @@ class _ListScreenState extends State<ReminderScreen> {
                   child: RaisedButton(
                     onPressed: () {
                       DateTime scheduledAt = DateTime.now();
-                      TextEditingController titleController =
-                          TextEditingController();
-                      TextEditingController groupController =
-                          TextEditingController();
+                      TextEditingController titleController = TextEditingController();
+                      TextEditingController groupController = TextEditingController();
 
                       showDialog(
                         context: context,
-                        child: SimpleDialog(
+                        builder: (BuildContext context) => SimpleDialog(
                           title: Text('Add Reminder'),
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 20.0),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                           children: <Widget>[
                             TextFormField(
                               controller: titleController,
@@ -64,8 +60,7 @@ class _ListScreenState extends State<ReminderScreen> {
                                 hintStyle: TextStyle(
                                   color: Colors.grey.withOpacity(0.8),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 5.0, horizontal: 15.0),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 1.0,
@@ -95,8 +90,7 @@ class _ListScreenState extends State<ReminderScreen> {
                                 hintStyle: TextStyle(
                                   color: Colors.grey.withOpacity(0.8),
                                 ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 5.0, horizontal: 15.0),
+                                contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 1.0,
@@ -124,8 +118,7 @@ class _ListScreenState extends State<ReminderScreen> {
                                   context,
                                   showTitleActions: true,
                                   minTime: DateTime.now(),
-                                  currentTime: scheduledAt ??
-                                      DateTime.now().add(Duration(days: 1)),
+                                  currentTime: scheduledAt ?? DateTime.now().add(Duration(days: 1)),
                                   onChanged: (time) {
                                     scheduledAt = time;
                                   },
@@ -133,8 +126,7 @@ class _ListScreenState extends State<ReminderScreen> {
                               },
                               color: Colors.white,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Icon(
                                     Icons.date_range,
@@ -156,28 +148,21 @@ class _ListScreenState extends State<ReminderScreen> {
                                 if (titleController.text.isNotEmpty) {
                                   Map<String, dynamic> data = {
                                     'content': titleController.text,
-                                    'group':
-                                        groupController.text.toLowerCase() ??
-                                            'all',
+                                    'group': groupController.text.toLowerCase() ?? 'all',
                                     'at': scheduledAt.toString(),
                                   };
 
-                                  await reminderService
-                                      .storeReminder(data)
-                                      .then((saved) {
+                                  await reminderService.storeReminder(data).then((saved) {
                                     if (saved) {
                                       Navigator.of(context).pop();
-                                      helpers.alert(scaffoldKey,
-                                          "Task added successfully.");
+                                      helpers.alert(scaffoldKey, "Task added successfully.");
                                       reminderProvider.getReminders();
                                     } else {
-                                      helpers.alert(scaffoldKey,
-                                          "Unable to save this reminder.");
+                                      helpers.alert(scaffoldKey, "Unable to save this reminder.");
                                     }
                                   });
                                 } else
-                                  helpers.alert(
-                                      scaffoldKey, "Title is missing.");
+                                  helpers.alert(scaffoldKey, "Title is missing.");
                               },
                               color: Color(0xFFFE0000),
                               child: Text(
@@ -248,21 +233,16 @@ class _ListScreenState extends State<ReminderScreen> {
                       direction: DismissDirection.horizontal,
                       onDismissed: (direction) async {
                         if (direction == DismissDirection.startToEnd) {
-                          await reminderService
-                              .deleteReminder(reminder.id)
-                              .then((deleted) {
+                          await reminderService.deleteReminder(reminder.id).then((deleted) {
                             if (deleted) {
-                              helpers.alert(
-                                  scaffoldKey, "Task deleted successfully.");
+                              helpers.alert(scaffoldKey, "Task deleted successfully.");
                               reminderProvider.getReminders();
                             }
                           });
                         } else if (direction == DismissDirection.endToStart) {
-                          await reminderService.updateReminder(
-                              reminder.id, {'done': true}).then((updated) {
+                          await reminderService.updateReminder(reminder.id, {'done': true}).then((updated) {
                             if (updated) {
-                              helpers.alert(
-                                  scaffoldKey, "Task marked as done.");
+                              helpers.alert(scaffoldKey, "Task marked as done.");
                               reminderProvider.getReminders();
                             }
                           });
@@ -307,8 +287,7 @@ class _ListScreenState extends State<ReminderScreen> {
                       child: GestureDetector(
                         onTap: () {},
                         child: Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 18.0, horizontal: 10.0),
+                          padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 10.0),
                           decoration: BoxDecoration(
                             color: Colors.grey.withOpacity(0.2),
                             border: Border(

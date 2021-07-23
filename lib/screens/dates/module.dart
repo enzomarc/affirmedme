@@ -56,7 +56,7 @@ class _DateModuleState extends State<DateModule> {
             onPressed: () {
               showDialog(
                 context: context,
-                child: SimpleDialog(
+                builder: (BuildContext context) => SimpleDialog(
                   title: Text('Instruction'),
                   titlePadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                   contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),

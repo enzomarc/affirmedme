@@ -32,7 +32,6 @@ class Networker {
         contentType: "application/json",
         headers: {
           'Accept': 'application/json',
-          'Content-Type': "application/json",
         },
       ),
     );
@@ -40,12 +39,14 @@ class Networker {
     check();
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onError: (DioError error) {
-          /// Handle API errors here
+        onError: (DioError error, ErrorInterceptorHandler handler) {
+          // handle error there
+          handler.next(error);
         },
-        onRequest: (RequestOptions options) {
-          /// Inject headers or dynamic params to your query here
+        onRequest: (RequestOptions options, RequestInterceptorHandler requestInterceptorHandler) {
+          /// inject headers or dynamic params to your query here
           if (token != "") options.headers['authorization'] = token;
+          requestInterceptorHandler.next(options);
         },
       ),
     );

@@ -129,7 +129,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         icon: Icons.mic,
                         callback: () {
                           setState(() {
-                            currentScreen = screens[5];
+                            currentScreen = screens[4];
                           });
 
                           Navigator.pop(context);

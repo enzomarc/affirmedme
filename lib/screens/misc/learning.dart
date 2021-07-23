@@ -59,7 +59,7 @@ class _LearningScreenState extends State<LearningScreen> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  child: SimpleDialog(
+                  builder: (BuildContext context) => SimpleDialog(
                     title: Text('Instruction'),
                     titlePadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                     contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 20.0),
@@ -236,7 +236,7 @@ class _SubItemState extends State<SubItem> {
 
                         showDialog(
                           context: context,
-                          child: SimpleDialog(
+                          builder: (BuildContext context) => SimpleDialog(
                             title: Text('Add Reminder'),
                             contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                             children: <Widget>[

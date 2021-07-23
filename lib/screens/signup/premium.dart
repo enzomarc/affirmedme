@@ -43,9 +43,7 @@ class _SignupScreenState extends State<PremiumSignup> {
   next() {
     setState(() => stepStates[currentStep] = StepState.complete);
 
-    currentStep + 1 != 3
-        ? goTo(currentStep + 1)
-        : setState(() => complete = true);
+    currentStep + 1 != 3 ? goTo(currentStep + 1) : setState(() => complete = true);
   }
 
   cancel() {
@@ -95,8 +93,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                         hintStyle: TextStyle(
                           color: Colors.grey.withOpacity(0.8),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 15.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.0,
@@ -126,8 +123,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                         hintStyle: TextStyle(
                           color: Colors.grey.withOpacity(0.8),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 15.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.0,
@@ -157,8 +153,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                         hintStyle: TextStyle(
                           color: Colors.grey.withOpacity(0.8),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 15.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.0,
@@ -188,8 +183,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                         hintStyle: TextStyle(
                           color: Colors.grey.withOpacity(0.8),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 15.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.0,
@@ -219,8 +213,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                         hintStyle: TextStyle(
                           color: Colors.grey.withOpacity(0.8),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 15.0),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(
                             width: 1.0,
@@ -251,10 +244,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                   onPressed: () async {
                     String msg = "";
 
-                    if (nameController.text.isEmpty ||
-                        mailController.text.isEmpty ||
-                        phoneController.text.isEmpty ||
-                        passController.text.isEmpty) {
+                    if (nameController.text.isEmpty || mailController.text.isEmpty || phoneController.text.isEmpty || passController.text.isEmpty) {
                       msg = "All fields are required.";
                     } else {
                       if (passController.text == confirmPassController.text) {
@@ -340,8 +330,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                   labelStyle: TextStyle(
                     color: Colors.grey.withOpacity(0.8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
                       width: 1.0,
@@ -375,8 +364,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                   hintStyle: TextStyle(
                     color: Colors.grey.withOpacity(0.8),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(
                       width: 1.0,
@@ -436,9 +424,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                 width: MediaQuery.of(context).size.width,
                 child: RaisedButton(
                   onPressed: () async {
-                    if (cardNumber.text.isEmpty ||
-                        exp.text.isEmpty ||
-                        cvc.text.isEmpty) {
+                    if (cardNumber.text.isEmpty || exp.text.isEmpty || cvc.text.isEmpty) {
                       helpers.alert(scaffoldKey, "All fields are required.");
                     } else {
                       Map<String, dynamic> cardData = {
@@ -447,8 +433,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                         'cvc': cvc.text,
                       };
 
-                      var paymentMethod =
-                          await paymentService.createCard(cardData);
+                      var paymentMethod = await paymentService.createCard(cardData);
 
                       if (paymentMethod != false) {
                         var payment = await paymentService.createPayment();
@@ -456,7 +441,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                         if (payment != false) {
                           showDialog(
                             context: context,
-                            child: AlertDialog(
+                            builder: (BuildContext context) => AlertDialog(
                               contentPadding: EdgeInsets.all(20.0),
                               titlePadding: EdgeInsets.all(20.0),
                               actionsPadding: EdgeInsets.all(20.0),
@@ -497,10 +482,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                                 ),
                                 FlatButton(
                                   onPressed: () async {
-                                    var confirmedPayment =
-                                        await paymentService.confirmPayment(
-                                            payment['payment_id'],
-                                            paymentMethod);
+                                    var confirmedPayment = await paymentService.confirmPayment(payment['payment_id'], paymentMethod);
 
                                     if (confirmedPayment != false) {
                                       data.addAll({
@@ -512,8 +494,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                                       Navigator.pop(context);
                                       next();
                                     } else {
-                                      helpers.alert(scaffoldKey,
-                                          "Unable to confirm your payment request, retry later.");
+                                      helpers.alert(scaffoldKey, "Unable to confirm your payment request, retry later.");
                                     }
                                   },
                                   color: Colors.green[600],
@@ -524,12 +505,10 @@ class _SignupScreenState extends State<PremiumSignup> {
                             ),
                           );
                         } else {
-                          helpers.alert(scaffoldKey,
-                              "Unable to create payment request, retry later.");
+                          helpers.alert(scaffoldKey, "Unable to create payment request, retry later.");
                         }
                       } else {
-                        helpers.alert(scaffoldKey,
-                            "Unable to verify your card informations, retry later.");
+                        helpers.alert(scaffoldKey, "Unable to verify your card informations, retry later.");
                       }
                     }
                   },
@@ -605,13 +584,11 @@ class _SignupScreenState extends State<PremiumSignup> {
                   onPressed: () async {
                     await auth.register(data).then((res) {
                       if (res == false) {
-                        helpers.alert(scaffoldKey,
-                            "An error occurred, unable to register.");
+                        helpers.alert(scaffoldKey, "An error occurred, unable to register.");
                       }
                     }).catchError((err) {
                       print(err);
-                      helpers.alert(scaffoldKey,
-                          "An error occurred, unable to register.");
+                      helpers.alert(scaffoldKey, "An error occurred, unable to register.");
                     });
                   },
                   padding: const EdgeInsets.symmetric(
@@ -657,8 +634,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 20.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -689,8 +665,7 @@ class _SignupScreenState extends State<PremiumSignup> {
                     child: ListView.builder(
                       itemCount: modules.length,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>
-                          PackageItem(title: modules[index]),
+                      itemBuilder: (context, index) => PackageItem(title: modules[index]),
                     ),
                   ),
                   SizedBox(height: 20.0),

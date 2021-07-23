@@ -103,7 +103,6 @@ class AuthService {
       Response response = await worker.post("/login", params: credentials);
 
       if (response.statusCode != 200) {
-        print(response.data);
         return false;
       } else {
         String token = response.data['token'];

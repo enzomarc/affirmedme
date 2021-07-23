@@ -115,7 +115,7 @@ class _UpgradePageState extends State<UpgradePage> {
                   onPressed: () {
                     showDialog(
                       context: context,
-                      child: SimpleDialog(
+                      builder: (BuildContext context) => SimpleDialog(
                         title: Text(
                           'Go to Premium',
                           style: TextStyle(
@@ -249,7 +249,7 @@ class _UpgradePageState extends State<UpgradePage> {
                                     if (payment != false) {
                                       showDialog(
                                         context: context,
-                                        child: AlertDialog(
+                                        builder: (BuildContext context) => AlertDialog(
                                           contentPadding: EdgeInsets.all(20.0),
                                           titlePadding: EdgeInsets.all(20.0),
                                           actionsPadding: EdgeInsets.all(20.0),
