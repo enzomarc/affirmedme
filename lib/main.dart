@@ -9,6 +9,7 @@ import 'package:kronosme/providers/module_provider.dart';
 import 'package:kronosme/providers/planning_provider.dart';
 import 'package:kronosme/providers/podcast_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
+import 'package:kronosme/providers/tip_provider.dart';
 import 'package:kronosme/services/auth_service.dart';
 import 'package:kronosme/services/module_service.dart';
 import 'package:provider/provider.dart';
@@ -90,6 +91,9 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => PlanningProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TipProvider(),
         ),
       ],
       child: Affirmed(defaultRoute),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kronosme/core/models/tip.dart';
 import 'package:kronosme/core/utils/helpers.dart';
 import 'package:kronosme/providers/goal_provider.dart';
 import 'package:kronosme/providers/module_provider.dart';
+import 'package:kronosme/providers/tip_provider.dart';
 import 'package:kronosme/widgets/goal.dart';
 import 'package:kronosme/core/models/module.dart';
 import 'package:kronosme/widgets/module.dart' as Mod;
@@ -71,28 +73,51 @@ class _DashboardHomeState extends State<DashboardHome> {
                         ],
                       ),
                       SizedBox(height: 10.0),
-                      Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi scelerisque eu ultrices vitae auctor eu.',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Montserrat Semibold',
-                          fontSize: 11.0,
-                          height: 2.0,
-                        ),
-                      ),
-                      SizedBox(height: 10.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            '- YOUR NAME HERE',
-                            style: TextStyle(
-                              fontFamily: 'Montserrat Bold',
-                              fontSize: 12.0,
-                              fontStyle: FontStyle.italic,
-                            ),
-                          ),
-                        ],
+                      Consumer<TipProvider>(
+                        builder: (context, value, child) {
+                          Tip tip = value.tips.first;
+
+                          if (tip != null) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  tip.content,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'Montserrat Semibold',
+                                    fontSize: 11.0,
+                                    height: 2.0,
+                                  ),
+                                ),
+                                SizedBox(height: 10.0),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text(
+                                      "- ${tip.author}",
+                                      style: TextStyle(
+                                        fontFamily: 'Montserrat Bold',
+                                        fontSize: 12.0,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            );
+                          } else {
+                            return Text(
+                              "There's no daily tip today.",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Montserrat Semibold',
+                                fontSize: 11.0,
+                                height: 2.0,
+                              ),
+                            );
+                          }
+                        },
                       ),
                       SizedBox(height: 20.0),
                       Row(
@@ -103,7 +128,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                             height: 24.0,
                           ),
                           Text(
-                            'www.affirmedme.com',
+                            'www.sauveur.com',
                             style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 11.0,

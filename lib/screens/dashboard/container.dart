@@ -7,6 +7,7 @@ import 'package:kronosme/providers/module_provider.dart';
 import 'package:kronosme/providers/planning_provider.dart';
 import 'package:kronosme/providers/podcast_provider.dart';
 import 'package:kronosme/providers/reminder_provider.dart';
+import 'package:kronosme/providers/tip_provider.dart';
 import 'package:kronosme/screens/contacts/contact.dart';
 import 'package:kronosme/screens/dashboard/home.dart';
 import 'package:kronosme/screens/meals/list.dart';
@@ -46,6 +47,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final planningProvider = Provider.of<PlanningProvider>(context, listen: false);
     final dateProvider = Provider.of<DateProvider>(context, listen: false);
     final mealProvider = Provider.of<MealPlanProvider>(context, listen: false);
+    final tipProvider = Provider.of<TipProvider>(context, listen: false);
 
     // load user data here
     moduleProvider.getModules();
@@ -55,6 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     planningProvider.getPlannings();
     dateProvider.getDates();
     mealProvider.getMealPlans();
+    tipProvider.getTips();
   }
 
   @override
@@ -147,7 +150,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       label: 'Donate',
                       icon: Icons.bookmark,
                       callback: () async {
-                        const url = 'https://www.affirmedme.com';
+                        const url = 'https://www.sauveur.com';
                         if (await canLaunch(url)) await launch(url);
                       },
                     ),
